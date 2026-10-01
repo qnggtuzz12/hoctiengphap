@@ -1,6 +1,9 @@
 <!doctype html>
 <html lang="vi">
 <head>
+  <!-- Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="color-scheme" content="light">
@@ -1547,6 +1550,53 @@
 
   <!-- LOGIC HỆ THỐNG TOÀN DIỆN -->
   <script>
+  // Thay bằng đoạn firebaseConfig bạn vừa copy ở Bước 2
+const firebaseConfig = {
+  apiKey: "AIzaSyAFj-o7zMtW2h9DZ2YPtJAvoPQWSFUFl04",
+  databaseURL: "https://hoctiengphap-ae0b3-default-rtdb.firebaseio.com",
+  projectId: "hoctiengphap-ae0b3"
+};
+
+firebase.initializeApp(firebaseConfig);
+const rtdb = firebase.database();
+
+// Biến lưu trạng thái online của tất cả mọi người từ Firebase
+let liveOnlineStatus = {};
+
+// Lắng nghe trạng thái Online/Offline của mọi tài khoản theo thời gian thực
+rtdb.ref('/status').on('value', (snapshot) => {
+  liveOnlineStatus = snapshot.val() || {};
+  // Nếu đang mở trang Lớp học, tự động cập nhật lại giao diện ngay tức thì
+  const activePage = document.querySelector('.page.active');
+  if (activePage && activePage.id === 'my_class' && typeof renderClassMembersView === 'function') {
+    const sel = document.getElementById('adminSelectClassView');
+    const currentCls = sel ? sel.value : (currentUser ? currentUser.classId : 'all_users');
+    renderClassMembersView(currentCls);
+  }
+});
+
+// Hàm phát tín hiệu Online cho tài khoản đang mở web
+function setupLivePresence(user) {
+  if (!user) return;
+  const userStatusRef = rtdb.ref('/status/' + user.username.toLowerCase());
+  const connectedRef = rtdb.ref('.info/connected');
+
+  connectedRef.on('value', (snap) => {
+    if (snap.val() === false) return;
+    
+    // Khi tắt tab / mất kết nối -> Tự động chuyển Offline
+    userStatusRef.onDisconnect().set({ 
+      state: 'offline', 
+      lastChanged: firebase.database.ServerValue.TIMESTAMP 
+    }).then(() => {
+      // Khi đang kết nối -> Đặt là Online
+      userStatusRef.set({ 
+        state: 'online', 
+        lastChanged: firebase.database.ServerValue.TIMESTAMP 
+      });
+    });
+  });
+}
     const DEVICE_ID_KEY = "atelier_device_id";
 
 function getOrCreateDeviceId() {
@@ -2359,13 +2409,20 @@ function getDeviceName() {
     /* ================= AUTHENTICATION ================= */
     function checkAuthSession() {
       if (!currentUser) { 
-        document.getElementById('authOverlay').style.display = 'grid'; 
-      } else { 
-        document.getElementById('authOverlay').style.display = 'none'; 
-        updateUserUI(); 
-        navigateTo('dashboard'); 
-      }
-    }
+    document.getElementById('authOverlay').style.display = 'grid'; 
+  } else { 
+    document.getElementById('authOverlay').style.display = 'none'; 
+    setupLivePresence(currentUser); // <-- Kích hoạt gửi trạng thái online lên Firebase
+    updateUserUI(); 
+    navigateTo('dashboard'); 
+  }
+}
+     if (currentUser) {
+  rtdb.ref('/status/' + currentUser.username.toLowerCase()).set({
+    state: 'offline',
+    lastChanged: Date.now()
+  });
+}
     function switchAuthTab(tab) {
       document.getElementById('btnTabLogin').classList.toggle('active', tab==='login');
       document.getElementById('btnTabRegister').classList.toggle('active', tab==='register');
@@ -2470,17 +2527,10 @@ function getDeviceName() {
     }
     /* ================= LỚP HỌC & QUẢN LÝ THÀNH VIÊN THEO LỚP ================= */
 function isUserOnline(user) {
-  if (!user.activeSessions || user.activeSessions.length === 0) return false;
-  const lastSession = user.activeSessions[user.activeSessions.length - 1];
-  if (!lastSession || !lastSession.lastActive) return false;
-
-  const now = new Date().getTime();
-  const sessionTime = new Date(lastSession.lastActive).getTime();
-  if (isNaN(sessionTime)) return true;
-  return (now - sessionTime) < 10 * 60 * 1000;
+  if (!user || !user.username) return false;
+  const statusObj = liveOnlineStatus[user.username.toLowerCase()];
+  return statusObj && statusObj.state === 'online';
 }
-
-let currentClassViewId = "all_users";
 
 function initMyClassView() {
   const isAdmin = currentUser.role === 'admin';
