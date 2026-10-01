@@ -1,0 +1,2957 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <title>Casta Français</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@0,600;0,700;1,600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <style>
+    .status-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  display: inline-block;
+  margin-right: 5px;
+}
+.status-online { background: #22c55e; box-shadow: 0 0 6px rgba(34,197,94,0.6); }
+.status-offline { background: #94a3b8; }
+.badge-online { background: #dcfce7; color: #15803d; border: 1px solid #bbf7d0; font-size: 10px; font-weight: 700; padding: 2px 7px; border-radius: 99px; }
+.badge-offline { background: #f1f5f9; color: #64748b; border: 1px solid #e2e8f0; font-size: 10px; font-weight: 700; padding: 2px 7px; border-radius: 99px; }
+    :root {
+      --ink: #19342c;
+      --muted: #71877d;
+      --green: #266f51;
+      --green-dark: #1f503c;
+      --green-2: #439978;
+      --mint: #e4f3e9;
+      --mint-2: #f0f8f2;
+      --line: #e0ebe3;
+      --white: #fff;
+      --shadow: 0 15px 40px rgba(27,79,54,.075);
+      --radius: 20px;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      background: #f6faf6;
+      color: var(--ink);
+      font-family: 'Inter', ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+      line-height: 1.5;
+    }
+    .font-serif-fr { font-family: 'Playfair Display', serif; }
+    button, input, textarea, select { font: inherit; }
+    button { cursor: pointer; }
+    a { color: inherit; text-decoration: none; }
+    button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visible, select:focus-visible {
+      outline: 3px solid #8bd0a7;
+      outline-offset: 2px;
+    }
+    
+    .top-strip {
+      background: #214c38;
+      color: #f4fff7;
+      text-align: center;
+      padding: 7px 14px;
+      font-size: 11.5px;
+      font-weight: 650;
+      letter-spacing: .02em;
+    }
+    
+    .app {
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: 260px minmax(0, 1fr);
+    }
+    
+    /* Sidebar */
+    .sidebar {
+      background: #fff;
+      border-right: 1px solid var(--line);
+      padding: 24px 16px 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+      min-width: 0;
+      height: 100vh;
+      position: sticky;
+      top: 0;
+      overflow-y: auto;
+      z-index: 40;
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 0 8px;
+    }
+    .brand-mark {
+      width: 42px;
+      height: 42px;
+      border-radius: 14px;
+      background: #d9efe0;
+      display: grid;
+      place-items: center;
+      color: #24734d;
+      font-size: 20px;
+      font-weight: 800;
+      box-shadow: 0 4px 10px rgba(36,115,77,.1);
+    }
+    .brand strong {
+      font-size: 16px;
+      line-height: 1.15;
+      display: block;
+      letter-spacing: -.02em;
+      color: #1a4231;
+    }
+    .brand small {
+      font-size: 9.5px;
+      color: var(--muted);
+      font-weight: 700;
+      letter-spacing: .08em;
+    }
+    
+    .nav-title {
+      font-size: 11px;
+      color: #9bad9f;
+      font-weight: 800;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      padding: 0 10px;
+      margin: 0 0 8px;
+    }
+    .nav { display: grid; gap: 5px; }
+    .nav button {
+      border: 0;
+      background: transparent;
+      color: #556c60;
+      width: 100%;
+      text-align: left;
+      padding: 11px 13px;
+      border-radius: 12px;
+      display: flex;
+      gap: 11px;
+      align-items: center;
+      font-weight: 650;
+      font-size: 13.5px;
+      transition: all .15s ease;
+    }
+    .nav button:hover, .nav button.active {
+      background: #e8f4eb;
+      color: #23694b;
+    }
+    .nav button svg {
+      flex: none;
+      width: 18px;
+      height: 18px;
+    }
+    
+    .user-footer-card {
+      margin-top: auto;
+      padding: 14px;
+      border-radius: 16px;
+      background: #edf6ef;
+      border: 1px solid #dce8df;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .user-footer-info {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      cursor: pointer;
+    }
+    .user-avatar-small {
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      background: #287c54;
+      color: #fff;
+      display: grid;
+      place-items: center;
+      font-size: 12px;
+      font-weight: 700;
+      flex: none;
+      overflow: hidden;
+    }
+    .user-avatar-small img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .user-footer-text { min-width: 0; flex: 1; }
+    .user-footer-text b {
+      display: block;
+      font-size: 12.5px;
+      color: #1b4934;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .user-footer-text span {
+      font-size: 10.5px;
+      color: #6a8274;
+      display: block;
+    }
+    
+    /* Topbar */
+    .main { min-width: 0; }
+    .topbar {
+      height: 72px;
+      background: #fff;
+      border-bottom: 1px solid var(--line);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 clamp(20px, 4vw, 44px);
+      gap: 16px;
+      position: sticky;
+      top: 0;
+      z-index: 25;
+    }
+    .crumb { font-size: 12.5px; color: #8a9d90; }
+    .crumb strong { color: #325745; }
+    .top-actions { display: flex; align-items: center; gap: 12px; }
+    .speed-btn {
+      border: 1px solid #d8e8dd;
+      background: #fff;
+      border-radius: 10px;
+      padding: 7px 12px;
+      color: #285d44;
+      font-size: 12px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .speed-btn:hover { background: #f2f8f3; }
+    
+    .content {
+      max-width: 1260px;
+      margin: 0 auto;
+      padding: 26px clamp(18px, 3.5vw, 44px) 60px;
+    }
+    
+    .hero {
+      background: linear-gradient(112deg, #245c45 0%, #327455 54%, #6aa484 100%);
+      border-radius: 24px;
+      color: #fff;
+      padding: 34px 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: relative;
+      overflow: hidden;
+      min-height: 190px;
+      box-shadow: 0 16px 30px rgba(40,110,76,.13);
+    }
+    .hero:before, .hero:after {
+      content: "";
+      position: absolute;
+      border: 1px solid rgba(255,255,255,.16);
+      border-radius: 50%;
+      width: 330px;
+      height: 330px;
+      right: -130px;
+      top: -165px;
+      pointer-events: none;
+    }
+    .hero:after { width: 220px; height: 220px; right: 105px; top: 95px; }
+    .hero > div { position: relative; z-index: 1; }
+    .eyebrow {
+      display: inline-block;
+      background: rgba(255,255,255,.16);
+      border: 1px solid rgba(255,255,255,.2);
+      border-radius: 99px;
+      padding: 4px 11px;
+      font-size: 11px;
+      font-weight: 750;
+      letter-spacing: .06em;
+    }
+    .hero h1 {
+      font-size: clamp(23px, 2.8vw, 32px);
+      letter-spacing: -.03em;
+      line-height: 1.22;
+      margin: 14px 0 9px;
+    }
+    .hero p {
+      max-width: 600px;
+      margin: 0;
+      color: #dcf0e3;
+      font-size: 13px;
+      line-height: 1.5;
+    }
+    .hero-art {
+      position: relative;
+      z-index: 1;
+      font-size: 78px;
+      filter: drop-shadow(0 15px 15px rgba(0,0,0,.15));
+      transform: rotate(-8deg);
+      margin-right: 30px;
+      user-select: none;
+    }
+    
+    .stat-row {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+      margin: 20px 0 24px;
+    }
+    .stat {
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 17px;
+      padding: 16px 18px;
+      display: flex;
+      align-items: center;
+      gap: 13px;
+      box-shadow: var(--shadow);
+    }
+    .stat-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      background: #e8f4ea;
+      color: #23694b;
+      display: grid;
+      place-items: center;
+      font-size: 20px;
+      flex: none;
+    }
+    .stat b {
+      display: block;
+      font-size: 18px;
+      line-height: 1.15;
+      color: #19342c;
+    }
+    .stat span {
+      color: #83968a;
+      font-size: 11.5px;
+      font-weight: 650;
+    }
+    
+    .quote-box {
+      background: #fdfdf9;
+      border: 1.5px dashed #cde2d3;
+      border-radius: 18px;
+      padding: 18px 24px;
+      margin-bottom: 26px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      box-shadow: 0 4px 15px rgba(27,79,54,.03);
+    }
+    .quote-content { flex: 1; }
+    .quote-fr {
+      font-size: 15.5px;
+      font-weight: 700;
+      color: #1b4934;
+      font-style: italic;
+      line-height: 1.4;
+    }
+    .quote-vi {
+      font-size: 12.5px;
+      color: #637d6e;
+      margin-top: 4px;
+    }
+    
+    .section-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      gap: 15px;
+      margin: 24px 0 14px;
+    }
+    .section-head h2 {
+      font-size: 18px;
+      letter-spacing: -.02em;
+      margin: 0;
+      color: #173b2d;
+    }
+    .section-head p {
+      color: var(--muted);
+      font-size: 12px;
+      margin: 4px 0 0;
+    }
+    
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 16px;
+    }
+    .card {
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 17px;
+      padding: 18px;
+      box-shadow: var(--shadow);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      min-width: 0;
+      transition: transform .2s, box-shadow .2s;
+    }
+    .card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 18px 35px rgba(27,79,54,.11);
+    }
+    .card-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+    }
+    .file-icon {
+      width: 42px;
+      height: 42px;
+      border-radius: 12px;
+      background: #e9f3ea;
+      display: grid;
+      place-items: center;
+      font-size: 20px;
+      color: #246a48;
+    }
+    .tag {
+      border-radius: 99px;
+      padding: 4px 9px;
+      font-size: 10.5px;
+      font-weight: 750;
+      white-space: nowrap;
+    }
+    .tag.status-pending { background: #f1f5f2; color: #72857a; border: 1px solid #e1ebe3; }
+    .tag.status-done { background: #dcfce7; color: #15803d; border: 1px solid #bbf7d0; }
+    .tag.status-class { background: #e0f2fe; color: #0369a1; border: 1px solid #bae6fd; }
+    .tag.session-badge { background: #fef3c7; color: #92400e; border: 1px solid #fde68a; }
+    
+    .card h3 {
+      font-size: 14.5px;
+      line-height: 1.35;
+      margin: 14px 0 7px;
+      color: #17392b;
+    }
+    .card p {
+      color: #697e72;
+      font-size: 11.5px;
+      line-height: 1.5;
+      margin: 0;
+    }
+    .card-foot {
+      padding-top: 12px;
+      border-top: 1px solid #edf2ed;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .text-btn {
+      border: 0;
+      background: transparent;
+      color: #27764f;
+      font-size: 11.5px;
+      font-weight: 750;
+      padding: 2px 4px;
+    }
+    
+    .panel {
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 17px;
+      padding: 20px;
+      box-shadow: var(--shadow);
+    }
+    .panel h3 {
+      font-size: 15px;
+      margin: 0 0 13px;
+      color: #1c4533;
+    }
+    
+    .two-col {
+      display: grid;
+      grid-template-columns: minmax(0, 1.4fr) minmax(320px, 1.6fr);
+      gap: 16px;
+      margin-top: 16px;
+    }
+    
+    .page { display: none; }
+    .page.active { display: block; animation: fadeIn .2s ease-out; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+    
+    .page-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin: 0 0 18px;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    .page-header h1 {
+      font-size: 23px;
+      letter-spacing: -.03em;
+      margin: 0;
+      color: #173d2e;
+    }
+    .page-header p {
+      font-size: 12.5px;
+      color: var(--muted);
+      margin: 4px 0 0;
+    }
+    
+    .primary {
+      background: #287c54;
+      border: 1px solid #287c54;
+      color: #fff;
+      border-radius: 10px;
+      padding: 9px 14px;
+      font-size: 12px;
+      font-weight: 750;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: background .15s;
+    }
+    .primary:hover { background: #206745; }
+    .secondary {
+      background: #fff;
+      border: 1px solid #d8e8dd;
+      color: #2b7050;
+      border-radius: 10px;
+      padding: 9px 14px;
+      font-size: 12px;
+      font-weight: 750;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: background .15s;
+    }
+    .secondary:hover { background: #f3f8f4; }
+    
+    .toolbar {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 16px;
+      flex-wrap: wrap;
+    }
+    .pill {
+      border: 1px solid #deeadf;
+      background: #fff;
+      color: #61776b;
+      padding: 7px 13px;
+      border-radius: 99px;
+      font-size: 11.5px;
+      font-weight: 750;
+      transition: all .15s;
+    }
+    .pill:hover { background: #f4f9f5; }
+    .pill.active {
+      background: #e6f4e9;
+      color: #246a48;
+      border-color: #c7e4cc;
+    }
+    
+    .stack { display: grid; gap: 8px; }
+    
+    /* Drive Layout */
+    .drive-player-layout {
+      display: grid;
+      grid-template-columns: minmax(0, 2fr) minmax(280px, 1fr);
+      gap: 18px;
+    }
+    .drive-video-wrapper {
+      background: #000;
+      border-radius: 18px;
+      overflow: hidden;
+      aspect-ratio: 16 / 9;
+      width: 100%;
+      box-shadow: 0 10px 30px rgba(0,0,0,.2);
+      position: relative;
+    }
+    .drive-video-wrapper iframe {
+      width: 100%;
+      height: 100%;
+      border: 0;
+    }
+    
+    .alphabet-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(95px, 1fr));
+      gap: 10px;
+    }
+    .alpha-box {
+      background: #fff;
+      border: 1.5px solid #dce8df;
+      border-radius: 16px;
+      padding: 12px 8px;
+      text-align: center;
+      cursor: pointer;
+      transition: all .2s;
+      box-shadow: 0 2px 6px rgba(0,0,0,.03);
+    }
+    .alpha-box:hover {
+      background: #f1f8f3;
+      border-color: #92d0aa;
+      transform: translateY(-2px);
+    }
+    .alpha-box b {
+      display: block;
+      font-size: 24px;
+      color: #174230;
+      line-height: 1;
+    }
+    .alpha-box span {
+      display: block;
+      font-size: 10.5px;
+      color: #657e70;
+      margin-top: 4px;
+      font-family: monospace;
+    }
+
+    /* Phonetics Word Items */
+    .word-list-card {
+      background: #fff;
+      border: 1px solid #dce8df;
+      padding: 10px 14px;
+      border-radius: 12px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+    .word-list-card:hover {
+      background: #f1f8f3;
+      border-color: #9cd1b1;
+      transform: translateX(3px);
+    }
+    .word-list-card.active-selected {
+      background: #e7f5ec;
+      border-color: #277952;
+      box-shadow: 0 2px 8px rgba(39,121,82,.12);
+    }
+    
+    .field {
+      display: grid;
+      gap: 6px;
+      margin: 12px 0;
+    }
+    .field label {
+      font-size: 11.5px;
+      font-weight: 750;
+      color: #3b604b;
+    }
+    .field input, .field textarea, .field select {
+      border: 1px solid #dbe8de;
+      border-radius: 12px;
+      background: #fff;
+      padding: 11px 13px;
+      font-size: 13px;
+      color: var(--ink);
+      width: 100%;
+    }
+    .field textarea {
+      min-height: 85px;
+      resize: vertical;
+    }
+    
+    .notice {
+      background: #f4f8f5;
+      border: 1px dashed #c8ded0;
+      border-radius: 14px;
+      padding: 14px;
+      color: #496a58;
+      font-size: 12.5px;
+    }
+    
+    .del-btn {
+      border: 0;
+      background: transparent;
+      color: #9baea3;
+      padding: 4px;
+      border-radius: 6px;
+      font-size: 14px;
+    }
+    .del-btn:hover { color: #dc2626; background: #fee2e2; }
+    
+    .toast {
+      position: fixed;
+      right: 24px;
+      bottom: 24px;
+      max-width: 340px;
+      background: #1f4834;
+      color: #fff;
+      padding: 12px 18px;
+      border-radius: 12px;
+      box-shadow: 0 10px 30px rgba(18,57,36,.25);
+      font-size: 12.5px;
+      font-weight: 550;
+      display: none;
+      z-index: 1000;
+    }
+    .toast.show { display: block; animation: fadeIn .2s; }
+    
+    .modal-wrap {
+      position: fixed;
+      inset: 0;
+      background: rgba(14,40,29,.55);
+      z-index: 900;
+      display: none;
+      place-items: center;
+      padding: 18px;
+    }
+    .modal-wrap.open { display: grid; }
+    .modal-box {
+      background: #fff;
+      border-radius: 22px;
+      width: min(100%, 580px);
+      max-height: 90vh;
+      overflow-y: auto;
+      padding: 26px;
+      box-shadow: 0 25px 80px rgba(9,42,23,.3);
+    }
+
+    #docViewerModal {
+      background: rgba(0, 0, 0, 0.85);
+      backdrop-filter: blur(4px);
+      padding: 0;
+    }
+    .doc-viewer-box {
+      width: 95vw;
+      height: 95vh;
+      background: #f6f8f6;
+      border-radius: 12px;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      box-shadow: 0 25px 80px rgba(0,0,0,0.5);
+    }
+    .doc-viewer-header {
+      background: #fff;
+      padding: 12px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid #dce8df;
+    }
+    .doc-viewer-header h3 {
+      margin: 0;
+      font-size: 15px;
+      color: #173d2e;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 60%;
+    }
+    
+    /* Studio Card */
+    .studio-card {
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      padding: 26px 24px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      box-shadow: var(--shadow);
+    }
+
+    .cropper-container {
+      width: 100%;
+      height: 300px;
+      background: #eef3f0;
+      border-radius: 14px;
+      position: relative;
+      overflow: hidden;
+      margin-bottom: 16px;
+      touch-action: none;
+      user-select: none;
+    }
+    .cropper-image {
+      position: absolute;
+      transform-origin: center center;
+      cursor: grab;
+      will-change: transform;
+    }
+    .cropper-image:active { cursor: grabbing; }
+    .cropper-overlay {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      box-shadow: 0 0 0 9999px rgba(0,0,0,0.5);
+      border-radius: 50%;
+      width: 200px;
+      height: 200px;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      border: 2px dashed #fff;
+    }
+    
+    #authOverlay {
+      position: fixed;
+      inset: 0;
+      background: linear-gradient(135deg, #1b4934 0%, #24684a 50%, #153929 100%);
+      z-index: 2000;
+      display: grid;
+      place-items: center;
+      padding: 20px;
+    }
+    .auth-card {
+      background: #fff;
+      border-radius: 24px;
+      padding: 34px 30px;
+      width: min(100%, 410px);
+      box-shadow: 0 25px 80px rgba(0,0,0,.35);
+    }
+    .auth-tabs {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 6px;
+      background: #f1f6f2;
+      padding: 4px;
+      border-radius: 12px;
+      margin-bottom: 20px;
+    }
+    .auth-tab-btn {
+      border: 0;
+      background: transparent;
+      padding: 8px;
+      border-radius: 9px;
+      font-size: 12.5px;
+      font-weight: 750;
+      color: #60796b;
+      transition: all .15s;
+    }
+    .auth-tab-btn.active {
+      background: #fff;
+      color: #23694b;
+      box-shadow: 0 2px 6px rgba(0,0,0,.06);
+    }
+
+    @media(max-width: 1050px) {
+      .stat-row { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .grid-3 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .drive-player-layout { grid-template-columns: 1fr; }
+      .two-col { grid-template-columns: 1fr; }
+    }
+    @media(max-width: 820px) {
+      .app { display: block; }
+      .sidebar {
+        position: sticky;
+        top: 0;
+        z-index: 50;
+        height: auto;
+        padding: 10px 14px;
+        border-right: 0;
+        border-bottom: 1px solid var(--line);
+        gap: 0;
+      }
+      .brand { padding: 0; }
+      .brand-mark { width: 32px; height: 32px; font-size: 16px; border-radius: 10px; }
+      .brand strong { font-size: 13px; }
+      .brand small { display: none; }
+      .nav-title, .user-footer-card { display: none; }
+      .sidebar > div:nth-child(2) { overflow-x: auto; margin-top: 8px; }
+      .nav { display: flex; width: max-content; }
+      .nav button { width: auto; padding: 7px 11px; font-size: 11.5px; gap: 6px; }
+      .nav button svg { width: 15px; height: 15px; }
+      .topbar { height: 56px; padding: 0 16px; }
+      .content { padding: 18px 14px 44px; }
+      .hero { padding: 24px; min-height: 160px; }
+      .hero-art { display: none; }
+      .doc-viewer-box { width: 100vw; height: 100vh; border-radius: 0; }
+    }
+    @media(max-width: 580px) {
+      .stat-row { grid-template-columns: 1fr; }
+      .grid-3 { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- AUTH OVERLAY -->
+  <div id="authOverlay" style="display:none;">
+    <div class="auth-card">
+      <div style="text-align:center;margin-bottom:20px;">
+        <div class="brand-mark" style="margin:0 auto 10px;width:48px;height:48px;font-size:24px;">FR</div>
+        <h2 style="margin:0;font-size:20px;color:#173d2e;">CASTA Français</h2>
+        <p style="margin:4px 0 0;font-size:12px;color:#6b8275;">Đăng nhập để vào không gian học tập</p>
+      </div>
+
+      <div class="auth-tabs">
+        <button id="btnTabLogin" class="auth-tab-btn active" onclick="switchAuthTab('login')">Đăng nhập</button>
+        <button id="btnTabRegister" class="auth-tab-btn" onclick="switchAuthTab('register')">Đăng ký mới</button>
+      </div>
+
+      <!-- Form Đăng Nhập -->
+      <form id="formLogin" onsubmit="handleLogin(event)">
+        <div class="field">
+          <label for="loginUsername">Tên đăng nhập</label>
+          <input type="text" id="loginUsername" required placeholder="Nhập tên đăng nhập">
+        </div>
+        <div class="field">
+          <label for="loginPassword">Mật khẩu</label>
+          <input type="password" id="loginPassword" required placeholder="Nhập mật khẩu">
+        </div>
+        <div style="margin-top:18px;">
+          <button type="submit" class="primary" style="width:100%;justify-content:center;padding:12px;font-size:13px;">
+            Đăng nhập hệ thống
+          </button>
+        </div>
+      </form>
+
+      <!-- Form Đăng Ký -->
+      <form id="formRegister" onsubmit="handleRegister(event)" style="display:none;">
+        <div class="field">
+          <label for="regUsername">Tên đăng nhập</label>
+          <input type="text" id="regUsername" required placeholder="Ví dụ: hoangminh">
+        </div>
+        <div class="field">
+          <label for="regFullName">Họ và tên hiển thị</label>
+          <input type="text" id="regFullName" required placeholder="Ví dụ: Hoàng Minh">
+        </div>
+        <div class="field">
+          <label for="regPassword">Mật khẩu</label>
+          <input type="password" id="regPassword" required placeholder="Tối thiểu 4 ký tự">
+        </div>
+        <div class="field">
+          <label for="regConfirmPassword">Xác nhận mật khẩu</label>
+          <input type="password" id="regConfirmPassword" required placeholder="Nhập lại mật khẩu">
+        </div>
+        <div style="background:#fffaf0;border:1px solid #fde7b9;padding:11px 13px;border-radius:12px;margin:12px 0;font-size:11.5px;color:#85540b;line-height:1.5;">
+          🔒 Tài khoản mới sẽ ở hàng đợi chờ Giảng viên phê duyệt.
+        </div>
+        <div>
+          <button type="submit" class="primary" style="width:100%;justify-content:center;padding:12px;font-size:13px;background:#1e593d;">
+            Tạo tài khoản học viên
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div class="top-strip">
+    ESPACE PERSONNEL · CASTA FRANÇAIS · QUẢN LÝ PHÒNG HỌC
+  </div>
+
+  <div class="app">
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+      <div class="brand">
+        <div class="brand-mark">FR</div>
+        <div>
+          <strong>CASTA</strong>
+          <small>ESPACE PRIVÉ</small>
+        </div>
+      </div>
+
+      <div>
+        <p class="nav-title">Menu Học Tập</p>
+        <nav class="nav" aria-label="Điều hướng">
+          <button class="active" id="navBtnDashboard" data-page="dashboard" onclick="navigateTo('dashboard')">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="m3 11 9-8 9 8v9H3z"/><path d="M9 20v-6h6v6"/></svg>
+            Tổng quan
+          </button>
+
+          <button id="navBtnPhonetics" data-page="phonetics" onclick="navigateTo('phonetics')">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" x2="12" y1="19" y2="22"/></svg>
+            Phòng Ngữ Âm
+          </button>
+
+          <button id="navBtnVideos" data-page="videos" onclick="navigateTo('videos')">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></svg>
+            Video Bài Giảng (Drive)
+          </button>
+
+          <button id="navBtnDocs" data-page="documents" onclick="navigateTo('documents')">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+            Tài Liệu Theo Buổi
+          </button>
+
+          <button id="navBtnNotes" data-page="notes" onclick="navigateTo('notes')">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+            Sổ Tay Của Tôi
+          </button>
+          
+          <button id="navBtnMyClass" data-page="my_class" onclick="navigateTo('my_class')">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+    <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+    <circle cx="9" cy="7" r="4"></circle>
+    <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+    <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+  </svg>
+  Lớp Học Của Tôi
+</button>
+
+          <button id="navBtnAdmin" data-page="class_admin" style="display:none;" onclick="navigateTo('class_admin')">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+            Quản Lý Lớp & Học Liệu
+          </button>
+
+          <button id="navBtnSettings" data-page="account_settings" onclick="navigateTo('account_settings')">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+            Cài Đặt Tài Khoản
+          </button>
+        </nav>
+      </div>
+
+      <div class="user-footer-card">
+        <div class="user-footer-info" onclick="navigateTo('account_settings')" title="Cài đặt tài khoản">
+          <div class="user-avatar-small" id="userAvatarSmall">AD</div>
+          <div class="user-footer-text">
+            <b id="userNameDisplay">Giảng viên</b>
+            <span id="userRoleDisplay">Quản trị viên</span>
+          </div>
+        </div>
+        <button type="button" onclick="handleLogout()" class="secondary" style="width:100%;font-size:11px;padding:6px;justify-content:center;color:#b91c1c;border-color:#fecaca;margin-top:4px;">
+          Đăng xuất
+        </button>
+      </div>
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <div class="main">
+      <header class="topbar">
+        <div class="crumb">
+          Casta Français <span> / </span>
+          <strong id="crumbLabel">Tổng quan cá nhân</strong>
+        </div>
+        
+        <div class="top-actions">
+          <button class="speed-btn" id="speedToggleBtn" onclick="cycleVoiceSpeed()" title="Điều chỉnh tốc độ phát âm chuẩn Pháp">
+            <span>⚡ Tốc độ đọc:</span>
+            <b id="speedLabelText">0.85x</b>
+          </button>
+          <div class="user-avatar-small" id="topbarAvatar" onclick="navigateTo('account_settings')" style="cursor:pointer;" title="Cài đặt tài khoản">AD</div>
+        </div>
+      </header>
+
+      <div class="content">
+        <!-- TRANG: LỚP HỌC & BẠN CÙNG LỚP -->
+<section id="my_class" class="page">
+  <div class="page-header">
+    <div>
+      <h1 id="myClassPageTitle">Không Gian Lớp Học</h1>
+      <p id="myClassPageSubtitle">Danh sách thành viên và trạng thái học tập.</p>
+    </div>
+    <!-- Bộ chọn lớp dành riêng cho Giáo viên / Admin (Học sinh sẽ bị ẩn) -->
+    <div id="adminClassSelectorWrap" style="display:none; align-items:center; gap:8px;">
+      <label style="font-size:12px; font-weight:700; color:#23694b;">Chọn lớp xem:</label>
+      <select id="adminSelectClassView" onchange="renderClassMembersView(this.value)" style="padding:6px 12px; border-radius:10px; border:1px solid #dce8df; font-weight:600;"></select>
+    </div>
+  </div>
+
+  <!-- Danh sách học viên và bạn cùng lớp -->
+  <div id="classMembersGrid" class="grid-3"></div>
+</section>
+
+        <!-- 1. PHÒNG NGỮ ÂM & SHADOWING STUDIO (ƯU TIÊN HÀNG ĐẦU) -->
+        <section id="phonetics" class="page">
+          <div class="page-header">
+            <div>
+              <h1>Phòng Ngữ Âm & Studio Luyện Âm Chuẩn Pháp</h1>
+              <p>Kho từ vựng mở rộng 220+ từ theo 14 quy tắc then chốt, tích hợp công cụ nhại giọng (Shadowing Studio).</p>
+            </div>
+            <div style="display:flex;gap:8px;">
+              <button class="primary" onclick="openAlphabetHandbook()">
+                📖 Cẩm Nang Dấu & Mẹo IPA
+              </button>
+              <button class="secondary" id="btnPhoneticModeToggle" onclick="togglePhoneticSubTab()">
+                <span id="phoneticTabToggleLabel">Chuyển sang: Bảng chữ cái A-Z</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Alphabet interactive view -->
+          <div id="phoneticsAlphabetView" style="display:none;" class="panel">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;flex-wrap:wrap;gap:10px;">
+              <div>
+                <h3 style="margin:0;color:#183d2e;">Bảng Chữ Cái Tiếng Pháp (L'Alphabet - 26 lettres)</h3>
+                <p style="margin:4px 0 0;font-size:12px;color:#6b8275;">Nhấn vào từng chữ cái để nghe phát âm chuẩn bản xứ.</p>
+              </div>
+              <button class="primary" onclick="playAudioText('A, B, C, D, E, F, G, H, I, J, K, L, M, N, O, P, Q, R, S, T, U, V, W, X, Y, Z.')">
+                🔊 Nghe toàn bộ bảng A-Z
+              </button>
+            </div>
+            <div class="alphabet-grid" id="alphabetInteractiveGrid"></div>
+          </div>
+
+          <!-- 14 Quy tắc ghép âm & Shadowing Studio -->
+          <div id="phoneticsRulesView" class="two-col" style="margin-top:0">
+            <!-- Cột trái: Bộ chọn quy tắc & Danh sách từ vựng phong phú -->
+            <div class="panel" style="padding:20px;">
+              <div class="field" style="margin-top:0;">
+                <label for="patternSelect">1. Lựa chọn Quy tắc ghép âm (14 nhóm chuẩn CEFR)</label>
+                <select id="patternSelect" style="font-weight:700;color:#184230;background:#f8fcf9;">
+                  <optgroup label="Quy tắc đuôi từ (Terminaisons)">
+                    <option value="tail_ure">1. Đuôi -ure / -ur [yʁ] (u chu môi + r họng)</option>
+                    <option value="tail_eur">2. Đuôi -eur / -euvre [œʁ] (ơ mở)</option>
+                    <option value="tail_er_ir">3. Đuôi -er / -ir / -ire [e] / [iʁ]</option>
+                    <option value="tail_air_elle">4. Đuôi -air / -aire / -elle [ɛʁ] / [ɛl]</option>
+                    <option value="tail_ique_aque">5. Đuôi -ique / -aque [ik] / [ak]</option>
+                  </optgroup>
+                  <optgroup label="Cụm âm giữa & đầu từ (Combinaisons internes)">
+                    <option value="mid_er_ir_ur">6. Cụm er / ir / ur [ɛʁ] / [iʁ] / [yʁ]</option>
+                    <option value="mid_ar_or_oi">7. Cụm ar / or / oi [aʁ] / [ɔʁ] / [wa]</option>
+                    <option value="mid_tion">8. Cụm đuôi -tion / -sion [sjɔ̃] / [zjɔ̃]</option>
+                  </optgroup>
+                  <optgroup label="Nguyên âm mũi (Voyelles nasales)">
+                    <option value="nasal_in_ain">9. Âm mũi in, im, ain, ein [ɛ̃] (bẹt môi)</option>
+                    <option value="nasal_an_en">10. Âm mũi an, am, en, em [ɑ̃] (mở sâu)</option>
+                    <option value="nasal_on">11. Âm mũi on, om [ɔ̃] (chu tròn môi)</option>
+                  </optgroup>
+                  <optgroup label="Phụ âm & Bán nguyên âm (Consonnes & Semi-voyelles)">
+                    <option value="consonant_s_z">12. Phụ âm [s] (ss, ç) vs [z] (s kẹp)</option>
+                    <option value="consonant_ch_j_gn">13. Phụ âm ch [ʃ], j/ge [ʒ], gn [ɲ]</option>
+                    <option value="semi_vowels">14. Bán nguyên âm il/ill [j], ui [ɥi], oi [wa]</option>
+                  </optgroup>
+                </select>
+              </div>
+
+              <!-- Hướng dẫn sư phạm & Khẩu hình -->
+              <div id="ruleInfoText" class="notice" style="margin-top:10px;text-align:left;line-height:1.55;"></div>
+
+              <!-- Ô tìm kiếm nhanh trong danh sách từ -->
+              <div style="display:flex;align-items:center;gap:8px;margin-top:14px;">
+                <input type="text" id="phoneticSearchInput" placeholder="🔍 Tìm nhanh từ trong quy tắc này..." oninput="handleSearchWords(this.value)" style="border:1px solid #dce8df;padding:8px 12px;border-radius:10px;font-size:12px;flex:1;">
+                <button class="secondary" onclick="document.getElementById('phoneticSearchInput').value=''; handleSearchWords('');" style="padding:8px 10px;font-size:11px;" title="Xóa tìm kiếm">Xóa</button>
+              </div>
+
+              <div style="display:flex;justify-content:space-between;align-items:center;margin:14px 0 8px;">
+                <span id="patternWordsCountBadge" style="font-size:11px;font-weight:800;color:#557464;text-transform:uppercase;">Danh sách từ (16 từ)</span>
+                <span id="patternProgressBadge" class="tag status-pending">Đã thuộc: 0/16</span>
+              </div>
+
+              <!-- Cuộn danh sách từ -->
+              <div id="patternWordsList" style="max-height:420px;overflow-y:auto;display:grid;gap:6px;" class="stack"></div>
+            </div>
+
+            <!-- Cột phải: Shadowing Studio & Luyện nói -->
+            <div class="studio-card">
+              <div style="display:flex;gap:8px;flex-wrap:wrap;justify-content:center;">
+                <span id="stCategoryBadge" class="tag" style="background:#edf7ef;color:#246f4b;">Đuôi -ure</span>
+                <span id="stTypeBadge" class="tag" style="background:#e0f2fe;color:#0369a1;">nf</span>
+                <span id="stStatusBadge" class="tag status-pending">Chưa học</span>
+              </div>
+
+              <div style="margin:24px 0 18px;width:100%;">
+                <div id="stWordDisplay" class="font-serif-fr" style="font-size:clamp(42px,5.5vw,62px);font-weight:700;color:#143b2a;line-height:1.1;letter-spacing:-.02em;">
+                  nature
+                </div>
+
+                <div style="display:flex;gap:8px;justify-content:center;align-items:center;margin-top:14px;flex-wrap:wrap;">
+                  <span id="stIpaDisplay" style="font-family:monospace;font-size:17px;background:#edf5ee;color:#1e5d3c;padding:6px 14px;border-radius:10px;font-weight:700;border:1px solid #d0e7d5;">
+                    [na.tyʁ]
+                  </span>
+                  <span id="stHintDisplay" style="font-size:12px;background:#fff8ea;color:#926117;padding:6px 13px;border-radius:10px;font-weight:600;border:1px solid #fae8c3;">
+                    💡 Đuôi -ure: uy-ếc
+                  </span>
+                </div>
+
+                <p id="stMeanDisplay" style="color:#567061;font-size:14.5px;margin-top:12px;font-weight:600;">
+                  Nghĩa: tự nhiên, bản chất
+                </p>
+              </div>
+
+              <!-- Khu vực tương tác âm thanh & Shadowing -->
+              <div style="width:100%;background:#f8fbf8;border:1px solid #dce8df;border-radius:18px;padding:18px;display:grid;gap:12px;">
+                <div style="display:flex;gap:8px;">
+                  <button id="btnListenNative" class="primary" style="flex:1;justify-content:center;padding:12px;font-size:13px;" onclick="speakCurrentStudioWord()">
+                    🔊 1. Nghe bản xứ (Space)
+                  </button>
+                  <button class="secondary" style="padding:12px 14px;" onclick="speakCurrentStudioWord(0.6)" title="Nghe chậm tốc độ 0.6x">
+                    🐢 Chậm
+                  </button>
+                </div>
+
+                <!-- Ghi âm trực tiếp để đối chiếu giọng nói -->
+                <div style="display:flex;gap:8px;">
+                  <button id="btnRecordMic" class="primary" style="flex:1;justify-content:center;padding:12px;background:#c93b3b;border-color:#c93b3b;font-size:13px;" onclick="toggleRecordUserVoice()">
+                    <span id="recordMicIcon">🎙️</span> <span id="recordMicLabel">2. Bấm để nhại giọng (Shadowing)</span>
+                  </button>
+                  <button id="btnPlayUserVoice" class="secondary" style="display:none;padding:12px 14px;" onclick="playbackUserRecording()">
+                    ▶ Nghe lại bạn đọc
+                  </button>
+                </div>
+
+                <div id="stFeedbackTip" style="font-size:11.5px;color:#7e9486;line-height:1.4;">
+                  💡 <em>Mẹo sư phạm:</em> Nghe 2 lần để ngấm ngữ điệu, bấm mic nhại lại ngay lập tức rồi đánh giá ghi nhớ.
+                </div>
+              </div>
+
+              <!-- Đánh giá mức độ thành thạo -->
+              <div style="width:100%;margin-top:16px;display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+                <button class="secondary" style="justify-content:center;padding:12px;border:1.5px solid #287c54;color:#1e5b3c;background:#edf8f0;" onclick="rateCurrentStudioWord('mastered')">
+                  <b>[ 1 ] Đã thuộc ✓</b>
+                </button>
+                <button class="secondary" style="justify-content:center;padding:12px;border:1.5px solid #c93b3b;color:#a82828;background:#fef2f2;" onclick="rateCurrentStudioWord('review')">
+                  <b>[ 2 ] Cần ôn lại ↺</b>
+                </button>
+              </div>
+
+              <div style="margin-top:14px;display:flex;gap:12px;align-items:center;">
+                <button class="text-btn" onclick="pickNextStudioWord(true)">
+                  🎲 Từ ngẫu nhiên (Phím R)
+                </button>
+                <span style="color:#cbdad0;">•</span>
+                <button class="text-btn" onclick="pickSequentialWord(1)">
+                  Từ kế tiếp ❯
+                </button>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- 2. DASHBOARD -->
+        <section id="dashboard" class="page active">
+          <div class="hero">
+            <div>
+              <span class="eyebrow" id="heroClassBadge">LỚP HỌC CỦA BẠN</span>
+              <h1 id="heroGreetingTitle">Học sâu ngữ âm.<br>Tiến bộ vững vàng mỗi ngày.</h1>
+              <p>Hệ thống học tập chuyên sâu: theo dõi thời lượng thực hành, nắm chắc ngữ pháp và tiếp cận học liệu do giảng viên phát hành.</p>
+            </div>
+            <div class="hero-art" aria-hidden="true">🇫🇷</div>
+          </div>
+
+          <div class="stat-row">
+            <div class="stat">
+              <div class="stat-icon" style="background:#fef3c7;color:#b45309;">⏱</div>
+              <div>
+                <b id="dashStudyTimeToday">25 phút</b>
+                <span>Thời gian học hôm nay</span>
+              </div>
+            </div>
+            <div class="stat">
+              <div class="stat-icon" style="background:#fee2e2;color:#b91c1c;">🔥</div>
+              <div>
+                <b id="dashStudyStreak">3 ngày liên tiếp</b>
+                <span>Chuỗi học (Streak)</span>
+              </div>
+            </div>
+            <div class="stat">
+              <div class="stat-icon" style="background:#e0f2fe;color:#0369a1;">🏫</div>
+              <div>
+                <b id="dashCurrentClassName">DELF A1 - A2</b>
+                <span>Lớp học hiện tại</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="quote-box">
+            <div class="quote-content">
+              <div class="quote-fr" id="quoteFrenchText">"Petit à petit, l'oiseau fait son nid."</div>
+              <div class="quote-vi" id="quoteVietText">Từng chút một, chú chim xây nên tổ ấm (Tích tiểu thành đại).</div>
+            </div>
+            <div class="quote-badge">
+              <i class="fa-solid fa-hourglass-half"></i> <span>Tự đổi mỗi 2h</span>
+            </div>
+          </div>
+
+          <div class="section-head">
+            <div>
+              <h2>Bài học & Học liệu được giao</h2>
+              <p>Danh sách các video bài giảng và tài liệu theo buổi học mới nhất của bạn.</p>
+            </div>
+          </div>
+
+          <div id="dashboardAssignmentsContainer" class="grid-3" style="margin-bottom:28px;"></div>
+        </section>
+
+        <!-- 3. VIDEO BÀI GIẢNG (GOOGLE DRIVE VIDEO) -->
+        <section id="videos" class="page">
+          <div class="page-header">
+            <div>
+              <h1>Kho Video Bài Giảng Theo Buổi Học (Drive Video)</h1>
+              <p>Xem video bài giảng được lưu trữ trên Google Drive theo từng buổi học tương ứng.</p>
+            </div>
+          </div>
+
+          <div class="toolbar" id="videoSessionToolbar"></div>
+
+          <div class="drive-player-layout">
+            <div>
+              <div class="drive-video-wrapper" id="driveVideoContainer"></div>
+              <div style="background:#fff;border:1px solid var(--line);border-radius:18px;padding:18px;margin-top:14px;">
+                <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">
+                  <span class="tag session-badge" id="currentVideoSessionBadge">Buổi học</span>
+                  <a id="btnOpenExternalVideo" href="#" target="_blank" class="text-btn" style="display:inline-flex;align-items:center;gap:4px;">
+                    Mở toàn màn hình trên Drive ↗
+                  </a>
+                </div>
+                <h2 id="currentVideoTitle" style="font-size:18px;color:#173d2e;margin:0 0 6px;">Chưa chọn video</h2>
+                <p id="currentVideoNote" style="font-size:13px;color:#657f72;margin:0;line-height:1.6;"></p>
+              </div>
+            </div>
+
+            <div class="session-playlist" id="videoPlaylistContainer" style="background:#fff;border:1px solid var(--line);border-radius:18px;padding:16px;display:flex;flex-direction:column;gap:10px;max-height:520px;overflow-y:auto;"></div>
+          </div>
+        </section>
+
+        <!-- 4. TÀI LIỆU THEO BUỔI -->
+        <section id="documents" class="page">
+          <div class="page-header">
+            <div>
+              <h1>Thư Viện Tài Liệu Theo Buổi Học</h1>
+              <p>Xem trực tiếp file Word, Slide PPTX và PDF đính kèm theo từng buổi học không cần tải về.</p>
+            </div>
+          </div>
+
+          <div class="toolbar" id="docSessionToolbar"></div>
+
+          <div class="grid-3" id="docCardsContainer"></div>
+        </section>
+
+        <!-- 5. QUẢN LÝ LỚP & HỌC LIỆU (ADMIN) -->
+        <section id="class_admin" class="page">
+          <div class="page-header">
+            <div>
+              <h1>Quản Lý Lớp Học, Buổi Học & Học Liệu</h1>
+            </div>
+            <div style="display:flex;gap:8px;">
+              <button class="secondary" onclick="openSessionManagerModal()">📅 Quản Lý Buổi Học</button>
+              <button class="secondary" onclick="openClassManagerModal()">🏫 Quản Lý Lớp</button>
+            </div>
+          </div>
+
+          <div class="panel" style="margin-bottom:20px;">
+            <h3>📤 Đăng Tải Bài Giảng / Video / Tài Liệu Theo Buổi</h3>
+            <form onsubmit="handleUploadMedia(event)">
+              <div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(200px, 1fr));gap:12px;">
+                <div class="field">
+                  <label>Gán cho lớp:</label>
+                  <select id="mediaClassSelect" required></select>
+                </div>
+                <div class="field">
+                  <label>Buổi học:</label>
+                  <select id="mediaSessionSelect" required></select>
+                </div>
+                <div class="field">
+                  <label>Loại học liệu:</label>
+                  <select id="mediaTypeSelect" required>
+                    <option value="drive_video">🎬 Video bài giảng (Google Drive)</option>
+                    <option value="drive_doc">📄 Tài liệu (Word, PPTX, PDF)</option>
+                  </select>
+                </div>
+              </div>
+              <div class="field">
+                <label>Tiêu đề học liệu:</label>
+                <input type="text" id="mediaTitle" required placeholder="Nhập tiêu đề...">
+              </div>
+              <div class="field">
+                <label>Đường dẫn Google Drive (Bất kỳ link chia sẻ nào):</label>
+                <input type="url" id="mediaUrl" required placeholder="https://drive.google.com/file/d/...">
+              </div>
+              <div class="field">
+                <label>Ghi chú / Mô tả ngắn gọn (Không bắt buộc):</label>
+                <input type="text" id="mediaNote" placeholder="Ví dụ: Đọc kỹ slide từ trang 5 đến 15...">
+              </div>
+              
+              <div style="text-align:right;margin-top:12px;">
+                <button type="submit" class="primary">Đăng học liệu</button>
+              </div>
+            </form>
+          </div>
+
+          <div class="two-col" style="margin-top:0;">
+            <div class="panel">
+              <h3>Học Liệu Đã Đăng Tải</h3>
+              <div id="adminUploadedMediaList" style="display:grid;gap:8px;max-height:400px;overflow-y:auto;"></div>
+            </div>
+            <div class="panel">
+              <div style="display:flex;justify-content:space-between;align-items:center;">
+                <h3>Học Viên & Phê Duyệt</h3>
+                <button class="primary" style="padding:6px 10px;font-size:11px;" onclick="openApprovalModal()">Duyệt</button>
+              </div>
+              <div id="adminQuickUsersList" style="display:grid;gap:8px;margin-top:12px;"></div>
+            </div>
+          </div>
+        </section>
+
+        <!-- 6. SỔ TAY GHI CHÚ -->
+        <section id="notes" class="page">
+          <div class="page-header">
+            <div>
+              <h1>Sổ Tay Ghi Chú Cá Nhân</h1>
+            </div>
+          </div>
+          <div class="panel">
+            <div class="field">
+              <textarea id="newNoteContent" placeholder="Nhập ghi chú từ vựng, mẹo ngữ âm hôm nay..."></textarea>
+            </div>
+            <button class="primary" onclick="addNewNote()">Lưu ghi chú</button>
+          </div>
+          <div id="notesContainer" class="stack" style="margin-top:20px;"></div>
+        </section>
+
+        <!-- 7. CÀI ĐẶT TÀI KHOẢN & AVATAR CROPPER -->
+        <section id="account_settings" class="page">
+          <div class="page-header">
+            <div>
+              <h1>Cài Đặt Tài Khoản & Hồ Sơ</h1>
+            </div>
+          </div>
+
+          <div class="two-col" style="margin-top:0;">
+            <div class="panel">
+              <h3>Hồ sơ & Ảnh đại diện (Tải từ máy tính)</h3>
+              <div style="display:flex;align-items:center;gap:18px;margin-bottom:20px;">
+                <div class="user-avatar-small" id="settingAvatarPreview" style="width:72px;height:72px;font-size:24px;">AD</div>
+                <div>
+                  <b style="display:block;font-size:15px;color:#183d2e;" id="settingUsernameLabel">admin</b>
+                  <span style="font-size:12px;color:#71897c;" id="settingRoleLabel">Quản trị viên</span>
+                </div>
+              </div>
+
+              <!-- Input File Ẩn -->
+              <input type="file" id="avatarUploadInput" accept="image/png, image/jpeg, image/webp" style="display:none;" onchange="handleAvatarFileSelect(event)">
+              
+              <button class="secondary" style="margin-bottom:16px;width:100%;justify-content:center;border:1px dashed #287c54;" onclick="document.getElementById('avatarUploadInput').click()">
+                <i class="fa-solid fa-cloud-arrow-up"></i> Tải ảnh lên từ máy tính
+              </button>
+
+              <form onsubmit="handleUpdateProfile(event)">
+                <div class="field">
+                  <label for="settingFullName">Họ và tên hiển thị:</label>
+                  <input type="text" id="settingFullName" required>
+                </div>
+                <div class="field">
+                  <label for="settingBio">Mục tiêu học tập (Bio):</label>
+                  <textarea id="settingBio" placeholder="Ví dụ: Đạt chứng chỉ DELF B1 trong 6 tháng tới..."></textarea>
+                </div>
+                <div style="text-align:right;margin-top:10px;">
+                  <button type="submit" class="primary">Lưu hồ sơ</button>
+                </div>
+              </form>
+            </div>
+
+            <div class="panel">
+              <h3>Đổi mật khẩu tài khoản</h3>
+              <form onsubmit="handleChangePassword(event)">
+                <div class="field"><label>Mật khẩu hiện tại</label><input type="password" id="pwdOld" required></div>
+                <div class="field"><label>Mật khẩu mới</label><input type="password" id="pwdNew" required></div>
+                <div class="field"><label>Xác nhận mật khẩu mới</label><input type="password" id="pwdConfirm" required></div>
+                <div style="text-align:right;margin-top:16px;">
+                  <button type="submit" class="secondary">Cập nhật mật khẩu</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </section>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: CẮT & CĂN CHỈNH AVATAR (AVATAR CROPPER) -->
+  <div id="avatarCropModal" class="modal-wrap">
+    <div class="modal-box" style="width:min(100%, 420px);padding:20px;">
+      <div style="display:flex;justify-content:space-between;align-items:start;margin-bottom:12px;">
+        <h3 style="margin:0;font-size:16px;color:#183d2e;">Căn chỉnh ảnh đại diện</h3>
+        <button style="border:0;background:transparent;color:#788f82;font-size:18px;font-weight:700;" onclick="closeCropModal()">✕</button>
+      </div>
+      <p style="font-size:12px;color:#6b8275;margin:0 0 12px;">Kéo để di chuyển ảnh, dùng thanh trượt để phóng to/thu nhỏ.</p>
+      
+      <div class="cropper-container" id="cropContainer">
+        <img id="cropImage" class="cropper-image" src="" alt="To be cropped" draggable="false">
+        <div class="cropper-overlay"></div>
+      </div>
+      
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:20px;">
+        <span style="font-size:14px;color:#556c60;">🔍</span>
+        <input type="range" id="cropZoomSlider" min="0.5" max="3" step="0.05" value="1" style="flex:1;">
+      </div>
+
+      <div style="text-align:right;">
+        <button class="secondary" onclick="closeCropModal()">Hủy</button>
+        <button class="primary" onclick="applyAvatarCrop()">Lưu ảnh đại diện</button>
+      </div>
+      <canvas id="cropCanvas" style="display:none;"></canvas>
+    </div>
+  </div>
+
+  <!-- MODAL: TRÌNH XEM TÀI LIỆU NỘI BỘ (IN-APP DOC VIEWER) -->
+  <div id="docViewerModal" class="modal-wrap">
+    <div class="doc-viewer-box">
+      <div class="doc-viewer-header">
+        <h3 id="docViewerTitle">Đang tải tài liệu...</h3>
+        <div style="display:flex;gap:10px;align-items:center;">
+          <a id="btnDocViewerNewTab" href="#" target="_blank" class="secondary" style="font-size:11px;padding:6px 12px;border-radius:8px;">
+            Mở cửa sổ mới ↗
+          </a>
+          <button style="border:0;background:#f1f5f2;color:#557463;width:32px;height:32px;border-radius:8px;font-size:16px;font-weight:700;" onclick="closeDocViewer()">✕</button>
+        </div>
+      </div>
+      <iframe id="docViewerIframe" style="flex:1;width:100%;border:none;background:#fff;" src=""></iframe>
+    </div>
+  </div>
+
+  <!-- MODAL: CẨM NANG IPA VÀ DẤU TIẾNG PHÁP -->
+  <div id="handbookModal" class="modal-wrap">
+    <div class="modal-box" style="width:min(100%, 650px);">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;">
+        <h2 style="margin:0;font-size:18px;color:#183d2e;">📖 Cẩm Nang Dấu (Accents) & Ký Hiệu IPA Tiếng Pháp</h2>
+        <button class="del-btn" onclick="document.getElementById('handbookModal').classList.remove('open')">✕</button>
+      </div>
+      <div style="font-size:13px;line-height:1.6;color:#335443;display:grid;gap:12px;">
+        <div style="background:#f4faf6;border:1px solid #d4ebdd;padding:12px;border-radius:12px;">
+          <b style="color:#1b5037;">1. Năm loại dấu trong tiếng Pháp:</b>
+          <ul style="margin:6px 0 0;padding-left:20px;">
+            <li><strong>Accent aigu (é):</strong> Âm "ê" đóng [e], chỉ xuất hiện trên chữ e (ví dụ: <em>café, vérité</em>).</li>
+            <li><strong>Accent grave (è, à, ù):</strong> Trên è phát âm là "e" mở [ɛ] (<em>père</em>); trên à, ù dùng phân biệt nghĩa (<em>a</em> vs <em>à</em>, <em>ou</em> vs <em>où</em>).</li>
+            <li><strong>Accent circonflexe (ê, â, î, ô, û):</strong> Dấu mũ, thường gợi ý một chữ s bị biến mất trong lịch sử ngôn ngữ (<em>fête</em> xưa là <em>feste</em>, <em>hôpital</em> xưa là <em>hospital</em>).</li>
+            <li><strong>Tréma (ë, ï, ü):</strong> Dấu hai chấm, tách hai nguyên âm kế nhau đọc riêng biệt (<em>Noël</em> = no-el, <em>maïs</em> = ma-is).</li>
+            <li><strong>Cédille (ç):</strong> Dấu móc dưới c, bắt buộc phát âm là [s] trước các nguyên âm a, o, u (<em>français, garçon</em>).</li>
+          </ul>
+        </div>
+        <div style="background:#fffcf2;border:1px solid #fde7b9;padding:12px;border-radius:12px;">
+          <b style="color:#8a590d;">2. Bí kíp luyện tai phản xạ Shadowing:</b>
+          <p style="margin:4px 0 0;">Lắng nghe bản xứ 2 lần để cảm thụ độ mở vòm miệng và luồng hơi. Sau đó bấm micro nhắc lại ngay trong 1-2 giây tiếp theo để cơ môi bắt chước chính xác vị trí phát âm.</p>
+        </div>
+      </div>
+      <div style="text-align:right;margin-top:16px;">
+        <button class="primary" onclick="document.getElementById('handbookModal').classList.remove('open')">Đã hiểu</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODALS QUẢN LÝ ADMIN -->
+   <div id="assignMemberModal" class="modal-wrap">
+    <div class="modal-box" style="width: min(100%, 500px);">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px;">
+        <h2 style="margin:0; font-size:18px; color:#183d2e;" id="assignModalTitle">➕ Thêm học viên vào lớp</h2>
+        <button class="del-btn" onclick="closeAssignMemberModal()">✕</button>
+      </div>
+      <p style="font-size:12px; color:#6b8275; margin:0 0 14px;">
+        Chọn học viên bên dưới để thêm vào lớp học hiện tại:
+      </p>
+      
+      <div id="assignCandidateList" style="display:grid; gap:8px; max-height:360px; overflow-y:auto; padding-right:4px;">
+        <!-- Danh sách học viên có thể thêm -->
+      </div>
+
+      <div style="text-align:right; margin-top:18px;">
+        <button class="secondary" onclick="closeAssignMemberModal()">Đóng</button>
+      </div>
+    </div>
+  </div>
+  <div id="sessionManagerModal" class="modal-wrap"><div class="modal-box"><h2 style="font-size:18px;">📅 Quản Lý Buổi Học</h2><form onsubmit="handleCreateSession(event)"><div class="field"><input type="text" id="newSessionTitle" required placeholder="Tên buổi (ví dụ: Buổi 01 - Nhập môn Phát âm)"></div><button type="submit" class="primary">Lưu buổi học</button></form><div id="sessionListDisplay" style="margin-top:16px;"></div><div style="text-align:right;margin-top:10px;"><button class="secondary" onclick="document.getElementById('sessionManagerModal').classList.remove('open')">Đóng</button></div></div></div>
+  <div id="classManagerModal" class="modal-wrap"><div class="modal-box"><h2 style="font-size:18px;">🏫 Quản Lý Lớp Học</h2><form onsubmit="handleCreateClass(event)"><div class="field"><input type="text" id="newClassName" required placeholder="Tên lớp (ví dụ: DELF A1 - Tối Thứ 3 & 5)"></div><button type="submit" class="primary">Tạo lớp</button></form><div id="classListContainer" style="margin-top:16px;"></div><div style="text-align:right;margin-top:10px;"><button class="secondary" onclick="document.getElementById('classManagerModal').classList.remove('open')">Đóng</button></div></div></div>
+  <div id="approvalModal" class="modal-wrap"><div class="modal-box"><h2 style="font-size:18px;">Duyệt Học Viên</h2><div id="approvalUsersList" style="margin-top:16px;"></div><div style="text-align:right;margin-top:10px;"><button class="secondary" onclick="document.getElementById('approvalModal').classList.remove('open')">Đóng</button></div></div></div>
+
+  <div id="toast" class="toast"></div>
+
+  <!-- LOGIC HỆ THỐNG TOÀN DIỆN -->
+  <script>
+    const DEVICE_ID_KEY = "atelier_device_id";
+
+function getOrCreateDeviceId() {
+  let devId = localStorage.getItem(DEVICE_ID_KEY);
+  if (!devId) {
+    devId = "dev_" + Math.random().toString(36).substring(2, 9) + "_" + Date.now();
+    localStorage.setItem(DEVICE_ID_KEY, devId);
+  }
+  return devId;
+}
+
+function getDeviceName() {
+  const ua = navigator.userAgent;
+  if (/mobile/i.test(ua)) return "Điện thoại (" + (ua.includes("iPhone") ? "iOS" : "Android") + ")";
+  if (/iPad|tablet/i.test(ua)) return "Máy tính bảng";
+  if (/Mac/i.test(ua)) return "Máy tính Mac";
+  return "Máy tính Windows / PC";
+}
+    /* ================= STORAGE & STATE ================= */
+    const AUTH_STORAGE_KEY = "atelier_auth_users_v9";
+    const SESSION_STORAGE_KEY = "atelier_current_session_v9";
+    const MEDIA_STORAGE_KEY = "atelier_media_v9";
+    const CLASSES_STORAGE_KEY = "atelier_classes_v9";
+    const SESSIONS_STORAGE_KEY = "atelier_sessions_v9";
+    const WORD_PROGRESS_KEY = "atelier_phonetic_progress_v9";
+    const NOTES_STORAGE_KEY = "atelier_user_notes_v9";
+    let userDatabase = JSON.parse(localStorage.getItem(AUTH_STORAGE_KEY)) || [
+  { 
+    id: 1, 
+    username: "admin", 
+    fullName: "Casta", 
+    password: "Meocon@123", 
+    role: "admin", 
+    status: "approved", 
+    classId: "all", 
+    avatar: "", 
+    bio: "", 
+    createdAt: "2026-10-01" 
+  },
+  { 
+    id: 2, 
+    username: "nguyendangduong", 
+    fullName: "Nguyễn Đăng Dương", 
+    password: "12345678", 
+    role: "admin", 
+    status: "approved", 
+    classId: "all", 
+    avatar: "", 
+    bio: "C2 DELF", 
+    createdAt: "2026-10-01" 
+  },
+  { 
+    id: 3, 
+    username: "kvanskipidi", 
+    fullName: "Khánh Vân", 
+    password: "05012009", 
+    role: "admin", 
+    status: "approved", 
+    classId: "all", 
+    avatar: "", 
+    bio: "8.0 IELTS", 
+    createdAt: "2026-10-01" 
+  }
+];
+    let classDatabase = JSON.parse(localStorage.getItem(CLASSES_STORAGE_KEY)) || [{ id: "cls_a1", name: "Lớp DELF A1 - Khóa Cơ Bản" }];
+    let sessionDatabase = JSON.parse(localStorage.getItem(SESSIONS_STORAGE_KEY)) || [
+      { id: "ses_1", title: "Buổi 01: Nhập môn Ngữ âm & 26 Chữ cái" },
+      { id: "ses_2", title: "Buổi 02: Nguyên âm mũi & Quy tắc đuôi từ" }
+    ];
+    let mediaDatabase = JSON.parse(localStorage.getItem(MEDIA_STORAGE_KEY)) || [];
+    let currentUser = JSON.parse(localStorage.getItem(SESSION_STORAGE_KEY)) || null;
+    let wordMasteryMap = JSON.parse(localStorage.getItem(WORD_PROGRESS_KEY)) || {};
+    let notesDatabase = JSON.parse(localStorage.getItem(NOTES_STORAGE_KEY)) || [
+      { id: "note_1", content: "Âm [y] của tiếng Pháp phải giữ khẩu hình miệng chúm tròn nhọn, không dịch chuyển môi khi ngân dài hơi.", time: "10:15 - 01/10/2026" }
+    ];
+
+    /* ================= UTILITIES ================= */
+    function setElText(id, text) { const el = document.getElementById(id); if (el) el.textContent = text; }
+    function escapeHTML(str) { return String(str||'').replace(/[&<>"']/g, m => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[m]); }
+    let toastTimer;
+    function showToast(msg) {
+      const t = document.getElementById('toast'); t.textContent = msg; t.classList.add('show');
+      clearTimeout(toastTimer); toastTimer = setTimeout(() => t.classList.remove('show'), 2800);
+    }
+    function navigateTo(pageId) {
+      document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+      document.getElementById(pageId).classList.add('active');
+      document.querySelectorAll('.nav button').forEach(b => b.classList.toggle('active', b.getAttribute('data-page') === pageId));
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      
+      const crumbMap = {
+        phonetics: "Phòng Ngữ Âm & Studio Luyện Âm",
+        dashboard: "Tổng quan cá nhân",
+        videos: "Kho Video Bài Giảng Drive",
+        documents: "Thư Viện Tài Liệu Theo Buổi",
+        notes: "Sổ Tay Ghi Chú Cá Nhân",
+        class_admin: "Quản Lý Lớp & Học Liệu",
+        account_settings: "Cài Đặt Hồ Sơ Cá Nhân"
+      };
+      setElText('crumbLabel', crumbMap[pageId] || "Học tập");
+
+      if(pageId==='phonetics') initPhoneticsView();
+      if(pageId==='dashboard') initDashboardView();
+      if(pageId==='videos') initVideosView();
+      if(pageId==='documents') initDocumentsView();
+      if(pageId==='class_admin') renderAdminClassDashboard();
+      if(pageId==='notes') renderNotesView();
+      if(pageId==='account_settings') initAccountSettingsView();
+      if (pageId === 'my_class') initMyClassView();
+    }
+
+    /* ================= KHO TỪ VỰNG NGỮ ÂM ĐỒ SỘ (224 TỪ THEO 14 QUY TẮC) ================= */
+    const phoneticsData = {
+      // 1. Đuôi -ure / -ur [yʁ]
+      tail_ure: [
+        { word: "nature", ipa: "[na.tyʁ]", type: "nf", mean: "tự nhiên, thiên nhiên", hint: "u chu môi + r sâu trong họng" },
+        { word: "voiture", ipa: "[vwa.tyʁ]", type: "nf", mean: "xe hơi, ô tô", hint: "oi đọc là [wa] + ture [tyʁ]" },
+        { word: "lecture", ipa: "[lɛk.tyʁ]", type: "nf", mean: "sự đọc sách, bài đọc", hint: "lec- đọc là [lɛk]" },
+        { word: "culture", ipa: "[kyl.tyʁ]", type: "nf", mean: "văn hóa", hint: "cul- phát âm [kyl]" },
+        { word: "peinture", ipa: "[pɛ̃.tyʁ]", type: "nf", mean: "tranh vẽ, hội họa", hint: "ein là âm mũi [ɛ̃]" },
+        { word: "ceinture", ipa: "[sɛ̃.tyʁ]", type: "nf", mean: "thắt lưng, dây an toàn", hint: "c đứng trước e đọc là [s]" },
+        { word: "facture", ipa: "[fak.tyʁ]", type: "nf", mean: "hóa đơn thanh toán", hint: "fac- đọc dứt khoát [fak]" },
+        { word: "mesure", ipa: "[mə.zyʁ]", type: "nf", mean: "kích thước, biện pháp", hint: "s giữa 2 nguyên âm đọc là [z]" },
+        { word: "figure", ipa: "[fi.ɡyʁ]", type: "nf", mean: "khuôn mặt, hình bóng", hint: "g trước u đọc là [ɡ]" },
+        { word: "aventure", ipa: "[a.vɑ̃.tyʁ]", type: "nf", mean: "cuộc phiêu lưu", hint: "en là âm mũi [ɑ̃]" },
+        { word: "confiture", ipa: "[kɔ̃.fi.tyʁ]", type: "nf", mean: "mứt hoa quả", hint: "on là âm mũi [ɔ̃]" },
+        { word: "ouverture", ipa: "[u.vɛʁ.tyʁ]", type: "nf", mean: "sự mở cửa, khai mạc", hint: "ou đọc là [u]" },
+        { word: "blessure", ipa: "[blɛ.syʁ]", type: "nf", mean: "vết thương", hint: "ss kẹp giữa đọc là [s]" },
+        { word: "futur", ipa: "[fy.tyʁ]", type: "nm/adj", mean: "tương lai", hint: "cả 2 âm u đều chu môi [y]" },
+        { word: "mur", ipa: "[myʁ]", type: "nm", mean: "bức tường", hint: "phát âm [m] + [yʁ]" },
+        { word: "pur", ipa: "[pyʁ]", type: "adj", mean: "tinh khiết, nguyên chất", hint: "bật nhẹ âm [p] rồi chu môi" }
+      ],
+
+      // 2. Đuôi -eur / -euvre [œʁ]
+      tail_eur: [
+        { word: "fleur", ipa: "[flœʁ]", type: "nf", mean: "bông hoa", hint: "âm ơ mở, môi tròn thả lỏng" },
+        { word: "couleur", ipa: "[ku.lœʁ]", type: "nf", mean: "màu sắc", hint: "cou- là [ku], -leur là [lœʁ]" },
+        { word: "bonheur", ipa: "[bɔ.nœʁ]", type: "nm", mean: "niềm hạnh phúc", hint: "chữ h câm hoàn toàn" },
+        { word: "malheur", ipa: "[ma.lœʁ]", type: "nm", mean: "nỗi bất hạnh", hint: "h câm, nối âm [ma.lœʁ]" },
+        { word: "chanteur", ipa: "[ʃɑ̃.tœʁ]", type: "nm", mean: "nam ca sĩ", hint: "ch đọc [ʃ] + an mũi [ɑ̃]" },
+        { word: "acteur", ipa: "[ak.tœʁ]", type: "nm", mean: "nam diễn viên", hint: "ac- đọc dứt khoát [ak]" },
+        { word: "docteur", ipa: "[dɔk.tœʁ]", type: "nm", mean: "bác sĩ, tiến sĩ", hint: "doc- phát âm [dɔk]" },
+        { word: "professeur", ipa: "[pʁɔ.fɛ.sœʁ]", type: "nm", mean: "giáo sư, thầy giáo", hint: "ss đọc là âm [s] gió" },
+        { word: "directeur", ipa: "[di.ʁɛk.tœʁ]", type: "nm", mean: "giám đốc, hiệu trưởng", hint: "di-rec-teur rõ ràng 3 âm tiết" },
+        { word: "chaleur", ipa: "[ʃa.lœʁ]", type: "nf", mean: "sức nóng, hơi ấm", hint: "ch đọc là [ʃ] uốn lưỡi nhẹ" },
+        { word: "douleur", ipa: "[du.lœʁ]", type: "nf", mean: "cơn đau, nỗi đau đớn", hint: "ou đọc là [u]" },
+        { word: "peur", ipa: "[pœʁ]", type: "nf", mean: "nỗi sợ hãi", hint: "bật nhẹ âm [p] + [œʁ]" },
+        { word: "sœur", ipa: "[sœʁ]", type: "nf", mean: "chị gái, em gái", hint: "oeu viết dính (œ) đọc [œ]" },
+        { word: "cœur", ipa: "[kœʁ]", type: "nm", mean: "trái tim, tấm lòng", hint: "c đứng trước oeu đọc là [k]" },
+        { word: "heure", ipa: "[œʁ]", type: "nf", mean: "giờ giấc, thời khắc", hint: "h câm, đọc thẳng vào [œʁ]" },
+        { word: "œuvre", ipa: "[œvʁ]", type: "nf", mean: "tác phẩm, công trình", hint: "kết thúc bằng âm [vʁ]" }
+      ],
+
+      // 3. Đuôi -er / -ir / -ire [e] / [iʁ]
+      tail_er_ir: [
+        { word: "parler", ipa: "[paʁ.le]", type: "v", mean: "nói chuyện", hint: "đuôi -er đọc là [e] (ê tiếng Việt)" },
+        { word: "manger", ipa: "[mɑ̃.ʒe]", type: "v", mean: "ăn uống", hint: "g trước e đọc là [ʒ]" },
+        { word: "aimer", ipa: "[ɛ.me]", type: "v", mean: "yêu, thích", hint: "ai đọc là [ɛ] mở" },
+        { word: "habiter", ipa: "[a.bi.te]", type: "v", mean: "sinh sống, cư trú", hint: "h câm, đọc từ âm a" },
+        { word: "écouter", ipa: "[e.ku.te]", type: "v", mean: "lắng nghe", hint: "é có dấu sắc đọc [e]" },
+        { word: "regarder", ipa: "[ʁə.ɡaʁ.de]", type: "v", mean: "ngắm nhìn, xem", hint: "e không dấu đọc [ə] lướt nhẹ" },
+        { word: "travailler", ipa: "[tʁa.va.je]", type: "v", mean: "làm việc", hint: "-ailler đọc là [a.je]" },
+        { word: "voyager", ipa: "[vwa.ja.ʒe]", type: "v", mean: "đi du lịch", hint: "y đóng vai trò 2 chữ i" },
+        { word: "finir", ipa: "[fi.niʁ]", type: "v", mean: "kết thúc, hoàn thành", hint: "đuôi -ir đọc rõ [iʁ]" },
+        { word: "choisir", ipa: "[ʃwa.ziʁ]", type: "v", mean: "chọn lựa", hint: "s giữa 2 nguyên âm đọc là [z]" },
+        { word: "partir", ipa: "[paʁ.tiʁ]", type: "v", mean: "khởi hành, rời đi", hint: "r ở giữa rung nhẹ cuống họng" },
+        { word: "dormir", ipa: "[dɔʁ.miʁ]", type: "v", mean: "ngủ", hint: "o đọc là [ɔ] mở" },
+        { word: "venir", ipa: "[və.niʁ]", type: "v", mean: "đến, đi tới", hint: "e lướt nhẹ [ə]" },
+        { word: "lire", ipa: "[liʁ]", type: "v", mean: "đọc sách", hint: "đuôi -ire đọc kéo dài [iʁ]" },
+        { word: "écrire", ipa: "[e.kʁiʁ]", type: "v", mean: "viết", hint: "kết hợp âm [kʁ] mượt mà" },
+        { word: "dire", ipa: "[diʁ]", type: "v", mean: "nói rằng, bảo là", hint: "phát âm [diʁ] dứt khoát" }
+      ],
+
+      // 4. Đuôi -air / -aire / -elle [ɛʁ] / [ɛl]
+      tail_air_elle: [
+        { word: "air", ipa: "[ɛʁ]", type: "nm", mean: "không khí, điệu bộ", hint: "ai đọc là e mở [ɛ] + r họng" },
+        { word: "claire", ipa: "[klɛʁ]", type: "adj", mean: "trong sáng, rõ ràng", hint: "kết thúc bằng âm [ɛʁ]" },
+        { word: "faire", ipa: "[fɛʁ]", type: "v", mean: "làm, thực hiện", hint: "động từ nhóm 3 căn bản" },
+        { word: "affaire", ipa: "[a.fɛʁ]", type: "nf", mean: "công việc, thương vụ", hint: "ff đọc như một âm [f]" },
+        { word: "mère", ipa: "[mɛʁ]", type: "nf", mean: "người mẹ", hint: "è dấu huyền đọc [ɛ] mở" },
+        { word: "père", ipa: "[pɛʁ]", type: "nm", mean: "người cha", hint: "bật nhẹ âm [p] + [ɛʁ]" },
+        { word: "frère", ipa: "[fʁɛʁ]", type: "nm", mean: "anh trai, em trai", hint: "kết hợp f + r họng" },
+        { word: "paire", ipa: "[pɛʁ]", type: "nf", mean: "một đôi, một cặp", hint: "une paire de chaussures" },
+        { word: "salaire", ipa: "[sa.lɛʁ]", type: "nm", mean: "tiền lương", hint: "đuôi -aire đọc [ɛʁ]" },
+        { word: "elle", ipa: "[ɛl]", type: "pron", mean: "cô ấy, bà ấy", hint: "đọc là [ɛl] đưa đầu lưỡi chạm lợi trên" },
+        { word: "belle", ipa: "[bɛl]", type: "adj", mean: "xinh đẹp (giống cái)", hint: "b + [ɛl]" },
+        { word: "mademoiselle", ipa: "[mad.mwa.zɛl]", type: "nf", mean: "quý cô, cô gái trẻ", hint: "oi đọc là [wa] + zelle [zɛl]" },
+        { word: "nouvelle", ipa: "[nu.vɛl]", type: "nf/adj", mean: "tin tức / mới mẻ", hint: "ou là [u] + velle [vɛl]" },
+        { word: "poubelle", ipa: "[pu.bɛl]", type: "nf", mean: "thùng rác", hint: "ou là [u] + belle [bɛl]" },
+        { word: "vaisselle", ipa: "[vɛ.sɛl]", type: "nf", mean: "chén đĩa, đồ ăn", hint: "ai đọc [ɛ], ss đọc [s]" },
+        { word: "dentelle", ipa: "[dɑ̃.tɛl]", type: "nf", mean: "vải ren, đăng ten", hint: "en là âm mũi [ɑ̃]" }
+      ],
+
+      // 5. Đuôi -ique / -aque [ik] / [ak]
+      tail_ique_aque: [
+        { word: "musique", ipa: "[my.zik]", type: "nf", mean: "âm nhạc", hint: "u chu môi [y], que đọc là [k]" },
+        { word: "magique", ipa: "[ma.ʒik]", type: "adj", mean: "kỳ diệu, ma thuật", hint: "g trước i đọc [ʒ]" },
+        { word: "boutique", ipa: "[bu.tik]", type: "nf", mean: "cửa hàng, tiệm nhỏ", hint: "ou đọc [u] + tique [tik]" },
+        { word: "république", ipa: "[ʁe.py.blik]", type: "nf", mean: "nền cộng hòa", hint: "é đọc [e], u đọc [y]" },
+        { word: "magnifique", ipa: "[ma.ɲi.fik]", type: "adj", mean: "tráng lệ, tuyệt vời", hint: "gn đọc là [ɲ] như 'nh' tiếng Việt" },
+        { word: "dynamique", ipa: "[di.na.mik]", type: "adj", mean: "năng động, hoạt bát", hint: "y phát âm như chữ i [i]" },
+        { word: "classique", ipa: "[kla.sik]", type: "adj", mean: "cổ điển", hint: "ss đọc âm [s] gió" },
+        { word: "pratique", ipa: "[pʁa.tik]", type: "adj/nf", mean: "tiện lợi, thực hành", hint: "kết thúc bằng âm ngắt [k]" },
+        { word: "panique", ipa: "[pa.nik]", type: "nf", mean: "sự hoảng loạn", hint: "đọc dứt khoát 2 âm [pa.nik]" },
+        { word: "pique-nique", ipa: "[pik.nik]", type: "nm", mean: "chuyến dã ngoại", hint: "hai lần kết thúc bằng đuôi -ique" },
+        { word: "public", ipa: "[py.blik]", type: "nm/adj", mean: "công cộng, khán giả", hint: "chữ c cuối phát âm là [k]" },
+        { word: "attaque", ipa: "[a.tak]", type: "nf", mean: "cuộc tấn công", hint: "-aque đọc dứt khoát [ak]" },
+        { word: "plaque", ipa: "[plak]", type: "nf", mean: "tấm biển, biển số xe", hint: "pl + [ak]" },
+        { word: "lac", ipa: "[lak]", type: "nm", mean: "hồ nước", hint: "chữ c cuối phát âm là [k]" },
+        { word: "sac", ipa: "[sak]", type: "nm", mean: "chiếc túi xách", hint: "s đầu từ đọc rõ [s] + [ak]" },
+        { word: "bac", ipa: "[bak]", type: "nm", mean: "phà / kỳ thi tú tài", hint: "b + [ak]" }
+      ],
+
+      // 6. Cụm âm giữa từ: er / ir / ur [ɛʁ] / [iʁ] / [yʁ]
+      mid_er_ir_ur: [
+        { word: "merci", ipa: "[mɛʁ.si]", type: "interj", mean: "cảm ơn", hint: "er giữa từ đọc là [ɛʁ]" },
+        { word: "personne", ipa: "[pɛʁ.sɔn]", type: "nf/pron", mean: "con người / không ai cả", hint: "er đứng trước phụ âm đọc [ɛʁ]" },
+        { word: "perdre", ipa: "[pɛʁdʁ]", type: "v", mean: "đánh mất, thất bại", hint: "er đọc [ɛʁ] rồi đến [dʁ]" },
+        { word: "service", ipa: "[sɛʁ.vis]", type: "nm", mean: "dịch vụ", hint: "c trước e đọc là [s]" },
+        { word: "ferme", ipa: "[fɛʁm]", type: "nf/adj", mean: "nông trại / kiên cố", hint: "er đọc là [ɛʁ]" },
+        { word: "cercle", ipa: "[sɛʁkl]", type: "nm", mean: "vòng tròn, nhóm hội", hint: "c đầu đọc [s], c sau đọc [k]" },
+        { word: "terminer", ipa: "[tɛʁ.mi.ne]", type: "v", mean: "kết thúc, làm xong", hint: "ter- đọc là [tɛʁ]" },
+        { word: "cerveau", ipa: "[sɛʁ.vo]", type: "nm", mean: "não bộ, trí óc", hint: "eau đọc là [o]" },
+        { word: "cirque", ipa: "[siʁk]", type: "nm", mean: "rạp xiếc", hint: "ir giữa từ đọc là [iʁ]" },
+        { word: "firme", ipa: "[fiʁm]", type: "nf", mean: "công ty, hãng", hint: "ir phát âm rõ [iʁ]" },
+        { word: "miroir", ipa: "[mi.ʁwaʁ]", type: "nm", mean: "tấm gương soi", hint: "oir đọc là [waʁ]" },
+        { word: "virtuel", ipa: "[viʁ.tɥɛl]", type: "adj", mean: "ảo, kỹ thuật số", hint: "ir đọc [iʁ], uel đọc [ɥɛl]" },
+        { word: "urgence", ipa: "[yʁ.ʒɑ̃s]", type: "nf", mean: "sự khẩn cấp", hint: "ur đọc là [yʁ] chu môi" },
+        { word: "surprenant", ipa: "[syʁ.pʁə.nɑ̃]", type: "adj", mean: "bất ngờ, ngạc nhiên", hint: "sur- đọc là [syʁ]" },
+        { word: "certain", ipa: "[sɛʁ.tɛ̃]", type: "adj", mean: "chắc chắn, nào đó", hint: "ain cuối là âm mũi [ɛ̃]" },
+        { word: "avertir", ipa: "[a.vɛʁ.tiʁ]", type: "v", mean: "cảnh báo, báo trước", hint: "er ở giữa [ɛʁ], ir cuối [iʁ]" }
+      ],
+
+      // 7. Cụm âm giữa từ: ar / or / oi [aʁ] / [ɔʁ] / [wa]
+      mid_ar_or_oi: [
+        { word: "jardin", ipa: "[ʒaʁ.dɛ̃]", type: "nm", mean: "khu vườn", hint: "ar đọc [aʁ], in là mũi [ɛ̃]" },
+        { word: "mardi", ipa: "[maʁ.di]", type: "nm", mean: "thứ ba", hint: "ar đọc rõ [aʁ]" },
+        { word: "carte", ipa: "[kaʁt]", type: "nf", mean: "bản đồ, tấm thẻ", hint: "c trước a đọc [k]" },
+        { word: "partir", ipa: "[paʁ.tiʁ]", type: "v", mean: "ra đi, rời bến", hint: "par- đọc là [paʁ]" },
+        { word: "porte", ipa: "[pɔʁt]", type: "nf", mean: "cánh cửa", hint: "or đọc là [ɔʁ] o mở" },
+        { word: "dormir", ipa: "[dɔʁ.miʁ]", type: "v", mean: "ngủ", hint: "dor- đọc là [dɔʁ]" },
+        { word: "fort", ipa: "[fɔʁ]", type: "adj", mean: "mạnh mẽ, giỏi giang", hint: "chữ t cuối là phụ âm câm" },
+        { word: "sortir", ipa: "[sɔʁ.tiʁ]", type: "v", mean: "đi ra ngoài", hint: "sor- phát âm [sɔʁ]" },
+        { word: "corps", ipa: "[kɔʁ]", type: "nm", mean: "cơ thể, thân thể", hint: "ps ở cuối là chữ câm" },
+        { word: "soir", ipa: "[swaʁ]", type: "nm", mean: "buổi tối", hint: "oi đọc là [wa] + r họng" },
+        { word: "voir", ipa: "[vwaʁ]", type: "v", mean: "nhìn thấy", hint: "v + [waʁ]" },
+        { word: "noir", ipa: "[nwaʁ]", type: "adj", mean: "màu đen", hint: "n + [waʁ]" },
+        { word: "boire", ipa: "[bwaʁ]", type: "v", mean: "uống nước", hint: "b + [waʁ]" },
+        { word: "froid", ipa: "[fʁwa]", type: "adj", mean: "lạnh buốt", hint: "chữ d cuối là âm câm" },
+        { word: "droit", ipa: "[dʁwa]", type: "nm/adj", mean: "luật pháp / thẳng / bên phải", hint: "chữ t cuối là âm câm" },
+        { word: "étoile", ipa: "[e.twal]", type: "nf", mean: "ngôi sao", hint: "oi đọc là [wa] + le [l]" }
+      ],
+
+      // 8. Cụm đuôi -tion / -sion [sjɔ̃] / [zjɔ̃]
+      mid_tion: [
+        { word: "nation", ipa: "[na.sjɔ̃]", type: "nf", mean: "quốc gia, dân tộc", hint: "-tion đọc là [sjɔ̃] (xi-ông mũi)" },
+        { word: "attention", ipa: "[a.tɑ̃.sjɔ̃]", type: "nf", mean: "sự chú ý, cẩn thận", hint: "en là [ɑ̃], tion là [sjɔ̃]" },
+        { word: "invitation", ipa: "[ɛ̃.vi.ta.sjɔ̃]", type: "nf", mean: "lời mời, thiệp mời", hint: "in là âm mũi [ɛ̃]" },
+        { word: "conversation", ipa: "[kɔ̃.vɛʁ.sa.sjɔ̃]", type: "nf", mean: "cuộc trò chuyện", hint: "on mũi [ɔ̃] + tion [sjɔ̃]" },
+        { word: "information", ipa: "[ɛ̃.fɔʁ.ma.sjɔ̃]", type: "nf", mean: "thông tin", hint: "in mũi [ɛ̃] + tion [sjɔ̃]" },
+        { word: "situation", ipa: "[si.tɥa.sjɔ̃]", type: "nf", mean: "hoàn cảnh, tình huống", hint: "u đọc lướt bán nguyên âm [ɥ]" },
+        { word: "émotion", ipa: "[e.mo.sjɔ̃]", type: "nf", mean: "cảm xúc", hint: "é đọc [e] + tion [sjɔ̃]" },
+        { word: "station", ipa: "[sta.sjɔ̃]", type: "nf", mean: "nhà ga, trạm dừng", hint: "st đọc liền không chèn nguyên âm" },
+        { word: "action", ipa: "[ak.sjɔ̃]", type: "nf", mean: "hành động, bộ phim hành động", hint: "ac- đọc dứt khoát [ak]" },
+        { word: "natation", ipa: "[na.ta.sjɔ̃]", type: "nf", mean: "môn bơi lội", hint: "na-ta-tion 3 âm tiết đều đặn" },
+        { word: "tradition", ipa: "[tʁa.di.sjɔ̃]", type: "nf", mean: "truyền thống", hint: "tra- đọc [tʁa]" },
+        { word: "décision", ipa: "[de.si.zjɔ̃]", type: "nf", mean: "sự quyết định", hint: "-sion kẹp giữa đọc là [zjɔ̃]" },
+        { word: "révision", ipa: "[ʁe.vi.zjɔ̃]", type: "nf", mean: "sự ôn tập bài học", hint: "-sion đọc là [zjɔ̃]" },
+        { word: "profession", ipa: "[pʁɔ.fɛ.sjɔ̃]", type: "nf", mean: "nghề nghiệp", hint: "-ssion đọc là âm [sjɔ̃] gió" },
+        { word: "passion", ipa: "[pa.sjɔ̃]", type: "nf", mean: "niềm đam mê", hint: "-ssion đọc là âm [sjɔ̃] gió" },
+        { word: "question", ipa: "[kɛs.tjɔ̃]", type: "nf", mean: "câu hỏi", hint: "⚠️ Ngoại lệ đặc biệt: đọc là [tjɔ̃]" }
+      ],
+
+      // 9. Âm mũi in, im, ain, ein [ɛ̃] (bẹt môi)
+      nasal_in_ain: [
+        { word: "matin", ipa: "[ma.tɛ̃]", type: "nm", mean: "buổi sáng", hint: "môi bẹt ngang như mỉm cười" },
+        { word: "vin", ipa: "[vɛ̃]", type: "nm", mean: "rượu vang", hint: "âm mũi [ɛ̃] vang ra đường mũi" },
+        { word: "jardin", ipa: "[ʒaʁ.dɛ̃]", type: "nm", mean: "khu vườn", hint: "din- phát âm là [dɛ̃]" },
+        { word: "pain", ipa: "[pɛ̃]", type: "nm", mean: "bánh mì", hint: "ain đọc y hệt in là [ɛ̃]" },
+        { word: "main", ipa: "[mɛ̃]", type: "nf", mean: "bàn tay", hint: "ain đọc là âm mũi [ɛ̃]" },
+        { word: "train", ipa: "[tʁɛ̃]", type: "nm", mean: "chuyến tàu hỏa", hint: "tr đọc [tʁ] + ain [ɛ̃]" },
+        { word: "bain", ipa: "[bɛ̃]", type: "nm", mean: "bồn tắm, sự tắm rửa", hint: "b + [ɛ̃]" },
+        { word: "plein", ipa: "[plɛ̃]", type: "adj", mean: "đầy ắp, no đủ", hint: "ein phát âm là [ɛ̃]" },
+        { word: "faim", ipa: "[fɛ̃]", type: "nf", mean: "cơn đói bụng", hint: "aim đọc là [ɛ̃], m câm" },
+        { word: "timbre", ipa: "[tɛ̃bʁ]", type: "nm", mean: "con tem thư", hint: "im trước b/p đọc là [ɛ̃]" },
+        { word: "simple", ipa: "[sɛ̃pl]", type: "adj", mean: "đơn giản", hint: "im trước p đọc là [ɛ̃]" },
+        { word: "impossible", ipa: "[ɛ̃.pɔ.sibl]", type: "adj", mean: "không thể nào", hint: "im đầu đọc là âm mũi [ɛ̃]" },
+        { word: "dessin", ipa: "[de.sɛ̃]", type: "nm", mean: "bức tranh vẽ", hint: "ss đọc [s] + in [ɛ̃]" },
+        { word: "chemin", ipa: "[ʃə.mɛ̃]", type: "nm", mean: "con đường đi", hint: "ch đọc [ʃ] + min [mɛ̃]" },
+        { word: "copain", ipa: "[kɔ.pɛ̃]", type: "nm", mean: "bạn thân, bạn trai", hint: "pain đọc là [pɛ̃]" },
+        { word: "fin", ipa: "[fɛ̃]", type: "nf", mean: "hồi kết, kết thúc", hint: "f + [ɛ̃]" }
+      ],
+
+      // 10. Âm mũi an, am, en, em [ɑ̃] (họng sâu)
+      nasal_an_en: [
+        { word: "enfant", ipa: "[ɑ̃.fɑ̃]", type: "nm/nf", mean: "đứa trẻ con", hint: "cả en và ant đều là âm mũi [ɑ̃]" },
+        { word: "vent", ipa: "[vɑ̃]", type: "nm", mean: "cơn gió", hint: "en đọc là [ɑ̃], t câm" },
+        { word: "temps", ipa: "[tɑ̃]", type: "nm", mean: "thời gian, thời tiết", hint: "em đọc là [ɑ̃], ps câm" },
+        { word: "maman", ipa: "[ma.mɑ̃]", type: "nf", mean: "mẹ yêu", hint: "an đọc là âm mũi [ɑ̃]" },
+        { word: "France", ipa: "[fʁɑ̃s]", type: "nf", mean: "nước Pháp", hint: "an là [ɑ̃], ce đọc là [s]" },
+        { word: "chanson", ipa: "[ʃɑ̃.sɔ̃]", type: "nf", mean: "bài hát", hint: "an mũi [ɑ̃] + on mũi [ɔ̃]" },
+        { word: "grand", ipa: "[ɡʁɑ̃]", type: "adj", mean: "to lớn, cao", hint: "an là [ɑ̃], d câm" },
+        { word: "blanc", ipa: "[blɑ̃]", type: "adj", mean: "màu trắng", hint: "an là [ɑ̃], c câm" },
+        { word: "chanter", ipa: "[ʃɑ̃.te]", type: "v", mean: "ca hát", hint: "an đọc là [ɑ̃]" },
+        { word: "danser", ipa: "[dɑ̃.se]", type: "v", mean: "khiêu vũ, nhảy múa", hint: "an đọc là [ɑ̃]" },
+        { word: "attendre", ipa: "[a.tɑ̃dʁ]", type: "v", mean: "chờ đợi", hint: "en đọc là âm mũi [ɑ̃]" },
+        { word: "entrer", ipa: "[ɑ̃.tʁe]", type: "v", mean: "bước vào", hint: "en đầu từ đọc là [ɑ̃]" },
+        { word: "prendre", ipa: "[pʁɑ̃dʁ]", type: "v", mean: "cầm, lấy, ăn uống", hint: "en đọc là âm mũi [ɑ̃]" },
+        { word: "souvent", ipa: "[su.vɑ̃]", type: "adv", mean: "thường xuyên", hint: "ou là [u], ent là [ɑ̃]" },
+        { word: "parent", ipa: "[pa.ʁɑ̃]", type: "nm", mean: "cha mẹ, phụ huynh", hint: "ent cuối danh từ đọc [ɑ̃]" },
+        { word: "client", ipa: "[kli.jɑ̃]", type: "nm", mean: "khách hàng", hint: "ent cuối đọc là [ɑ̃]" }
+      ],
+
+      // 11. Âm mũi on, om [ɔ̃] (chu tròn môi)
+      nasal_on: [
+        { word: "bonbon", ipa: "[bɔ̃.bɔ̃]", type: "nm", mean: "viên kẹo ngọt", hint: "môi chu tròn xoe, hơi đẩy lên mũi" },
+        { word: "garçon", ipa: "[ɡaʁ.sɔ̃]", type: "nm", mean: "cậu bé, bồi bàn", hint: "ç đọc [s] + on mũi [ɔ̃]" },
+        { word: "maison", ipa: "[mɛ.zɔ̃]", type: "nf", mean: "ngôi nhà", hint: "ai là [ɛ], son là [zɔ̃]" },
+        { word: "saison", ipa: "[sɛ.zɔ̃]", type: "nf", mean: "mùa màng trong năm", hint: "ai là [ɛ], son là [zɔ̃]" },
+        { word: "ballon", ipa: "[ba.lɔ̃]", type: "nm", mean: "quả bóng bay, quả bóng", hint: "ll đọc là một âm l" },
+        { word: "poisson", ipa: "[pwa.sɔ̃]", type: "nm", mean: "con cá", hint: "ss đọc [s] gió + on [ɔ̃]" },
+        { word: "boisson", ipa: "[bwa.sɔ̃]", type: "nf", mean: "đồ uống, thức uống", hint: "oi là [wa] + sson [sɔ̃]" },
+        { word: "pont", ipa: "[pɔ̃]", type: "nm", mean: "cây cầu", hint: "t câm, phát âm [pɔ̃]" },
+        { word: "rond", ipa: "[ʁɔ̃]", type: "adj", mean: "hình tròn", hint: "d câm, phát âm [ʁɔ̃]" },
+        { word: "long", ipa: "[lɔ̃]", type: "adj", mean: "dài", hint: "g câm, phát âm [lɔ̃]" },
+        { word: "monde", ipa: "[mɔ̃d]", type: "nm", mean: "thế giới, mọi người", hint: "on đọc là âm mũi [ɔ̃]" },
+        { word: "ombre", ipa: "[ɔ̃bʁ]", type: "nf", mean: "bóng râm, bóng tối", hint: "om trước b đọc là [ɔ̃]" },
+        { word: "tomber", ipa: "[tɔ̃.be]", type: "v", mean: "rơi ngã", hint: "om trước b đọc là [ɔ̃]" },
+        { word: "réponse", ipa: "[ʁe.pɔ̃s]", type: "nf", mean: "câu trả lời", hint: "on đọc là âm mũi [ɔ̃]" },
+        { word: "nom", ipa: "[nɔ̃]", type: "nm", mean: "tên, họ tên", hint: "om cuối từ đọc là [ɔ̃]" },
+        { word: "bon", ipa: "[bɔ̃]", type: "adj", mean: "ngon, tốt lành", hint: "b + âm mũi [ɔ̃]" }
+      ],
+
+      // 12. Phụ âm [s] (ss, ç) vs [z] (s kẹp)
+      consonant_s_z: [
+        { word: "sac", ipa: "[sak]", type: "nm", mean: "cái túi xách", hint: "chữ s đầu từ luôn đọc là [s]" },
+        { word: "tasse", ipa: "[tɑs]", type: "nf", mean: "cái tách, chén uống trà", hint: "hai chữ ss luôn đọc là [s]" },
+        { word: "leçon", ipa: "[lə.sɔ̃]", type: "nf", mean: "bài học", hint: "chữ ç có móc đọc là [s]" },
+        { word: "français", ipa: "[fʁɑ̃.sɛ]", type: "nm/adj", mean: "tiếng Pháp / người Pháp", hint: "ç đọc là [s], ais đọc là [ɛ]" },
+        { word: "poisson", ipa: "[pwa.sɔ̃]", type: "nm", mean: "con cá", hint: "ss đọc là [s] (khác poison [z])" },
+        { word: "passer", ipa: "[pa.se]", type: "v", mean: "đi ngang qua, trải qua", hint: "ss đọc là âm [s] gió" },
+        { word: "maison", ipa: "[mɛ.zɔ̃]", type: "nf", mean: "ngôi nhà", hint: "s đứng giữa 2 nguyên âm rung [z]" },
+        { word: "poison", ipa: "[pwa.zɔ̃]", type: "nm", mean: "thuốc độc, chất độc", hint: "s kẹp giữa đọc là [z] rung" },
+        { word: "rose", ipa: "[ʁoz]", type: "nf/adj", mean: "bông hoa hồng / màu hồng", hint: "s kẹp giữa đọc là [z]" },
+        { word: "musique", ipa: "[my.zik]", type: "nf", mean: "âm nhạc", hint: "s kẹp giữa đọc là [z]" },
+        { word: "visiter", ipa: "[vi.zi.te]", type: "v", mean: "tham quan, ghé thăm", hint: "s kẹp giữa đọc là [z]" },
+        { word: "oiseau", ipa: "[wa.zo]", type: "nm", mean: "chú chim non", hint: "s kẹp giữa đọc là [z]" },
+        { word: "zéro", ipa: "[ze.ʁo]", type: "nm", mean: "số không", hint: "chữ z luôn đọc là [z]" },
+        { word: "choisir", ipa: "[ʃwa.ziʁ]", type: "v", mean: "lựa chọn", hint: "s kẹp giữa đọc là [z]" },
+        { word: "cuisine", ipa: "[kɥi.zin]", type: "nf", mean: "nhà bếp, ẩm thực", hint: "s kẹp giữa đọc là [z]" },
+        { word: "valise", ipa: "[va.liz]", type: "nf", mean: "chiếc va li", hint: "s kẹp giữa đọc là [z]" }
+      ],
+
+      // 13. Phụ âm ch [ʃ], j/ge [ʒ], gn [ɲ]
+      consonant_ch_j_gn: [
+        { word: "chocolat", ipa: "[ʃɔ.kɔ.la]", type: "nm", mean: "sô-cô-la", hint: "ch đọc là [ʃ] (như x tiếng Việt)" },
+        { word: "chat", ipa: "[ʃa]", type: "nm", mean: "con mèo", hint: "ch đọc là [ʃ], t câm" },
+        { word: "chaud", ipa: "[ʃo]", type: "adj", mean: "nóng ấm", hint: "au đọc là [o], d câm" },
+        { word: "chercher", ipa: "[ʃɛʁ.ʃe]", type: "v", mean: "tìm kiếm", hint: "cả 2 cụm ch đều đọc là [ʃ]" },
+        { word: "chambre", ipa: "[ʃɑ̃bʁ]", type: "nf", mean: "căn phòng", hint: "ch đọc [ʃ] + am mũi [ɑ̃]" },
+        { word: "jour", ipa: "[ʒuʁ]", type: "nm", mean: "ngày, ban ngày", hint: "chữ j luôn đọc là [ʒ] rung môi" },
+        { word: "journal", ipa: "[ʒuʁ.nal]", type: "nm", mean: "tờ báo, nhật ký", hint: "j đọc là [ʒ] + our [uʁ]" },
+        { word: "jeune", ipa: "[ʒœn]", type: "adj", mean: "trẻ tuổi", hint: "j đọc [ʒ] + eu [œ]" },
+        { word: "manger", ipa: "[mɑ̃.ʒe]", type: "v", mean: "ăn uống", hint: "g trước e đọc là [ʒ]" },
+        { word: "voyager", ipa: "[vwa.ja.ʒe]", type: "v", mean: "du lịch", hint: "g trước e đọc là [ʒ]" },
+        { word: "girafe", ipa: "[ʒi.ʁaf]", type: "nf", mean: "hươu cao cổ", hint: "g trước i đọc là [ʒ]" },
+        { word: "gagner", ipa: "[ɡa.ɲe]", type: "v", mean: "chiến thắng, kiếm tiền", hint: "gn đọc là [ɲ] (như 'nh')" },
+        { word: "montagne", ipa: "[mɔ̃.taɲ]", type: "nf", mean: "ngọn núi", hint: "gn đọc là âm [ɲ]" },
+        { word: "campagne", ipa: "[kɑ̃.paɲ]", type: "nf", mean: "vùng nông thôn", hint: "gn đọc là âm [ɲ]" },
+        { word: "signer", ipa: "[si.ɲe]", type: "v", mean: "ký tên", hint: "gn đọc là âm [ɲ]" },
+        { word: "ligne", ipa: "[liɲ]", type: "nf", mean: "đường kẻ, tuyến đường", hint: "gn đọc là âm [ɲ]" }
+      ],
+
+      // 14. Bán nguyên âm il/ill [j], ui [ɥi], oi [wa]
+      semi_vowels: [
+        { word: "soleil", ipa: "[sɔ.lɛj]", type: "nm", mean: "mặt trời", hint: "-eil đọc là âm lướt [ɛj]" },
+        { word: "travail", ipa: "[tʁa.vaj]", type: "nm", mean: "công việc", hint: "-ail đọc là âm lướt [aj]" },
+        { word: "fille", ipa: "[fij]", type: "nf", mean: "cô gái, con gái", hint: "-ille đọc là [ij]" },
+        { word: "famille", ipa: "[fa.mij]", type: "nf", mean: "gia đình", hint: "-ille đọc là [ij]" },
+        { word: "billet", ipa: "[bi.jɛ]", type: "nm", mean: "vé xe, tờ tiền", hint: "ill đọc là [j] + et [ɛ]" },
+        { word: "bouteille", ipa: "[bu.tɛj]", type: "nf", mean: "cái chai nước", hint: "-eille đọc là [ɛj]" },
+        { word: "feuille", ipa: "[fœj]", type: "nf", mean: "chiếc lá, tờ giấy", hint: "-euille đọc là [œj]" },
+        { word: "oiseau", ipa: "[wa.zo]", type: "nm", mean: "con chim", hint: "oi đọc là [wa]" },
+        { word: "toi", ipa: "[twa]", type: "pron", mean: "bạn, cậu", hint: "t + oi [wa]" },
+        { word: "roi", ipa: "[ʁwa]", type: "nm", mean: "nhà vua", hint: "r + oi [wa]" },
+        { word: "huit", ipa: "[ɥit]", type: "num", mean: "số tám", hint: "ui đọc là bán nguyên âm lướt [ɥi]" },
+        { word: "nuit", ipa: "[nɥi]", type: "nf", mean: "màn đêm, buổi tối", hint: "n + ui [ɥi]" },
+        { word: "cuisine", ipa: "[kɥi.zin]", type: "nf", mean: "nhà bếp", hint: "cui- đọc là [kɥi]" },
+        { word: "pluie", ipa: "[plɥi]", type: "nf", mean: "cơn mưa", hint: "pl + ui [ɥi]" },
+        { word: "oui", ipa: "[wi]", type: "adv", mean: "vâng, đồng ý", hint: "ou đứng trước i đọc lướt [wi]" },
+        { word: "voyage", ipa: "[vwa.jaʒ]", type: "nm", mean: "chuyến hành trình", hint: "oi đọc [wa], y đọc [j]" }
+      ]
+    };
+
+    const phoneticsRulesDesc = {
+      tail_ure: "👉 <strong>Đuôi -ure / -ur:</strong> Luôn đọc là <code>[yʁ]</code>. Môi chu tròn nhọn về phía trước như thổi sáo để tạo âm [y], sau đó tạo luồng ma sát nhẹ ở cuống họng để tạo âm [ʁ]. Tuyệt đối không đọc thành 'ua' hay 'uya' tiếng Việt.",
+      tail_eur: "👉 <strong>Đuôi -eur / -euvre:</strong> Đọc là <code>[œʁ]</code>. Khẩu hình miệng mở rộng tự nhiên (âm ơ mở), hạ quai hàm hơn so với âm [y]. Từ này gặp rất nhiều trong các danh từ chỉ nghề nghiệp giống đực (*professeur, docteur*).",
+      tail_er_ir: "👉 <strong>Đuôi động từ -er / -ir / -ire:</strong> Động từ nhóm 1 đuôi <code>-er</code> luôn phát âm là <code>[e]</code> (giống 'ê'). Động từ nhóm 2 đuôi <code>-ir</code> phát âm rõ cả âm i và r <code>[iʁ]</code>. Động từ đuôi <code>-ire</code> ngân dài âm <code>[iʁ]</code>.",
+      tail_air_elle: "👉 <strong>Đuôi -air / -aire / -elle:</strong> Đuôi <code>-air / -aire</code> đọc là <code>[ɛʁ]</code> (âm e mở). Đuôi đôi phụ âm <code>-elle</code> đọc là <code>[ɛl]</code> với đầu lưỡi uốn nhẹ chạm vào chân răng hàm trên.",
+      tail_ique_aque: "👉 <strong>Đuôi -ique / -aque:</strong> Cụm <code>-ique</code> luôn đọc dứt khoát là <code>[ik]</code>; cụm <code>-aque</code> đọc là <code>[ak]</code>. Chữ 'e' ở cuối là âm câm không tạo thêm âm tiết.",
+      mid_er_ir_ur: "👉 <strong>er / ir / ur giữa từ:</strong> Khi đứng trước một phụ âm khác trong lòng từ, <code>er</code> đọc là <code>[ɛʁ]</code> (như trong <em>merci, service</em>); <code>ir</code> đọc là <code>[iʁ]</code> và <code>ur</code> đọc là <code>[yʁ]</code>.",
+      mid_ar_or_oi: "👉 <strong>ar / or / oi giữa từ:</strong> <code>ar</code> đọc là <code>[aʁ]</code> (a mở rộng); <code>or</code> đọc là <code>[ɔʁ]</code> (o mở trầm); <code>oi</code> luôn là bán nguyên âm <code>[wa]</code> (oa tiếng Việt).",
+      mid_tion: "👉 <strong>Cụm đuôi -tion / -sion:</strong> Thường đọc là <code>[sjɔ̃]</code> với nguyên âm mũi [ɔ̃] chu tròn môi. Lưu ý: <code>-sion</code> đứng giữa 2 nguyên âm đọc là <code>[zjɔ̃]</code> (*décision*), và ngoại lệ <em>question</em> đọc là <code>[kɛs.tjɔ̃]</code>.",
+      nasal_in_ain: "👉 <strong>Âm mũi [ɛ̃] (in, im, ain, ein):</strong> Khẩu hình môi bẹt ngang sang 2 bên như đang mỉm cười. Luồng hơi chia đều 50% qua mũi và 50% qua miệng. Tuyệt đối không khép môi khi kết thúc âm.",
+      nasal_an_en: "👉 <strong>Âm mũi [ɑ̃] (an, am, en, em):</strong> Mở rộng hàm dưới theo chiều dọc hình oval, vòm họng mở sâu, âm thanh trầm ấm phát ra từ khoang mũi.",
+      nasal_on: "👉 <strong>Âm mũi [ɔ̃] (on, om):</strong> Môi chu tròn xoe về phía trước, cuống lưỡi nâng nhẹ, đẩy hơi mạnh lên hốc mũi.",
+      consonant_s_z: "👉 <strong>Phụ âm [s] vs [z]:</strong> Chữ <code>s</code> đứng giữa 2 nguyên âm bắt buộc phải phát âm rung dây thanh quản thành <code>[z]</code> (*maison, poison*). Muốn giữ âm gió <code>[s]</code> thì phải viết hai chữ <code>ss</code> (*poisson*) hoặc chữ cédille <code>ç</code> (*leçon*).",
+      consonant_ch_j_gn: "👉 <strong>ch [ʃ], j [ʒ], gn [ɲ]:</strong> Cụm <code>ch</code> đọc như 'x' nhẹ <code>[ʃ]</code>; chữ <code>j</code> hoặc <code>ge/gi</code> đọc rung môi <code>[ʒ]</code>; cụm <code>gn</code> đọc như âm 'nh' mềm mại <code>[ɲ]</code> (*campagne, montagne*).",
+      semi_vowels: "👉 <strong>Bán nguyên âm (Semi-voyelles):</strong> Cụm <code>-il / -ille</code> sau nguyên âm tạo âm trượt <code>[j]</code> (*soleil, travail*); cụm <code>ui</code> lướt nhanh từ u sang i <code>[ɥi]</code> (*huit, nuit*); cụm <code>oi</code> lướt thành <code>[wa]</code>."
+    };
+
+    /* ================= PHONETICS INTERACTION STATE ================= */
+    let isAlphabetMode = false;
+    let currentVoiceSpeed = 0.85;
+    let currentStudioWord = null;
+    let currentWordFilterText = "";
+
+    // Web Speech Synthesis
+    function cycleVoiceSpeed() {
+      if(currentVoiceSpeed === 0.85) currentVoiceSpeed = 1.0;
+      else if(currentVoiceSpeed === 1.0) currentVoiceSpeed = 0.65;
+      else currentVoiceSpeed = 0.85;
+      document.getElementById('speedLabelText').textContent = currentVoiceSpeed + "x";
+      showToast(`Tốc độ phát âm: ${currentVoiceSpeed}x`);
+    }
+
+    function playAudioText(text, customRate = null) {
+      if(!text) return;
+      window.speechSynthesis.cancel();
+      const msg = new SpeechSynthesisUtterance(text);
+      msg.lang = 'fr-FR';
+      msg.rate = customRate || currentVoiceSpeed;
+
+      // Ưu tiên voice chuẩn tiếng Pháp nếu có
+      const voices = window.speechSynthesis.getVoices();
+      const frenchVoice = voices.find(v => v.lang.startsWith('fr') && (v.name.includes('Google') || v.name.includes('Natural') || v.name.includes('Thomas') || v.name.includes('Amelie')));
+      if(frenchVoice) msg.voice = frenchVoice;
+
+      window.speechSynthesis.speak(msg);
+    }
+
+    function speakCurrentStudioWord(speedOverride = null) {
+      if(currentStudioWord) playAudioText(currentStudioWord.word, speedOverride);
+    }
+
+    function openAlphabetHandbook() {
+      document.getElementById('handbookModal').classList.add('open');
+    }
+
+    function togglePhoneticSubTab() {
+      isAlphabetMode = !isAlphabetMode;
+      document.getElementById('phoneticsAlphabetView').style.display = isAlphabetMode ? 'block' : 'none';
+      document.getElementById('phoneticsRulesView').style.display = isAlphabetMode ? 'none' : 'grid';
+      document.getElementById('phoneticTabToggleLabel').textContent = isAlphabetMode ? 'Chuyển sang: Ghép vần & Shadowing' : 'Chuyển sang: Bảng chữ cái A-Z';
+    }
+
+    function handleSearchWords(query) {
+      currentWordFilterText = (query || "").trim().toLowerCase();
+      renderPatternWords();
+    }
+
+    function renderPatternWords() {
+      const rule = document.getElementById('patternSelect').value;
+      const allWords = phoneticsData[rule] || [];
+      const filteredWords = allWords.filter(w => 
+        !currentWordFilterText || 
+        w.word.toLowerCase().includes(currentWordFilterText) || 
+        w.mean.toLowerCase().includes(currentWordFilterText) ||
+        w.ipa.toLowerCase().includes(currentWordFilterText)
+      );
+
+      // Thống kê tiến độ thuộc từ trong quy tắc này
+      const masteredCount = allWords.filter(w => wordMasteryMap[w.word] === 'mastered').length;
+      setElText('patternProgressBadge', `Đã thuộc: ${masteredCount}/${allWords.length}`);
+      setElText('patternWordsCountBadge', `Danh sách (${filteredWords.length}/${allWords.length} từ)`);
+
+      const listContainer = document.getElementById('patternWordsList');
+      if(!filteredWords.length) {
+        listContainer.innerHTML = `<div class="notice" style="text-align:center;">Không tìm thấy từ phù hợp với "${escapeHTML(currentWordFilterText)}"</div>`;
+        return;
+      }
+
+      listContainer.innerHTML = filteredWords.map((w, index) => {
+        const isMastered = wordMasteryMap[w.word] === 'mastered';
+        const isReview = wordMasteryMap[w.word] === 'review';
+        const isCurrent = currentStudioWord && currentStudioWord.word === w.word;
+        
+        let statusBadge = `<span class="tag status-pending" style="font-size:9.5px;">Chưa học</span>`;
+        if(isMastered) statusBadge = `<span class="tag status-done" style="font-size:9.5px;">✓ Đã thuộc</span>`;
+        if(isReview) statusBadge = `<span class="tag" style="background:#fef2f2;color:#b91c1c;border:1px solid #fecaca;font-size:9.5px;">↺ Ôn lại</span>`;
+
+        return `
+        <div class="word-list-card ${isCurrent ? 'active-selected' : ''}" onclick="selectStudioWordByWord('${w.word}')">
+          <div style="min-width:0;flex:1;">
+            <div style="display:flex;align-items:center;gap:6px;">
+              <b style="color:#174230;font-size:14px;">${escapeHTML(w.word)}</b>
+              <span style="font-size:10.5px;color:#0284c7;background:#e0f2fe;padding:2px 6px;border-radius:6px;font-weight:700;">${escapeHTML(w.type)}</span>
+              <span style="color:#6b8275;font-size:12px;font-family:monospace;">${escapeHTML(w.ipa)}</span>
+            </div>
+            <div style="font-size:11.5px;color:#6b8275;margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">
+              ${escapeHTML(w.mean)}
+            </div>
+          </div>
+          <div style="display:flex;align-items:center;gap:8px;flex:none;margin-left:8px;">
+            ${statusBadge}
+            <button onclick="event.stopPropagation(); playAudioText('${w.word}')" style="border:0;background:#e8f4ec;color:#246a48;width:28px;height:28px;border-radius:8px;display:grid;place-items:center;font-size:12px;" title="Nghe từ này">
+              🔊
+            </button>
+          </div>
+        </div>
+      `;
+      }).join('');
+
+      document.getElementById('ruleInfoText').innerHTML = phoneticsRulesDesc[rule] || "";
+      const selectEl = document.getElementById('patternSelect');
+      document.getElementById('stCategoryBadge').textContent = selectEl.options[selectEl.selectedIndex].text.split(' ')[1] || "Quy tắc";
+    }
+
+    function selectStudioWordByWord(wordText) {
+      const rule = document.getElementById('patternSelect').value;
+      const words = phoneticsData[rule] || [];
+      const found = words.find(w => w.word === wordText);
+      if(found) {
+        currentStudioWord = found;
+        updateStudioCardUI();
+        renderPatternWords();
+        playAudioText(found.word);
+      }
+    }
+
+    function updateStudioCardUI() {
+      if(!currentStudioWord) return;
+      document.getElementById('stWordDisplay').textContent = currentStudioWord.word;
+      document.getElementById('stIpaDisplay').textContent = currentStudioWord.ipa;
+      document.getElementById('stHintDisplay').textContent = "💡 " + (currentStudioWord.hint || "Luyện phát âm chuẩn Pháp");
+      document.getElementById('stMeanDisplay').textContent = "Nghĩa: " + currentStudioWord.mean;
+      document.getElementById('stTypeBadge').textContent = currentStudioWord.type || "từ vựng";
+
+      const status = wordMasteryMap[currentStudioWord.word];
+      const statusBadge = document.getElementById('stStatusBadge');
+      if(status === 'mastered') {
+        statusBadge.className = 'tag status-done';
+        statusBadge.textContent = '✓ Đã thuộc';
+      } else if(status === 'review') {
+        statusBadge.className = 'tag';
+        statusBadge.style.background = '#fef2f2';
+        statusBadge.style.color = '#b91c1c';
+        statusBadge.style.borderColor = '#fecaca';
+        statusBadge.textContent = '↺ Cần ôn lại';
+      } else {
+        statusBadge.className = 'tag status-pending';
+        statusBadge.textContent = 'Chưa học';
+      }
+    }
+
+    function pickNextStudioWord(isRandom = false) {
+      const rule = document.getElementById('patternSelect').value;
+      const words = phoneticsData[rule];
+      if(!words || !words.length) return;
+
+      if (isRandom && words.length > 1) {
+        let nextWord;
+        do { nextWord = words[Math.floor(Math.random() * words.length)]; } while(currentStudioWord && nextWord.word === currentStudioWord.word);
+        currentStudioWord = nextWord;
+      } else {
+        currentStudioWord = words[0];
+      }
+
+      updateStudioCardUI();
+      renderPatternWords();
+      if(isRandom) playAudioText(currentStudioWord.word);
+    }
+
+    function pickSequentialWord(step = 1) {
+      const rule = document.getElementById('patternSelect').value;
+      const words = phoneticsData[rule] || [];
+      if(!words.length) return;
+      let currentIndex = words.findIndex(w => currentStudioWord && w.word === currentStudioWord.word);
+      if(currentIndex === -1) currentIndex = 0;
+      let nextIndex = (currentIndex + step + words.length) % words.length;
+      currentStudioWord = words[nextIndex];
+      updateStudioCardUI();
+      renderPatternWords();
+      playAudioText(currentStudioWord.word);
+    }
+
+    function rateCurrentStudioWord(rating) {
+      if(!currentStudioWord) return;
+      wordMasteryMap[currentStudioWord.word] = rating;
+      localStorage.setItem(WORD_PROGRESS_KEY, JSON.stringify(wordMasteryMap));
+      showToast(rating === 'mastered' ? `✓ Đã ghi nhớ từ "${currentStudioWord.word}"` : `↺ Đã chuyển từ "${currentStudioWord.word}" vào danh sách cần ôn`);
+      updateStudioCardUI();
+      renderPatternWords();
+      // Tự động chuyển từ kế tiếp để học liên tục
+      setTimeout(() => pickSequentialWord(1), 350);
+    }
+
+    /* ================= SHADOWING RECORDING (MICROPHONE) ================= */
+    let mediaRecorder = null;
+    let audioChunks = [];
+    let recordedAudioBlob = null;
+    let recordedAudioUrl = null;
+    let isRecording = false;
+
+    async function toggleRecordUserVoice() {
+      if(isRecording) {
+        // Dừng ghi âm
+        if(mediaRecorder && mediaRecorder.state !== 'inactive') {
+          mediaRecorder.stop();
+        }
+        return;
+      }
+
+      try {
+        const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+        audioChunks = [];
+        mediaRecorder = new MediaRecorder(stream);
+
+        mediaRecorder.ondataavailable = (e) => {
+          if(e.data.size > 0) audioChunks.push(e.data);
+        };
+
+        mediaRecorder.onstop = () => {
+          isRecording = false;
+          stream.getTracks().forEach(track => track.stop());
+          document.getElementById('recordMicIcon').textContent = "🎙️";
+          document.getElementById('recordMicLabel').textContent = "2. Bấm để nhại giọng";
+          document.getElementById('btnRecordMic').style.background = "#c93b3b";
+
+          recordedAudioBlob = new Blob(audioChunks, { type: 'audio/webm' });
+          if(recordedAudioUrl) URL.revokeObjectURL(recordedAudioUrl);
+          recordedAudioUrl = URL.createObjectURL(recordedAudioBlob);
+          document.getElementById('btnPlayUserVoice').style.display = 'inline-flex';
+          showToast("Đã lưu bản đọc của bạn! Nhấn 'Nghe lại bạn đọc' để đối chiếu.");
+        };
+
+        mediaRecorder.start();
+        isRecording = true;
+        document.getElementById('recordMicIcon').textContent = "⏹️";
+        document.getElementById('recordMicLabel').textContent = "Đang thu âm... Bấm để dừng";
+        document.getElementById('btnRecordMic').style.background = "#b91c1c";
+        document.getElementById('btnPlayUserVoice').style.display = 'none';
+      } catch(err) {
+        alert("Vui lòng cấp quyền truy cập Microphone cho trình duyệt để sử dụng tính năng nhại giọng Shadowing!");
+      }
+    }
+
+    function playbackUserRecording() {
+      if(!recordedAudioUrl) return;
+      const audio = new Audio(recordedAudioUrl);
+      audio.play();
+    }
+
+    /* ================= KHỞI TẠO PHÒNG NGỮ ÂM ================= */
+    function initPhoneticsView() {
+      if(!document.getElementById('alphabetInteractiveGrid').innerHTML) {
+        const alphabet = "A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P,Q,R,S,T,U,V,W,X,Y,Z".split(",");
+        const ipaAlpha = ["a","be","se","de","ə","ɛf","ʒe","aʃ","i","ʒi","ka","ɛl","ɛm","ɛn","o","pe","ky","ɛʁ","ɛs","te","y","ve","dublə.ve","iks","i.ɡʁɛk","zɛd"];
+        document.getElementById('alphabetInteractiveGrid').innerHTML = alphabet.map((letter, i) => `
+            <div class="alpha-box" onclick="playAudioText('${letter}')">
+              <b>${letter}</b>
+              <span>[${ipaAlpha[i]}]</span>
+            </div>
+        `).join('');
+
+        document.getElementById('patternSelect').addEventListener('change', () => {
+          currentWordFilterText = "";
+          document.getElementById('phoneticSearchInput').value = "";
+          renderPatternWords();
+          pickNextStudioWord(false);
+        });
+      }
+
+      renderPatternWords();
+      if(!currentStudioWord) {
+        pickNextStudioWord(false);
+      } else {
+        updateStudioCardUI();
+      }
+    }
+
+    // Phím tắt bàn phím tiện lợi
+    window.addEventListener('keydown', (e) => {
+      const activePage = document.querySelector('.page.active');
+      if(activePage && activePage.id === 'phonetics' && !isAlphabetMode) {
+        const tagName = e.target.tagName;
+        if(tagName !== 'INPUT' && tagName !== 'TEXTAREA') {
+          if(e.code === 'Space') { e.preventDefault(); speakCurrentStudioWord(); }
+          if(e.code === 'KeyR') { e.preventDefault(); pickNextStudioWord(true); }
+          if(e.key === '1') { e.preventDefault(); rateCurrentStudioWord('mastered'); }
+          if(e.key === '2') { e.preventDefault(); rateCurrentStudioWord('review'); }
+        }
+      }
+    });
+
+    /* ================= IN-APP DOCUMENT VIEWER ================= */
+    function convertToDrivePreviewUrl(rawUrl) {
+      if (!rawUrl) return '';
+      let url = rawUrl.trim();
+      const matchFileId = url.match(/\/file\/d\/([a-zA-Z0-9_-]+)/);
+      if (matchFileId) return `https://drive.google.com/file/d/${matchFileId[1]}/preview`;
+      const matchParamId = url.match(/[?&]id=([a-zA-Z0-9_-]+)/);
+      if (matchParamId) return `https://drive.google.com/file/d/${matchParamId[1]}/preview`;
+      if (url.includes('docs.google.com')) {
+        if (url.includes('/edit')) return url.replace(/\/edit.*/, '/preview');
+        if (url.includes('/view')) return url.replace(/\/view.*/, '/preview');
+        return url;
+      }
+      return `https://docs.google.com/viewer?embedded=true&url=${encodeURIComponent(url)}`;
+    }
+
+    function openDocViewer(rawUrl, title) {
+      const modal = document.getElementById('docViewerModal');
+      const iframe = document.getElementById('docViewerIframe');
+      const titleEl = document.getElementById('docViewerTitle');
+      const btnNewTab = document.getElementById('btnDocViewerNewTab');
+      
+      titleEl.textContent = title || "Xem Tài Liệu";
+      btnNewTab.href = rawUrl;
+      iframe.src = convertToDrivePreviewUrl(rawUrl);
+      modal.classList.add('open');
+      document.body.style.overflow = 'hidden'; 
+    }
+
+    function closeDocViewer() {
+      const modal = document.getElementById('docViewerModal');
+      const iframe = document.getElementById('docViewerIframe');
+      iframe.src = ""; 
+      modal.classList.remove('open');
+      document.body.style.overflow = '';
+    }
+
+    /* ================= AVATAR CROPPER ENGINE ================= */
+    let cropImgObj = new Image();
+    let cropScale = 1, cropPanX = 0, cropPanY = 0;
+    let isDraggingCrop = false, startDragX = 0, startDragY = 0;
+
+    function handleAvatarFileSelect(e) {
+      const file = e.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = (ev) => {
+        cropImgObj.src = ev.target.result;
+        cropImgObj.onload = () => {
+          document.getElementById('cropImage').src = cropImgObj.src;
+          cropScale = 1; cropPanX = 0; cropPanY = 0;
+          document.getElementById('cropZoomSlider').value = 1;
+          updateCropTransform();
+          document.getElementById('avatarCropModal').classList.add('open');
+        }
+      };
+      reader.readAsDataURL(file);
+      e.target.value = ''; 
+    }
+
+    function closeCropModal() { document.getElementById('avatarCropModal').classList.remove('open'); }
+    function updateCropTransform() {
+      const el = document.getElementById('cropImage');
+      el.style.left = `calc(50% + ${cropPanX}px)`; el.style.top = `calc(50% + ${cropPanY}px)`;
+      el.style.transform = `translate(-50%, -50%) scale(${cropScale})`;
+    }
+
+    const cropContainer = document.getElementById('cropContainer');
+    cropContainer.addEventListener('mousedown', startCropDrag); cropContainer.addEventListener('touchstart', startCropDrag, {passive: false});
+    window.addEventListener('mousemove', doCropDrag); window.addEventListener('touchmove', doCropDrag, {passive: false});
+    window.addEventListener('mouseup', endCropDrag); window.addEventListener('touchend', endCropDrag);
+
+    function startCropDrag(e) {
+      if(e.type === 'touchstart') e.preventDefault();
+      isDraggingCrop = true;
+      const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+      const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+      startDragX = clientX - cropPanX; startDragY = clientY - cropPanY;
+    }
+    function doCropDrag(e) {
+      if(!isDraggingCrop) return;
+      const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+      const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+      cropPanX = clientX - startDragX; cropPanY = clientY - startDragY;
+      updateCropTransform();
+    }
+    function endCropDrag() { isDraggingCrop = false; }
+
+    document.getElementById('cropZoomSlider').addEventListener('input', (e) => { cropScale = parseFloat(e.target.value); updateCropTransform(); });
+
+    function applyAvatarCrop() {
+      const canvas = document.getElementById('cropCanvas');
+      const ctx = canvas.getContext('2d');
+      const cropSize = 300; 
+      canvas.width = cropSize; canvas.height = cropSize;
+      ctx.clearRect(0, 0, cropSize, cropSize);
+      ctx.translate(cropSize/2, cropSize/2);
+      const exportScale = cropSize / 200; 
+      ctx.scale(cropScale * exportScale, cropScale * exportScale);
+      
+      const imgRatio = cropImgObj.width / cropImgObj.height;
+      let drawW = 200; let drawH = 200;
+      if (imgRatio > 1) { drawW = 200 * imgRatio; } else { drawH = 200 / imgRatio; }
+      ctx.drawImage(cropImgObj, -drawW/2 + (cropPanX / cropScale), -drawH/2 + (cropPanY / cropScale), drawW, drawH);
+      
+      const dataUrl = canvas.toDataURL('image/jpeg', 0.85);
+      const previewBox = document.getElementById('settingAvatarPreview');
+      previewBox.innerHTML = `<img src="${dataUrl}">`;
+      document.getElementById('settingAvatarPreview').setAttribute('data-temp-avatar', dataUrl);
+      
+      closeCropModal();
+      showToast("Đã căn chỉnh ảnh. Nhấn 'Lưu hồ sơ' để hoàn tất!");
+    }
+      
+    /* ================= AUTHENTICATION ================= */
+    function checkAuthSession() {
+      if (!currentUser) { 
+        document.getElementById('authOverlay').style.display = 'grid'; 
+      } else { 
+        document.getElementById('authOverlay').style.display = 'none'; 
+        updateUserUI(); 
+        navigateTo('dashboard'); 
+      }
+    }
+    function switchAuthTab(tab) {
+      document.getElementById('btnTabLogin').classList.toggle('active', tab==='login');
+      document.getElementById('btnTabRegister').classList.toggle('active', tab==='register');
+      document.getElementById('formLogin').style.display = tab==='login' ? 'block' : 'none';
+      document.getElementById('formRegister').style.display = tab==='register' ? 'block' : 'none';
+    }
+    function handleLogin(e) {
+  e.preventDefault();
+  const enteredUsername = document.getElementById('loginUsername').value.trim().toLowerCase();
+  const enteredPassword = document.getElementById('loginPassword').value;
+
+  const userIdx = userDatabase.findIndex(u => u.username.toLowerCase() === enteredUsername && u.password === enteredPassword);
+  if (userIdx === -1) return alert("Sai tên đăng nhập hoặc mật khẩu!");
+  
+  const user = userDatabase[userIdx];
+  if (user.status === "pending") return alert("Tài khoản đang chờ duyệt từ Quản trị viên!");
+
+  // --- KIỂM SOÁT TỐI ĐA 2 THIẾT BỊ ---
+  if (!user.activeSessions) user.activeSessions = [];
+  const currentDevId = getOrCreateDeviceId();
+  const existingSessionIdx = user.activeSessions.findIndex(s => s.deviceId === currentDevId);
+
+  if (existingSessionIdx !== -1) {
+    // Đã từng đăng nhập máy này -> Cập nhật thời gian
+    user.activeSessions[existingSessionIdx].lastActive = new Date().toLocaleString('vi-VN');
+  } else {
+    // Máy thứ 3 đăng nhập -> Cảnh báo và tự đá máy cũ nhất
+    if (user.activeSessions.length >= 2) {
+      const confirmReplace = confirm(
+        "⚠️ TÀI KHOẢN ĐÃ ĐẠT GIỚI HẠN 2 THIẾT BỊ!\n\n" +
+        "Thiết bị cũ nhất sẽ bị đăng xuất để nhường chỗ cho thiết bị này.\n" +
+        "Bạn có muốn tiếp tục đăng nhập không?"
+      );
+      if (!confirmReplace) return;
+      user.activeSessions.shift(); // Gỡ máy cũ nhất để giữ đúng 2 máy
+    }
+
+    user.activeSessions.push({
+      deviceId: currentDevId,
+      deviceName: getDeviceName(),
+      lastActive: new Date().toLocaleString('vi-VN')
+    });
+  }
+
+  // Lưu lại vào danh sách người dùng
+  userDatabase[userIdx] = user;
+  localStorage.setItem(AUTH_STORAGE_KEY, JSON.stringify(userDatabase));
+
+  currentUser = user;
+  localStorage.setItem(SESSION_STORAGE_KEY, JSON.stringify(user));
+  checkAuthSession();
+    }
+    function handleRegister(e) {
+      e.preventDefault();
+      const un = document.getElementById('regUsername').value.trim().toLowerCase();
+      if(userDatabase.some(u=>u.username.toLowerCase()===un)) return alert("Tên đăng nhập đã tồn tại!");
+      if(document.getElementById('regPassword').value !== document.getElementById('regConfirmPassword').value) return alert("Mật khẩu xác nhận không khớp!");
+      userDatabase.push({ 
+        id: Date.now(), 
+        username: un, 
+        fullName: document.getElementById('regFullName').value.trim(), 
+        password: document.getElementById('regPassword').value, 
+        role: "student", 
+        status: "pending", 
+        classId: "", 
+        avatar: "", 
+        bio: "", 
+        createdAt: new Date().toLocaleDateString('vi-VN') 
+      });
+      localStorage.setItem(AUTH_STORAGE_KEY, JSON.stringify(userDatabase));
+      alert("Đăng ký thành công! Vui lòng chờ Giảng viên duyệt."); 
+      switchAuthTab('login');
+    }
+    function handleLogout() {
+  if (confirm("Bạn có chắc chắn muốn đăng xuất?")) {
+    if (currentUser) {
+      const currentDevId = getOrCreateDeviceId();
+      const user = userDatabase.find(u => u.id === currentUser.id);
+      if (user && user.activeSessions) {
+        user.activeSessions = user.activeSessions.filter(s => s.deviceId !== currentDevId);
+        localStorage.setItem(AUTH_STORAGE_KEY, JSON.stringify(userDatabase));
+      }
+    }
+    currentUser = null;
+    localStorage.removeItem(SESSION_STORAGE_KEY);
+    checkAuthSession();
+  }
+}
+
+    function updateUserUI() {
+      const name = currentUser.fullName || currentUser.username;
+      setElText('userNameDisplay', name);
+      document.getElementById('navBtnAdmin').style.display = currentUser.role==='admin' ? 'flex' : 'none';
+      const initChar = name.charAt(0).toUpperCase();
+      const drawAvatar = (elId) => {
+        const el = document.getElementById(elId);
+        if(currentUser.avatar) el.innerHTML = `<img src="${currentUser.avatar}">`;
+        else el.textContent = initChar;
+      };
+      drawAvatar('userAvatarSmall'); 
+      drawAvatar('topbarAvatar');
+    }
+    /* ================= LỚP HỌC & QUẢN LÝ THÀNH VIÊN THEO LỚP ================= */
+function isUserOnline(user) {
+  if (!user.activeSessions || user.activeSessions.length === 0) return false;
+  const lastSession = user.activeSessions[user.activeSessions.length - 1];
+  if (!lastSession || !lastSession.lastActive) return false;
+
+  const now = new Date().getTime();
+  const sessionTime = new Date(lastSession.lastActive).getTime();
+  if (isNaN(sessionTime)) return true;
+  return (now - sessionTime) < 10 * 60 * 1000;
+}
+
+let currentClassViewId = "all_users";
+
+function initMyClassView() {
+  const isAdmin = currentUser.role === 'admin';
+  const selectorWrap = document.getElementById('adminClassSelectorWrap');
+  const selector = document.getElementById('adminSelectClassView');
+
+  if (isAdmin) {
+    selectorWrap.style.display = 'flex';
+    selector.innerHTML = `
+      <option value="all_users">-- Tất cả học viên (${userDatabase.filter(u=>u.role!=='admin').length}) --</option>
+    ` + classDatabase.map(c => `<option value="${c.id}">${escapeHTML(c.name)}</option>`).join('');
+    
+    currentClassViewId = selector.value || "all_users";
+    renderClassMembersView(currentClassViewId);
+  } else {
+    selectorWrap.style.display = 'none';
+    currentClassViewId = currentUser.classId;
+    renderClassMembersView(currentClassViewId);
+  }
+}
+
+function renderClassMembersView(classId) {
+  currentClassViewId = classId;
+  const container = document.getElementById('classMembersGrid');
+  const isAdmin = currentUser.role === 'admin';
+  let members = [];
+
+  const classMap = {};
+  classDatabase.forEach(c => classMap[c.id] = c.name);
+
+  // Xóa nút thêm cũ nếu có
+  const oldAddBtn = document.getElementById('btnOpenAddMemberModal');
+  if (oldAddBtn) oldAddBtn.remove();
+
+  if (classId === 'all_users') {
+    setElText('myClassPageTitle', 'Toàn Bộ Thành Viên Hệ Thống');
+    setElText('myClassPageSubtitle', 'Danh sách tổng hợp tất cả tài khoản trong hệ thống.');
+    members = userDatabase;
+  } else {
+    const targetClass = classDatabase.find(c => c.id === classId);
+    const className = targetClass ? targetClass.name : "Chưa phân lớp";
+    setElText('myClassPageTitle', `Lớp: ${className}`);
+    setElText('myClassPageSubtitle', `Danh sách học viên đang theo học tại lớp này.`);
+
+    // Lọc học viên thuộc lớp
+    members = userDatabase.filter(u => u.classId === classId);
+
+    // Nếu là Admin và đang xem 1 lớp cụ thể, hiển thị nút "+ Thêm học viên vào lớp"
+    if (isAdmin && targetClass) {
+      const addBtn = document.createElement('button');
+      addBtn.id = 'btnOpenAddMemberModal';
+      addBtn.className = 'primary';
+      addBtn.style.cssText = 'padding: 6px 12px; font-size: 12px; margin-left: 10px;';
+      addBtn.innerHTML = `➕ Thêm học viên vào lớp`;
+      addBtn.onclick = () => openAssignMemberModal(classId);
+      document.getElementById('adminClassSelectorWrap').appendChild(addBtn);
+    }
+  }
+
+  if (!members.length) {
+    container.innerHTML = `
+      <div class="notice" style="grid-column: 1/-1; text-align:center; padding: 30px;">
+        Chưa có thành viên nào trong lớp này. 
+        ${isAdmin && classId !== 'all_users' ? '<br><button class="primary" style="margin-top:10px; font-size:12px;" onclick="openAssignMemberModal(\''+classId+'\')">➕ Thêm học viên ngay</button>' : ''}
+      </div>`;
+    return;
+  }
+
+  container.innerHTML = members.map(m => {
+    const online = isUserOnline(m);
+    const isMe = m.id === currentUser.id;
+    const initial = (m.fullName || m.username).charAt(0).toUpperCase();
+    const userClassName = m.classId === 'all' 
+      ? 'Toàn hệ thống' 
+      : (classMap[m.classId] || (m.role === 'admin' ? 'Ban Giảng Viên' : 'Chưa xếp lớp'));
+    const isPending = m.status === 'pending';
+
+    // Nút gỡ học viên khỏi lớp (Dành cho Admin, không áp dụng cho chính admin)
+    let actionBtnHtml = '';
+    if (isAdmin && m.role !== 'admin' && m.classId) {
+      actionBtnHtml = `
+        <button onclick="removeUserFromClass(${m.id})" class="del-btn" style="color:#b91c1c; font-size:11px; padding:4px 8px; border:1px solid #fecaca; background:#fff5f5; border-radius:8px; display:inline-flex; align-items:center; gap:4px;" title="Gỡ học viên khỏi lớp này">
+          ✕ Gỡ khỏi lớp
+        </button>
+      `;
+    }
+
+    return `
+      <div class="card" style="padding: 16px;">
+        <div style="display:flex; justify-content:space-between; align-items:center;">
+          <div style="display:flex; align-items:center; gap:10px;">
+            <div class="user-avatar-small" style="width:40px; height:40px; font-size:14px;">
+              ${m.avatar ? `<img src="${m.avatar}">` : initial}
+            </div>
+            <div>
+              <b style="font-size:13.5px; color:#173d2e;">${escapeHTML(m.fullName || m.username)} ${isMe ? '(Tôi)' : ''}</b>
+              <span style="display:block; font-size:11px; color:#71877d;">@${escapeHTML(m.username)} · ${m.role === 'admin' ? 'Giảng viên' : 'Học viên'}</span>
+            </div>
+          </div>
+          <div style="display:flex; flex-direction:column; align-items:flex-end; gap:4px;">
+            <span class="${online ? 'badge-online' : 'badge-offline'}">
+              <span class="status-dot ${online ? 'status-online' : 'status-offline'}"></span>
+              ${online ? 'Online' : 'Offline'}
+            </span>
+            ${isPending ? '<span class="tag" style="background:#fef3c7;color:#92400e;font-size:9.5px;">Chờ duyệt</span>' : ''}
+          </div>
+        </div>
+        
+        <div style="margin-top:10px; display:flex; justify-content:space-between; align-items:center;">
+          <span style="font-size:11px; color:#23694b; background:#f0f8f2; padding:3px 8px; border-radius:6px; font-weight:600;">
+            🏫 ${escapeHTML(userClassName)}
+          </span>
+          ${actionBtnHtml}
+        </div>
+
+        <p style="margin-top:8px; font-size:12px; color:#567061; line-height:1.4;">
+          ${escapeHTML(m.bio || 'Chưa cập nhật mục tiêu học tập.')}
+        </p>
+      </div>
+    `;
+  }).join('');
+}
+
+/* ================= THAO TÁC ADD & GỠ HỌC VIÊN ================= */
+let targetClassForAdd = null;
+
+function openAssignMemberModal(classId) {
+  targetClassForAdd = classId;
+  const targetClass = classDatabase.find(c => c.id === classId);
+  if (!targetClass) return;
+
+  setElText('assignModalTitle', `➕ Thêm học viên vào "${targetClass.name}"`);
+
+  // Lọc các học viên đã approved nhưng CHƯA thuộc lớp này
+  const candidates = userDatabase.filter(u => u.role !== 'admin' && u.status === 'approved' && u.classId !== classId);
+  const listEl = document.getElementById('assignCandidateList');
+
+  const classMap = {};
+  classDatabase.forEach(c => classMap[c.id] = c.name);
+
+  if (!candidates.length) {
+    listEl.innerHTML = `<div class="notice" style="text-align:center;">Không có học viên nào khả dụng để thêm vào lớp.</div>`;
+  } else {
+    listEl.innerHTML = candidates.map(u => {
+      const currentClassStr = u.classId ? `(Đang ở: ${classMap[u.classId] || 'Lớp khác'})` : `(Chưa có lớp)`;
+      return `
+        <div style="display:flex; justify-content:space-between; align-items:center; background:#f8fbf8; border:1px solid #dce8df; border-radius:12px; padding:10px 14px;">
+          <div>
+            <b style="font-size:13px; color:#173d2e;">${escapeHTML(u.fullName || u.username)}</b>
+            <span style="font-size:11px; color:#6b8275; margin-left:6px;">@${escapeHTML(u.username)}</span>
+            <div style="font-size:10.5px; color:#23694b; margin-top:2px;">${escapeHTML(currentClassStr)}</div>
+          </div>
+          <button class="primary" style="padding:6px 12px; font-size:11.5px;" onclick="addCandidateToClass(${u.id})">
+            Thêm vào lớp
+          </button>
+        </div>
+      `;
+    }).join('');
+  }
+
+  document.getElementById('assignMemberModal').classList.add('open');
+}
+
+function closeAssignMemberModal() {
+  document.getElementById('assignMemberModal').classList.remove('open');
+}
+
+function addCandidateToClass(userId) {
+  const user = userDatabase.find(u => u.id === userId);
+  if (!user || !targetClassForAdd) return;
+
+  user.classId = targetClassForAdd;
+  localStorage.setItem(AUTH_STORAGE_KEY, JSON.stringify(userDatabase));
+
+  const targetClass = classDatabase.find(c => c.id === targetClassForAdd);
+  showToast(`Đã thêm @${user.username} vào lớp ${targetClass ? targetClass.name : ''}`);
+
+  // Cập nhật lại modal và view
+  openAssignMemberModal(targetClassForAdd);
+  renderClassMembersView(targetClassForAdd);
+}
+
+function removeUserFromClass(userId) {
+  const user = userDatabase.find(u => u.id === userId);
+  if (!user) return;
+
+  if (confirm(`Bạn có chắc muốn gỡ học viên @${user.username} khỏi lớp hiện tại không?`)) {
+    user.classId = ""; // Gỡ về trạng thái chưa xếp lớp
+    localStorage.setItem(AUTH_STORAGE_KEY, JSON.stringify(userDatabase));
+
+    showToast(`Đã gỡ @${user.username} khỏi lớp.`);
+    renderClassMembersView(currentClassViewId);
+  }
+}
+    /* ================= ACCOUNT SETTINGS ================= */
+    function initAccountSettingsView() {
+      setElText('settingUsernameLabel', `@${currentUser.username}`);
+      setElText('settingRoleLabel', currentUser.role==='admin' ? "Quản trị viên / Giảng viên" : "Học viên");
+      document.getElementById('settingFullName').value = currentUser.fullName || "";
+      document.getElementById('settingBio').value = currentUser.bio || "";
+      const prevBox = document.getElementById('settingAvatarPreview');
+      prevBox.removeAttribute('data-temp-avatar'); 
+      if(currentUser.avatar) prevBox.innerHTML = `<img src="${currentUser.avatar}">`;
+      else prevBox.textContent = (currentUser.fullName||currentUser.username).charAt(0).toUpperCase();
+    }
+
+    function handleUpdateProfile(e) {
+      e.preventDefault();
+      currentUser.fullName = document.getElementById('settingFullName').value.trim();
+      currentUser.bio = document.getElementById('settingBio').value.trim();
+      const tempAvatar = document.getElementById('settingAvatarPreview').getAttribute('data-temp-avatar');
+      if (tempAvatar) currentUser.avatar = tempAvatar;
+
+      const idx = userDatabase.findIndex(u=>u.id===currentUser.id);
+      if(idx > -1) {
+        userDatabase[idx].fullName = currentUser.fullName;
+        userDatabase[idx].bio = currentUser.bio;
+        userDatabase[idx].avatar = currentUser.avatar;
+        localStorage.setItem(AUTH_STORAGE_KEY, JSON.stringify(userDatabase));
+      }
+      localStorage.setItem(SESSION_STORAGE_KEY, JSON.stringify(currentUser));
+      updateUserUI(); 
+      showToast("Đã lưu thông tin hồ sơ thành công!");
+    }
+    
+    function handleChangePassword(e) {
+      e.preventDefault();
+      if(document.getElementById('pwdOld').value !== currentUser.password) return alert("Mật khẩu cũ không chính xác!");
+      if(document.getElementById('pwdNew').value !== document.getElementById('pwdConfirm').value) return alert("Xác nhận mật khẩu mới không khớp!");
+      currentUser.password = document.getElementById('pwdNew').value;
+      userDatabase.find(u=>u.id===currentUser.id).password = currentUser.password;
+      localStorage.setItem(AUTH_STORAGE_KEY, JSON.stringify(userDatabase));
+      localStorage.setItem(SESSION_STORAGE_KEY, JSON.stringify(currentUser));
+      e.target.reset(); 
+      showToast("Đổi mật khẩu thành công!");
+    }
+
+    /* ================= SỔ TAY GHI CHÚ (NOTES) ================= */
+    function renderNotesView() {
+      const container = document.getElementById('notesContainer');
+      if(!notesDatabase.length) {
+        container.innerHTML = `<div class="notice">Chưa có ghi chú nào. Hãy ghi lại mẹo phát âm bạn vừa học được!</div>`;
+        return;
+      }
+      container.innerHTML = notesDatabase.map(n => `
+        <div style="background:#fff;border:1px solid #dce8df;padding:14px 18px;border-radius:14px;display:flex;justify-content:space-between;align-items:flex-start;box-shadow:0 2px 6px rgba(0,0,0,.02);">
+          <div>
+            <div style="font-size:13.5px;color:#183e2e;line-height:1.6;white-space:pre-wrap;">${escapeHTML(n.content)}</div>
+            <span style="font-size:11px;color:#859a8c;margin-top:6px;display:block;">🕒 ${escapeHTML(n.time)}</span>
+          </div>
+          <button onclick="deleteNote('${n.id}')" class="del-btn" title="Xóa ghi chú">🗑️</button>
+        </div>
+      `).join('');
+    }
+
+    function addNewNote() {
+      const val = document.getElementById('newNoteContent').value.trim();
+      if(!val) return alert("Vui lòng nhập nội dung ghi chú!");
+      notesDatabase.unshift({
+        id: "note_" + Date.now(),
+        content: val,
+        time: new Date().toLocaleTimeString('vi-VN', {hour:'2-digit', minute:'2-digit'}) + " - " + new Date().toLocaleDateString('vi-VN')
+      });
+      localStorage.setItem(NOTES_STORAGE_KEY, JSON.stringify(notesDatabase));
+      document.getElementById('newNoteContent').value = "";
+      renderNotesView();
+      showToast("Đã lưu ghi chú vào sổ tay!");
+    }
+
+    function deleteNote(id) {
+      notesDatabase = notesDatabase.filter(n => n.id !== id);
+      localStorage.setItem(NOTES_STORAGE_KEY, JSON.stringify(notesDatabase));
+      renderNotesView();
+      showToast("Đã xóa ghi chú!");
+    }
+
+    /* ================= DASHBOARD & RESOURCES ================= */
+    function initDashboardView() {
+      const container = document.getElementById('dashboardAssignmentsContainer');
+      const visible = mediaDatabase.filter(m => currentUser.role==='admin' || m.classId===currentUser.classId || m.classId==='all').slice(0,6);
+      if(!visible.length) { 
+        container.innerHTML = `<div class="notice" style="grid-column:1/-1;">Chưa có tài liệu hay video nào được đăng tải cho lớp của bạn.</div>`; 
+        return; 
+      }
+      
+      container.innerHTML = visible.map(m => {
+        const isVid = m.type==='drive_video';
+        return `
+        <div class="card">
+          <div class="card-top"><div class="file-icon">${isVid?'🎬':'📄'}</div><span class="tag session-badge">${escapeHTML(m.sessionName)}</span></div>
+          <h3>${escapeHTML(m.title)}</h3><p>${escapeHTML(m.note || "Học liệu theo buổi học.")}</p>
+          <div class="card-foot">
+            <span class="tag ${isVid?'status-done':'status-class'}">${isVid?'Video':'Tài liệu'}</span>
+            <button class="text-btn" onclick="navigateTo('${isVid?'videos':'documents'}')">Xem chi tiết</button>
+          </div>
+        </div>`;
+      }).join('');
+    }
+
+    let currentDocFilter = 'all';
+    function initDocumentsView() {
+      const tb = document.getElementById('docSessionToolbar');
+      tb.innerHTML = `<button class="pill active" onclick="currentDocFilter='all'; initDocumentsView();">Tất cả</button>` + 
+                     sessionDatabase.map(s => `<button class="pill ${currentDocFilter===s.id?'active':''}" onclick="currentDocFilter='${s.id}'; initDocumentsView();">${escapeHTML(s.title)}</button>`).join('');
+      
+      const container = document.getElementById('docCardsContainer');
+      const docs = mediaDatabase.filter(m => m.type==='drive_doc' && (currentUser.role==='admin' || m.classId===currentUser.classId || m.classId==='all'));
+      const filtered = docs.filter(d => currentDocFilter==='all' || d.sessionId===currentDocFilter);
+      
+      if(!filtered.length) { container.innerHTML=`<div class="notice" style="grid-column:1/-1;">Chưa có tài liệu trong buổi này.</div>`; return; }
+      
+      container.innerHTML = filtered.map(d => `
+        <div class="card">
+          <div class="card-top"><div class="file-icon">📄</div><span class="tag session-badge">${escapeHTML(d.sessionName)}</span></div>
+          <h3>${escapeHTML(d.title)}</h3><p>${escapeHTML(d.note || "Tài liệu học tập trực tuyến.")}</p>
+          <div class="card-foot">
+            <button onclick="openDocViewer('${d.url}', '${escapeHTML(d.title)}')" class="primary" style="font-size:11.5px;padding:6px 10px;">Mở xem trực tiếp ↗</button>
+          </div>
+        </div>`).join('');
+    }
+
+    let currentVidFilter = 'all';
+    function initVideosView() {
+      document.getElementById('videoSessionToolbar').innerHTML = `<button class="pill active" onclick="currentVidFilter='all'; initVideosView();">Tất cả</button>` + sessionDatabase.map(s => `<button class="pill ${currentVidFilter===s.id?'active':''}" onclick="currentVidFilter='${s.id}'; initVideosView();">${escapeHTML(s.title)}</button>`).join('');
+      const vids = mediaDatabase.filter(m => m.type==='drive_video' && (currentUser.role==='admin' || m.classId===currentUser.classId || m.classId==='all'));
+      const filtered = vids.filter(v => currentVidFilter==='all' || v.sessionId===currentVidFilter);
+      const playlist = document.getElementById('videoPlaylistContainer');
+      const player = document.getElementById('driveVideoContainer');
+      
+      if(!filtered.length) { 
+        player.innerHTML = `<div style="padding:40px 20px;text-align:center;color:#fff;">Chưa có video nào được đăng tải trong buổi này.</div>`; 
+        playlist.innerHTML=''; 
+        document.getElementById('btnOpenExternalVideo').style.display='none'; 
+        return; 
+      }
+      
+      const loadVid = (v) => {
+        setElText('currentVideoTitle', v.title); 
+        setElText('currentVideoNote', v.note || "Video bài giảng chính thức."); 
+        setElText('currentVideoSessionBadge', v.sessionName);
+        document.getElementById('btnOpenExternalVideo').href = v.url; 
+        document.getElementById('btnOpenExternalVideo').style.display='inline-flex';
+        player.innerHTML = `<iframe src="${convertToDrivePreviewUrl(v.url)}" allowfullscreen></iframe>`;
+      };
+      loadVid(filtered[0]);
+      
+      playlist.innerHTML = filtered.map(v => `
+        <div class="playlist-item" style="padding:12px;border:1px solid #e7eee9;background:#fbfdfb;border-radius:12px;cursor:pointer;transition:background 0.15s;" onmouseover="this.style.background='#f1f8f3'" onmouseout="this.style.background='#fbfdfb'" onclick="loadDriveVideoPlayer('${v.id}')">
+          <div style="display:flex;justify-content:space-between;"><span class="tag session-badge" style="font-size:9.5px;">${escapeHTML(v.sessionName)}</span></div>
+          <b style="font-size:13px;display:block;margin-top:4px;color:#183d2e;">${escapeHTML(v.title)}</b>
+        </div>`).join('');
+      
+      window.loadDriveVideoPlayer = (id) => loadVid(filtered.find(v=>v.id===id));
+    }
+
+    /* ================= ADMIN & SESSION MANAGEMENT ================= */
+    function renderAdminClassDashboard() {
+      const sesHTML = sessionDatabase.length ? sessionDatabase.map(s=>`<option value="${s.id}">${escapeHTML(s.title)}</option>`).join('') : '<option value="">⚠️ Chưa có buổi (Tạo trước)</option>';
+      document.getElementById('mediaSessionSelect').innerHTML = sesHTML;
+      document.getElementById('mediaClassSelect').innerHTML = `<option value="all">Tất cả lớp</option>` + classDatabase.map(c=>`<option value="${c.id}">${escapeHTML(c.name)}</option>`).join('');
+      
+      document.getElementById('adminUploadedMediaList').innerHTML = mediaDatabase.map(m=>`
+        <div style="background:#f8fbf8;border:1px solid #dce8df;padding:11px 14px;border-radius:12px;display:flex;justify-content:space-between;align-items:center;">
+          <div><span class="tag session-badge" style="font-size:9.5px;">${escapeHTML(m.sessionName)}</span> <b style="font-size:13px;margin-left:6px;">${escapeHTML(m.title)}</b></div>
+          <button onclick="mediaDatabase=mediaDatabase.filter(x=>x.id!=='${m.id}'); localStorage.setItem(MEDIA_STORAGE_KEY, JSON.stringify(mediaDatabase)); renderAdminClassDashboard(); showToast('Đã xóa học liệu');" class="del-btn">🗑️</button>
+        </div>`).join('') || '<div class="notice">Chưa có học liệu nào.</div>';
+
+      const pendingUsers = userDatabase.filter(u => u.status === 'pending');
+      document.getElementById('adminQuickUsersList').innerHTML = pendingUsers.length 
+        ? pendingUsers.map(u => `
+            <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 10px;background:#fff8ea;border:1px solid #fde7b9;border-radius:10px;font-size:12px;">
+              <span><strong>${escapeHTML(u.fullName || u.username)}</strong> (@${escapeHTML(u.username)})</span>
+              <button class="primary" style="padding:4px 8px;font-size:11px;" onclick="approveUser(${u.id})">Duyệt</button>
+            </div>
+          `).join('')
+        : '<div style="font-size:12px;color:#71877d;">Không có học viên chờ duyệt.</div>';
+    }
+
+    function handleUploadMedia(e) {
+      e.preventDefault();
+      const sesId = document.getElementById('mediaSessionSelect').value;
+      if(!sesId) return alert("Vui lòng tạo buổi học trước!");
+      const sesName = sessionDatabase.find(s=>s.id===sesId).title;
+      const noteEl = document.getElementById('mediaNote');
+      const noteVal = noteEl ? noteEl.value.trim() : "";
+      
+      mediaDatabase.unshift({ 
+        id: "med_" + Date.now(), 
+        classId: document.getElementById('mediaClassSelect').value, 
+        sessionId: sesId, 
+        sessionName: sesName, 
+        type: document.getElementById('mediaTypeSelect').value, 
+        title: document.getElementById('mediaTitle').value.trim(), 
+        url: document.getElementById('mediaUrl').value.trim(), 
+        note: noteVal 
+      });
+      localStorage.setItem(MEDIA_STORAGE_KEY, JSON.stringify(mediaDatabase));
+      e.target.reset(); 
+      renderAdminClassDashboard(); 
+      showToast("Đăng tải học liệu thành công!");
+    }
+
+    function handleCreateSession(e) { 
+      e.preventDefault(); 
+      sessionDatabase.push({id:"ses_"+Date.now(), title:document.getElementById('newSessionTitle').value.trim()}); 
+      localStorage.setItem(SESSIONS_STORAGE_KEY, JSON.stringify(sessionDatabase)); 
+      e.target.reset(); 
+      openSessionManagerModal(); 
+      renderAdminClassDashboard(); 
+      showToast("Đã thêm buổi học mới!");
+    }
+
+    function handleCreateClass(e) { 
+      e.preventDefault(); 
+      classDatabase.push({id:"cls_"+Date.now(), name:document.getElementById('newClassName').value.trim()}); 
+      localStorage.setItem(CLASSES_STORAGE_KEY, JSON.stringify(classDatabase)); 
+      e.target.reset(); 
+      openClassManagerModal(); 
+      renderAdminClassDashboard(); 
+      showToast("Đã tạo lớp học mới!");
+    }
+    
+    function openSessionManagerModal() { 
+      document.getElementById('sessionListDisplay').innerHTML = sessionDatabase.map(s=>`
+        <div style="display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid #edf2ed;">
+          <span>${escapeHTML(s.title)}</span>
+          <button onclick="sessionDatabase=sessionDatabase.filter(x=>x.id!=='${s.id}'); localStorage.setItem(SESSIONS_STORAGE_KEY, JSON.stringify(sessionDatabase)); openSessionManagerModal(); renderAdminClassDashboard();" class="del-btn">🗑️</button>
+        </div>`).join('');
+      document.getElementById('sessionManagerModal').classList.add('open'); 
+    }
+
+    function openClassManagerModal() { 
+      document.getElementById('classListContainer').innerHTML = classDatabase.map(c=>`
+        <div style="display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid #edf2ed;">
+          <span>${escapeHTML(c.name)}</span>
+          <button onclick="classDatabase=classDatabase.filter(x=>x.id!=='${c.id}'); localStorage.setItem(CLASSES_STORAGE_KEY, JSON.stringify(classDatabase)); openClassManagerModal(); renderAdminClassDashboard();" class="del-btn">🗑️</button>
+        </div>`).join('');
+      document.getElementById('classManagerModal').classList.add('open'); 
+    }
+
+    function openApprovalModal() {
+      const pending = userDatabase.filter(u => u.status === 'pending');
+      document.getElementById('approvalUsersList').innerHTML = pending.length 
+        ? pending.map(u => `
+            <div style="display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid #eee;">
+              <div>
+                <b>${escapeHTML(u.fullName)}</b> (@${escapeHTML(u.username)})<br>
+                <small style="color:#71877d;">Đăng ký ngày: ${escapeHTML(u.createdAt)}</small>
+              </div>
+              <button class="primary" onclick="approveUser(${u.id})">Phê duyệt</button>
+            </div>
+          `).join('')
+        : '<div class="notice">Không có học viên nào đang chờ phê duyệt.</div>';
+      document.getElementById('approvalModal').classList.add('open');
+    }
+
+    function approveUser(userId) {
+      const u = userDatabase.find(x => x.id === userId);
+      if(u) {
+        u.status = 'approved';
+        localStorage.setItem(AUTH_STORAGE_KEY, JSON.stringify(userDatabase));
+        showToast(`Đã phê duyệt tài khoản @${u.username}`);
+        renderAdminClassDashboard();
+        openApprovalModal();
+      }
+    }
+
+    /* ================= INITIALIZATION ================= */
+    window.addEventListener('DOMContentLoaded', () => {
+      checkAuthSession();
+    });
+  </script>
+</body>
+</html>
