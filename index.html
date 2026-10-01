@@ -2512,19 +2512,36 @@ function getDeviceName() {
   }
 }
 
-    function updateUserUI() {
-      const name = currentUser.fullName || currentUser.username;
-      setElText('userNameDisplay', name);
-      document.getElementById('navBtnAdmin').style.display = currentUser.role==='admin' ? 'flex' : 'none';
-      const initChar = name.charAt(0).toUpperCase();
-      const drawAvatar = (elId) => {
-        const el = document.getElementById(elId);
-        if(currentUser.avatar) el.innerHTML = `<img src="${currentUser.avatar}">`;
-        else el.textContent = initChar;
-      };
-      drawAvatar('userAvatarSmall'); 
-      drawAvatar('topbarAvatar');
+ function updateUserUI() {
+  const name = currentUser.fullName || currentUser.username;
+  setElText('userNameDisplay', name);
+  
+  // Cập nhật đúng vai trò của tài khoản đang đăng nhập
+  const roleTextEl = document.getElementById('userRoleDisplay');
+  if (roleTextEl) {
+    if (currentUser.role === 'admin') {
+      roleTextEl.textContent = "Quản trị viên / Giảng viên";
+    } else {
+      // Tìm tên lớp học sinh đang tham gia (nếu có)
+      const userClass = classDatabase.find(c => c.id === currentUser.classId);
+      roleTextEl.textContent = userClass ? `Học viên · ${userClass.name}` : "Học viên";
     }
+  }
+
+  document.getElementById('navBtnAdmin').style.display = currentUser.role === 'admin' ? 'flex' : 'none';
+  
+  const initChar = name.charAt(0).toUpperCase();
+  const drawAvatar = (elId) => {
+    const el = document.getElementById(elId);
+    if (el) {
+      if (currentUser.avatar) el.innerHTML = `<img src="${currentUser.avatar}">`;
+      else el.textContent = initChar;
+    }
+  };
+  drawAvatar('userAvatarSmall'); 
+  drawAvatar('topbarAvatar');
+}
+     
     /* ================= LỚP HỌC & QUẢN LÝ THÀNH VIÊN THEO LỚP ================= */
 function isUserOnline(user) {
   if (!user || !user.username) return false;
@@ -2809,6 +2826,27 @@ function removeUserFromClass(userId) {
 
     /* ================= DASHBOARD & RESOURCES ================= */
     function initDashboardView() {
+  // Cập nhật thông số học tập thật
+  if (currentUser) {
+    const today = getTodayKey();
+    const userData = getUserStudyData();
+    const todayMinutes = userData.dates[today] || 0;
+    const currentStreak = calculateAndUpdateStreak();
+
+    // 1. Cập nhật thời gian học
+    setElText('dashStudyTimeToday', `${todayMinutes} phút`);
+
+    // 2. Cập nhật chuỗi Streak
+    setElText('dashStudyStreak', `${currentStreak} ngày liên tiếp`);
+
+    // 3. Cập nhật tên lớp học hiện tại
+    const userClass = classDatabase.find(c => c.id === currentUser.classId);
+    const className = currentUser.role === 'admin' 
+      ? 'Quản trị viên / Giảng viên' 
+      : (userClass ? userClass.name : 'Chưa xếp lớp');
+    setElText('dashCurrentClassName', className);
+  }
+      {
       const container = document.getElementById('dashboardAssignmentsContainer');
       const visible = mediaDatabase.filter(m => currentUser.role==='admin' || m.classId===currentUser.classId || m.classId==='all').slice(0,6);
       if(!visible.length) { 
