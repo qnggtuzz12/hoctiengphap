@@ -1,6 +1,9 @@
 <!doctype html>
 <html lang="vi">
 <head>
+  <!-- Đổi icon cho tab trình duyệt -->
+  <link rel="icon" type="2026.png">
+</head>
   <!-- Firebase SDK -->
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
@@ -8,7 +11,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="color-scheme" content="light">
-  <title>CASTA Français | Không Gian Học Tiếng Pháp Chuyên Sâu</title>
+  <title>Casta Français | Không Gian Học Tiếng Pháp Chuyên Sâu</title>
   <link id="castaFavicon" rel="icon" type="image/png" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 64 64%22%3E%3Crect width=%2264%22 height=%2264%22 rx=%2214%22 fill=%22%231d4ed8%22/%3E%3Ctext x=%2232%22 y=%2242%22 font-size=%2227%22 fill=%22white%22 text-anchor=%22middle%22 font-family=%22Arial%22%3ECF%3C/text%3E%3C/svg%3E">
   
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -1186,7 +1189,7 @@
       <div class="brand">
         <div class="brand-mark" id="castaSidebarLogo">CF</div>
         <div>
-          <strong>CASTA Français</strong>
+          <strong>Casta Français</strong>
           <small>FRENCH LEARNING HUB</small>
         </div>
       </div>
@@ -1258,7 +1261,7 @@
           <div class="user-avatar-small" id="userAvatarSmall">CF</div>
           <div class="user-footer-text">
             <b id="userNameDisplay">Enseignant Casta</b>
-            <span id="userRoleDisplay">Quản trị viên CASTA Français</span>
+            <span id="userRoleDisplay">Quản trị viên Casta Français</span>
           </div>
         </div>
         <button type="button" onclick="handleLogout()" class="secondary" style="width:100%;font-size:11px;padding:6px;justify-content:center;color:#b91c1c;border-color:#fecaca;margin-top:4px;">
@@ -1539,7 +1542,7 @@
           <div class="page-header">
             <div>
               <h1 id="myClassPageTitle">Danh Sách Học Viên Tiếng Pháp</h1>
-              <p id="myClassPageSubtitle">Danh sách học viên và tiến độ học tập tại trung tâm CASTA Français.</p>
+              <p id="myClassPageSubtitle">Danh sách học viên và tiến độ học tập tại Casta Français.</p>
             </div>
             <div id="adminClassSelectorWrap" style="display:none; align-items:center; gap:8px;">
               <label style="font-size:12px; font-weight:700; color:#1a4f8b;">Chọn lớp tiếng Pháp:</label>
@@ -1597,7 +1600,7 @@
         <section id="class_admin" class="page">
           <div class="page-header">
             <div>
-              <h1>Quản Lý Lớp Học, Buổi Học & Học Liệu CASTA Français</h1>
+              <h1>Quản Lý Lớp Học, Buổi Học & Học Liệu Casta Français</h1>
             </div>
             <div style="display:flex;gap:8px;">
               <button class="secondary" onclick="openSessionManagerModal()">📅 Quản Lý Buổi Học</button>
@@ -1741,7 +1744,7 @@
                 <div class="user-avatar-small" id="settingAvatarPreview" style="width:72px;height:72px;font-size:24px;">CF</div>
                 <div>
                   <b style="display:block;font-size:15px;color:#133358;" id="settingUsernameLabel">admin1</b>
-                  <span style="font-size:12px;color:#60768b;" id="settingRoleLabel">Quản trị viên CASTA Français</span>
+                  <span style="font-size:12px;color:#60768b;" id="settingRoleLabel">Quản trị viên Casta Français</span>
                 </div>
               </div>
 
@@ -3132,7 +3135,7 @@
       localStorage.setItem(AUTH_STORAGE_KEY, JSON.stringify(userDatabase));
       rtdb.ref('/users').set(userDatabase);
 
-      alert("Đăng ký thành công! Vui lòng chờ Giảng viên CASTA Français phê duyệt."); 
+      alert("Đăng ký thành công! Vui lòng chờ Admin Casta Français phê duyệt."); 
       switchAuthTab('login');
     }
 
@@ -3172,7 +3175,7 @@
       const roleTextEl = document.getElementById('userRoleDisplay');
       if (roleTextEl) {
         if (currentUser.role === 'admin') {
-          roleTextEl.textContent = isSuperAdmin() ? "Super Admin (Casta)" : "Giảng viên CASTA";
+          roleTextEl.textContent = isSuperAdmin() ? "Super Admin (Casta)" : "Tutor";
         } else {
           const userClass = classDatabase.find(c => c.id === currentUser.classId);
           roleTextEl.textContent = userClass ? `Học viên · ${userClass.name}` : "Học viên (Chưa xếp lớp)";
@@ -3298,7 +3301,7 @@
         status: "approved",
         classId: "all",
         avatar: "",
-        bio: bio || "Giảng viên CASTA Français",
+        bio: bio || "Giảng viên Casta Français",
         createdAt: new Date().toLocaleDateString('vi-VN')
       };
 
@@ -3392,7 +3395,7 @@
 
       let currentClassName = "Chưa xếp lớp";
       if (currentUser.role === 'admin') {
-        currentClassName = "Ban Giảng Viên CASTA Français";
+        currentClassName = "Tutor Casta Français";
       } else if (currentUser.classId) {
         const userClass = classDatabase.find(c => c.id === currentUser.classId);
         if (userClass) currentClassName = userClass.name;
@@ -3471,7 +3474,7 @@
       if (oldAddBtn) oldAddBtn.remove();
 
       if (classId === 'all_users') {
-        setElText('myClassPageTitle', 'Toàn Bộ Thành Viên CASTA Français');
+        setElText('myClassPageTitle', 'Toàn Bộ Thành Viên Casta Français');
         setElText('myClassPageSubtitle', 'Danh sách tổng hợp tất cả tài khoản học viên và giảng viên.');
         members = userDatabase;
       } else {
@@ -3508,7 +3511,7 @@
         const initial = (m.fullName || m.username).charAt(0).toUpperCase();
         const userClassName = m.classId === 'all' 
           ? 'Toàn hệ thống' 
-          : (classMap[m.classId] || (m.role === 'admin' ? 'Giảng Viên CASTA' : 'Chưa xếp lớp'));
+          : (classMap[m.classId] || (m.role === 'admin' ? 'Giảng Viên Casta' : 'Chưa xếp lớp'));
         const isPending = m.status === 'pending';
 
         let removeClassBtn = '';
@@ -3684,7 +3687,7 @@
       
       const loadVid = (v) => {
         setElText('currentVideoTitle', v.title); 
-        setElText('currentVideoNote', v.note || "Video bài giảng chính thức từ CASTA Français."); 
+        setElText('currentVideoNote', v.note || "Video bài giảng chính thức từ Casta Français."); 
         setElText('currentVideoSessionBadge', v.sessionName);
         document.getElementById('btnOpenExternalVideo').href = v.url; 
         document.getElementById('btnOpenExternalVideo').style.display = 'inline-flex';
