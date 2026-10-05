@@ -2036,6 +2036,7 @@
             <button id="btnStartCorrections" type="button" class="secondary" onclick="toggleExamCorrection()" style="flex:1;justify-content:center;">✍️ Sửa câu sai</button>
             <button id="btnCheckCorrections" type="button" class="primary" onclick="checkExamCorrections()" style="display:none;flex:1;justify-content:center;">✓ Kiểm tra lại</button>
           </div>
+          <button id="btnReviewRetake" type="button" class="secondary" onclick="retakeExamFromCurrent()" style="display:none;width:100%;justify-content:center;margin-bottom:9px;padding:11px;">🔄 Làm lại từ đầu</button>
           <button id="btnLiveSubmitExam" onclick="confirmLiveSubmit()" class="primary" style="width:100%; justify-content:center; padding:12px; font-size:13px; background:#1d4ed8; border-color:#1d4ed8;">
             <i class="fa-solid fa-circle-check"></i> Nộp Bài Thi
           </button>
@@ -2063,6 +2064,7 @@
         <button id="btnRetrySubmission" class="secondary" onclick="retryCurrentSubmission()" style="display:none; color:#b45309; border-color:#fcd34d; background:#fffbeb;">↻ Thử lưu lại</button>
         <button class="secondary" onclick="exitExamToHome()">Thoát phòng thi</button>
         <button id="btnResultReview" class="primary" onclick="reviewExamQuestionsOnly()">Xem bài đã nộp</button>
+        <button class="secondary" type="button" onclick="retakeExamFromCurrent()">🔄 Làm lại bài</button>
       </div>
     </div>
   </div>
@@ -5066,7 +5068,10 @@ function convertDocsToPreview(url) {
         const userSubmission = currentUser ? studentSubmissions.find(s => s.examCode === e.code && s.userId === currentUser.id) : null;
         let actionBtn = '';
         if (userSubmission && !isAdmin) {
-          actionBtn = `<button class="secondary" style="width:100%; justify-content:center; margin-top:8px;" onclick="openReviewExamDirectly('${escapeHTML(e.code)}')">👁️ Xem lại bài (${userSubmission.score == null ? 'chưa chấm' : userSubmission.score + 'đ'})</button>`;
+          actionBtn = `<div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:8px;">
+            <button class="secondary" style="flex:1;justify-content:center;" onclick="openReviewExamDirectly('${escapeHTML(e.code)}')">👁️ Xem lại (${userSubmission.score == null ? 'chưa chấm' : userSubmission.score + 'đ'})</button>
+            <button class="primary" style="flex:1;justify-content:center;" onclick="retakeExamByCode('${escapeHTML(e.code)}')">🔄 Làm lại</button>
+          </div>`;
         } else {
           actionBtn = `<button class="primary" style="width:100%; justify-content:center; margin-top:8px; background:#1d4ed8; border-color:#1d4ed8;" onclick="promptStartExam('${escapeHTML(e.code)}')">🚀 Làm Bài Thi Ngay</button>`;
         }
@@ -5293,6 +5298,7 @@ function convertDocsToPreview(url) {
       // 5) Timer / nút nộp.
       const timerBox = document.getElementById('liveExamTimerBox');
       const submitBtn = document.getElementById('btnLiveSubmitExam');
+      document.getElementById('btnReviewRetake').style.display = isLiveReviewMode ? 'inline-flex' : 'none';
       if (isLiveReviewMode) {
         timerBox.style.display = 'none';
         submitBtn.disabled = true;
@@ -5618,6 +5624,43 @@ function convertDocsToPreview(url) {
       originalReviewAnswers = null;
       isAdminTestRun = false;
       renderExamsList();
+    }
+
+    // Mỗi lượt làm lại là một bài mới; không xóa snapshot của lượt cũ cho tới khi nộp lại.
+    // Bản chấm điểm hiện tại chỉ lưu kết quả mới nhất của mỗi học viên/đề.
+    function retakeExamByCode(code) {
+      if (!currentUser) { alert('Bạn cần đăng nhập trước khi làm bài.'); return; }
+      const exam = resolveExamForLaunch(code);
+      if (!exam) { alert('Không tìm thấy đề. Nếu đề HTML đã mất, admin cần tải lại nguồn đề.'); return; }
+      const docId = `${currentUser.id}_${code}`;
+      const pending = readPendingSubmissions()[docId];
+      if (pending) {
+        alert('Lượt nộp trước chưa đồng bộ xong. Hãy kết nối mạng và lưu thành công trước khi làm lại để tránh mất điểm.');
+        return;
+      }
+      const isAdmin = currentUser.role === 'admin' || isSuperAdmin();
+      const message = isAdmin && isAdminTestRun
+        ? 'Làm thử lại từ đầu? Toàn bộ đáp án trong lượt thử mới sẽ được xóa.'
+        : 'Làm lại từ đầu? Lượt mới sẽ bắt đầu với đáp án trống và khi nộp sẽ thay thế điểm của lượt trước trên bảng điểm.';
+      if (!confirm(message)) return;
+      clearInterval(examCountdownTimer);
+      clearCurrentExamDraft(exam);
+      // Đóng modal kết quả, reset cả iframe và mọi trạng thái review/correction.
+      document.getElementById('examResultScoreModal').classList.remove('open');
+      isLiveReviewMode = false;
+      isLiveCorrectionMode = false;
+      correctionChecked = false;
+      correctionAnswers = {mcq:{},sa:{}};
+      originalReviewAnswers = null;
+      studentLiveAnswers = {mcq:{},sa:{}};
+      activeInteractiveManifest = [];
+      startExamRoom(exam, false);
+    }
+
+    function retakeExamFromCurrent() {
+      const code = activeExam?.code || (document.getElementById('liveExamCode')?.textContent || '').trim();
+      if (!code) { alert('Không xác định được đề để làm lại.'); return; }
+      retakeExamByCode(code);
     }
 
     function reviewExamQuestionsOnly() {
