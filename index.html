@@ -99,8 +99,8 @@
       padding: 0 8px;
     }
     .brand-mark {
-      width: 42px;
-      height: 42px;
+      width: 50px;
+      height: 50px;
       border-radius: 14px;
       background: #e1ebf9;
       display: grid;
@@ -828,6 +828,38 @@
       border: 2px dashed #fff;
     }
     
+    /* CASTA BRANDING */
+    .brand-mark.casta-brand-image {
+      padding: 0;
+      overflow: hidden;
+      background: #2110b8;
+      box-shadow: 0 4px 12px rgba(33,16,184,.18);
+    }
+    .brand-mark.casta-brand-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    .auth-brand-logo {
+      width: 142px;
+      height: 142px;
+      margin: 0 auto 14px;
+      border-radius: 28px;
+      overflow: hidden;
+      background: #2110b8;
+      box-shadow: 0 14px 36px rgba(24,31,88,.18);
+    }
+    .auth-brand-logo img {
+      width: 100%;
+      height: 100%;
+      display: block;
+      object-fit: cover;
+    }
+    @media(max-width:580px) {
+      .auth-brand-logo { width: 112px; height: 112px; border-radius: 23px; }
+    }
+
     #authOverlay {
       position: fixed;
       inset: 0;
@@ -1119,7 +1151,9 @@
   <div id="authOverlay" style="display:none;">
     <div class="auth-card">
       <div style="text-align:center;margin-bottom:20px;">
-        <div class="brand-mark" style="margin:0 auto 10px;width:48px;height:48px;font-size:22px;">CF</div>
+        <div class="auth-brand-logo" id="castaLoginLogo" aria-label="CASTA Français">
+          <img src="Casta_logo.png" alt="CASTA Français logo">
+        </div>
         <h2 style="margin:0;font-size:20px;color:#133358;">CASTA Français</h2>
         <p style="margin:4px 0 0;font-size:12px;color:#60768b;">Espace d'Apprentissage du Français · Học Tiếng Pháp</p>
       </div>
@@ -5955,25 +5989,57 @@ function convertDocsToPreview(url) {
       setTimeout(() => { syncPendingSubmissions(true); retryPendingExamSyncs(true); }, 1200);
     });
   
-    /* CASTA BRAND CONFIG: Đổi tên file tại đây sau khi upload lên GitHub. */
+    /* ============================================================
+       CASTA BRAND CONFIG
+       Khi up GitHub, đặt ảnh cạnh index.html.
+       Muốn đổi ảnh sau này: chỉ sửa dòng image: '...'
+       ============================================================ */
     const CASTA_BRAND = {
-      favicon: 'casta_favicon.png', // Ví dụ: 'assets/favicon-moi.png'
-      logo: '2026.png'        // Ví dụ: 'assets/logo-casta.png'
+      image: 'Casta_logo.png'
     };
+
     const CASTA_DEFAULT_ICON = document.getElementById('castaFavicon').href;
+
     function castaApplyBrand() {
-      const logo = CASTA_BRAND.logo;
-      for (const id of ['castaSidebarLogo','castaLogoPreview']) {
-        const el=document.getElementById(id); if(!el) continue;
-        el.textContent='';
-        const img=document.createElement('img'); img.src=logo;
-        img.alt='CASTA logo'; img.style.cssText='width:100%;height:100%;object-fit:contain;';
-        img.onerror=()=>{el.textContent='CF';}; el.appendChild(img);
+      const logo = CASTA_BRAND.image;
+
+      // Logo menu bên trái
+      const sidebar = document.getElementById('castaSidebarLogo');
+      if (sidebar) {
+        sidebar.textContent = '';
+        sidebar.classList.add('casta-brand-image');
+        const im = document.createElement('img');
+        im.src = logo;
+        im.alt = 'CASTA Français';
+        im.onerror = () => {
+          sidebar.classList.remove('casta-brand-image');
+          sidebar.textContent = 'CF';
+        };
+        sidebar.appendChild(im);
       }
-      const fav=document.getElementById('castaFavicon');
-      if(fav){ fav.href=CASTA_BRAND.favicon || CASTA_DEFAULT_ICON; fav.onerror=()=>{fav.href=CASTA_DEFAULT_ICON;}; }
+
+      // Logo giao diện đăng nhập / đăng ký
+      const login = document.getElementById('castaLoginLogo');
+      if (login) {
+        const im = login.querySelector('img');
+        if (im) {
+          im.src = logo;
+          im.onerror = () => {
+            login.innerHTML = '<div style="height:100%;display:grid;place-items:center;color:white;font-size:34px;font-weight:800;">CF</div>';
+          };
+        }
+      }
+
+      // Favicon trên tab trình duyệt
+      const fav = document.getElementById('castaFavicon');
+      if (fav) {
+        fav.href = logo;
+        fav.type = 'image/png';
+        fav.onerror = () => { fav.href = CASTA_DEFAULT_ICON; };
+      }
     }
-    document.addEventListener('DOMContentLoaded',castaApplyBrand);
+
+    document.addEventListener('DOMContentLoaded', castaApplyBrand);
 </script>
 </body>
 </html>
