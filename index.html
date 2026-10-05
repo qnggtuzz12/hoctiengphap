@@ -1,7 +1,6 @@
 <!doctype html>
 <html lang="vi">
-</head>
-  <link rel="icon" type="image/png" href="2026.png">
+<head>
   <!-- Firebase SDK -->
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
@@ -2030,8 +2029,13 @@
             <div id="liveProgressBar" style="background:#1d4ed8; width:0%; height:100%; transition:width 0.3s;"></div>
           </div>
         </div>
+        <div id="liveReviewSummary" style="display:none;padding:12px 14px;border-bottom:1px solid #dbeafe;background:#f8fbff;font-size:12px;color:#1e3a5f;line-height:1.65;"></div>
         <div id="liveAnswerSheetList" style="flex:1; overflow-y:auto; padding:14px; display:flex; flex-direction:column; gap:14px;" class="custom-scrollbar"></div>
         <div style="padding:14px; border-top:1px solid #e2e8f0; background:#f8fafc;">
+          <div id="liveCorrectionActions" style="display:none;gap:8px;flex-wrap:wrap;margin-bottom:10px;">
+            <button id="btnStartCorrections" type="button" class="secondary" onclick="toggleExamCorrection()" style="flex:1;justify-content:center;">✍️ Sửa câu sai</button>
+            <button id="btnCheckCorrections" type="button" class="primary" onclick="checkExamCorrections()" style="display:none;flex:1;justify-content:center;">✓ Kiểm tra lại</button>
+          </div>
           <button id="btnLiveSubmitExam" onclick="confirmLiveSubmit()" class="primary" style="width:100%; justify-content:center; padding:12px; font-size:13px; background:#1d4ed8; border-color:#1d4ed8;">
             <i class="fa-solid fa-circle-check"></i> Nộp Bài Thi
           </button>
@@ -2051,13 +2055,14 @@
       <div style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:18px; padding:18px; margin-bottom:20px;">
         <div id="resultScoreNumber" style="font-size:44px; font-weight:800; color:#1d4ed8; line-height:1;">0.00</div>
         <span id="resultScoreLabel" style="font-size:12px; font-weight:700; color:#64748b;">ĐIỂM SỐ / THANG ĐIỂM 10</span>
+        <div id="resultGradingWarning" style="display:none;margin-top:10px;padding:9px;border:1px solid #fcd34d;border-radius:8px;background:#fffbeb;color:#92400e;font-size:12px;text-align:left;"></div>
         <div id="resultBreakdownText" style="margin-top:14px; font-size:12px; color:#334155; line-height:1.6; text-align:left; border-top:1px dashed #cbd5e1; padding-top:10px;"></div>
         <div id="resultSaveStatus" style="margin-top:12px; padding:9px 11px; border-radius:10px; background:#eff6ff; border:1px solid #bfdbfe; color:#1e40af; font-size:11.5px; font-weight:650;">Đang lưu kết quả...</div>
       </div>
       <div style="display:flex; justify-content:center; gap:10px; flex-wrap:wrap;">
         <button id="btnRetrySubmission" class="secondary" onclick="retryCurrentSubmission()" style="display:none; color:#b45309; border-color:#fcd34d; background:#fffbeb;">↻ Thử lưu lại</button>
         <button class="secondary" onclick="exitExamToHome()">Thoát phòng thi</button>
-        <button class="primary" onclick="reviewExamQuestionsOnly()">Xem lại bài làm</button>
+        <button id="btnResultReview" class="primary" onclick="reviewExamQuestionsOnly()">Xem bài đã nộp</button>
       </div>
     </div>
   </div>
@@ -2081,7 +2086,7 @@
         </div>
         <div style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:12px; padding:10px; display:flex; gap:16px;">
           <label style="font-size:12px; display:flex; align-items:center; gap:6px; cursor:pointer;"><input type="checkbox" id="chkAdminIsUnlimited"> ⏱️ Thời gian vô hạn (Luyện tập)</label>
-          <label style="font-size:12px; display:flex; align-items:center; gap:6px; cursor:pointer;"><input type="checkbox" id="chkAdminPracticeOnly"> 🎯 Chỉ kiểm tra câu đúng (Không tính điểm 10)</label>
+          <label style="font-size:12px; display:flex; align-items:center; gap:6px; cursor:pointer;"><input type="checkbox" id="chkAdminPracticeOnly"> 🎯 Chỉ kiểm tra câu đúng (Không tính điểm 10)</label></div><div style="background:#f0fdf4;border:1px solid #bbf7d0;border-radius:12px;padding:10px 12px;"><label style="display:flex;align-items:center;gap:9px;cursor:pointer;font-size:12px;font-weight:750;color:#166534;"><input type="checkbox" id="chkAdminShowAnswersAfterSubmit" style="width:17px;height:17px;">📗 Cho phép xem đáp án và sửa câu sai ngay sau khi nộp</label><div style="margin:5px 0 0 26px;color:#475569;font-size:11px;line-height:1.5;">Bật: học viên xem đáp án xanh/đỏ và luyện sửa sai sau khi nộp. Tắt: học viên chỉ xem lại lựa chọn đã nộp, không thấy đáp án đúng và không được sửa sai. Admin làm thử vẫn có thể xem đáp án để kiểm tra đề.</div>
         </div>
         <div class="field" style="margin:0;">
           <label>🎧 Link Audio bài nghe (Google Drive hoặc MP3):</label>
@@ -4028,6 +4033,10 @@ function convertDocsToPreview(url) {
     let activeExam = null;
     let studentLiveAnswers = { mcq: {}, sa: {} }; // Bỏ tf (đúng/sai)
     let isLiveReviewMode = false;
+    let isLiveCorrectionMode = false;
+    let correctionChecked = false;
+    let correctionAnswers = {mcq:{},sa:{}};
+    let originalReviewAnswers = null;
     let examCountdownTimer = null;
     let examTimeRemaining = 0;
     let examZoomVal = 1.0;
@@ -4607,20 +4616,90 @@ function convertDocsToPreview(url) {
         function sendManifest() {
           send({type:'CASTA_MANIFEST', questions:collectManifest()});
         }
+        function normalizeAnswer(value) {
+          return String(value == null ? '' : value).trim().normalize('NFC').toLocaleLowerCase('fr');
+        }
         function restoreState() {
           var state = window.CASTA_STATE || {};
-          var a = state.answers || {};
+          var original = state.originalAnswers || state.answers || {};
+          var corrections = state.correctionAnswers || {};
+          var keys = state.correctKeys || {mcq:{},sa:{}};
           scanInputs();
           document.querySelectorAll('[data-casta-question]').forEach(function(el) {
             var q = String(el.dataset.castaQuestion || '');
             var type = String(el.type || '').toLowerCase();
             var kind = el.dataset.castaKind || ((type === 'text' || type === 'number' || el.tagName === 'TEXTAREA') ? 'sa' : 'mcq');
-            var v = kind === 'sa' ? (a.sa || {})[q] : (a.mcq || {})[q];
-            if (v != null) {
-              if (type === 'radio' || type === 'checkbox') el.checked = String(el.value) === String(v);
-              else el.value = v;
+            var group = kind === 'sa' || kind === 'text' ? 'sa' : 'mcq';
+            var orig = (original[group] || {})[q];
+            var correct = (keys[group] || {})[q];
+            var wasRight = correct != null && normalizeAnswer(orig) === normalizeAnswer(correct);
+            var editable = !!state.correctionMode && !wasRight && correct != null;
+            var v = editable ? (corrections[group] || {})[q] : orig;
+            if (type === 'radio' || type === 'checkbox') el.checked = v != null && String(el.value) === String(v);
+            else if (v != null) el.value = v;
+            else if (group === 'sa') el.value = '';
+            el.disabled = !!state.reviewOnly && !editable;
+          });
+          applyReviewFeedback();
+        }
+        function applyReviewFeedback() {
+          var state = window.CASTA_STATE || {};
+          var keys = state.correctKeys || {mcq:{},sa:{}};
+          var original = state.originalAnswers || state.answers || {};
+          var corrections = state.correctionAnswers || {};
+          var review = (!!state.reviewOnly || !!state.correctionMode) && !!state.revealAnswers;
+          var showKeys = review && (!state.correctionMode || !!state.correctionChecked);
+          document.querySelectorAll('[data-casta-question]').forEach(function(el) {
+            var q = String(el.dataset.castaQuestion || '');
+            var type = String(el.type || '').toLowerCase();
+            var kind = el.dataset.castaKind || ((type === 'text' || type === 'number' || el.tagName === 'TEXTAREA') ? 'sa' : 'mcq');
+            var group = kind === 'sa' || kind === 'text' ? 'sa' : 'mcq';
+            var correct = (keys[group] || {})[q];
+            var orig = (original[group] || {})[q];
+            var wasRight = correct != null && normalizeAnswer(orig) === normalizeAnswer(correct);
+            var current = state.correctionMode && !wasRight ? (corrections[group] || {})[q] : orig;
+            var label = (type === 'radio' || type === 'checkbox') ? el.closest('label') : el;
+            if (!label) return;
+            label.classList.remove('casta-review-right','casta-review-wrong');
+            if (!review || correct == null) return;
+            if (showKeys && group === 'mcq') {
+              if (String(el.value).toUpperCase() === String(correct).toUpperCase()) label.classList.add('casta-review-right');
+              else if (current != null && String(el.value).toUpperCase() === String(current).toUpperCase()) label.classList.add('casta-review-wrong');
+            } else if (showKeys && group === 'sa') {
+              label.classList.add(normalizeAnswer(current) === normalizeAnswer(correct) ? 'casta-review-right' : 'casta-review-wrong');
             }
-            el.disabled = !!state.reviewOnly;
+          });
+          // One feedback note per question card, never modify the question itself.
+          var seen = {};
+          document.querySelectorAll('[data-casta-question]').forEach(function(el) {
+            var q = String(el.dataset.castaQuestion || '');
+            if (seen[q]) return;
+            seen[q] = true;
+            var type = String(el.type || '').toLowerCase();
+            var kind = el.dataset.castaKind || ((type === 'text' || type === 'number' || el.tagName === 'TEXTAREA') ? 'sa' : 'mcq');
+            var group = kind === 'sa' || kind === 'text' ? 'sa' : 'mcq';
+            var correct = (keys[group] || {})[q];
+            var orig = (original[group] || {})[q];
+            var wasRight = correct != null && normalizeAnswer(orig) === normalizeAnswer(correct);
+            var card = el.closest('.question-card,.card,section,article,fieldset') || el.parentElement;
+            if (!card) return;
+            var note = Array.prototype.find.call(card.children, function(x) { return x.classList && x.classList.contains('casta-feedback-note') && x.dataset.question === q; });
+            var msg = '';
+            if (review && correct == null) msg = 'Chưa có đáp án chuẩn để chấm câu này.';
+            else if (review && state.correctionMode && !wasRight && !state.correctionChecked) msg = '✍️ Hãy thử trả lời lại câu này.';
+            else if (review && state.correctionMode && !wasRight && state.correctionChecked) {
+              var answer = (corrections[group] || {})[q];
+              msg = normalizeAnswer(answer) === normalizeAnswer(correct) ? '✓ Bạn đã sửa đúng!' : 'Chưa đúng. Đáp án: ' + correct;
+            } else if (review) msg = (wasRight ? '✓ Đã làm đúng.' : 'Đáp án đúng: ' + correct);
+            if (!msg) { if (note) note.remove(); return; }
+            if (!note) {
+              note = document.createElement('div');
+              note.className = 'casta-feedback-note';
+              note.dataset.question = q;
+              card.appendChild(note);
+            }
+            if (note.textContent !== msg) note.textContent = msg;
+            note.style.cssText = 'margin:12px 0 2px;padding:9px 11px;border-radius:9px;background:#eff6ff;border:1px solid #bfdbfe;color:#1e40af;font:600 12px system-ui';
           });
         }
         function clearNode(node) {
@@ -4675,7 +4754,7 @@ function convertDocsToPreview(url) {
 
         window.CASTA = window.CASTA || {};
         window.CASTA.answer = function(q, a, kind) { send({type:'CASTA_ANSWER', question:String(q), answer:String(a == null ? '' : a), kind:kind || 'mcq'}); };
-        window.CASTA.submit = function() { send({type:'CASTA_SUBMIT'}); };
+        window.CASTA.submit = function() { if (!window.CASTA_STATE?.reviewOnly && !window.CASTA_STATE?.correctionMode) send({type:'CASTA_SUBMIT'}); };
         window.CASTA.speak = speak;
         window.CASTA.ready = function() { send({type:'CASTA_READY'}); };
 
@@ -4691,13 +4770,13 @@ function convertDocsToPreview(url) {
             if (!t || !t.dataset || !t.dataset.castaQuestion) return;
             var type = String(t.type || '').toLowerCase();
             var kind = t.dataset.castaKind || ((type === 'text' || type === 'number' || t.tagName === 'TEXTAREA') ? 'sa' : 'mcq');
-            window.CASTA.answer(t.dataset.castaQuestion, t.value, kind);
+            if (!window.CASTA_STATE?.reviewOnly || window.CASTA_STATE?.correctionMode) window.CASTA.answer(t.dataset.castaQuestion, t.value, kind);
           });
           document.addEventListener('input', function(e) {
             var t = e.target;
             if (!t || !t.dataset || !t.dataset.castaQuestion) return;
             var kind = t.dataset.castaKind || 'sa';
-            if (kind === 'sa' || kind === 'text') window.CASTA.answer(t.dataset.castaQuestion, t.value, 'sa');
+            if ((kind === 'sa' || kind === 'text') && (!window.CASTA_STATE?.reviewOnly || window.CASTA_STATE?.correctionMode)) window.CASTA.answer(t.dataset.castaQuestion, t.value, 'sa');
           });
 
           var tip = document.createElement('button');
@@ -4722,9 +4801,17 @@ function convertDocsToPreview(url) {
 
           try {
             var moTimer = null;
-            var mo = new MutationObserver(function() {
+            var mo = new MutationObserver(function(records) {
+              var relevant = records.some(function(record) {
+                return Array.prototype.some.call(record.addedNodes || [], function(node) {
+                  if (node.nodeType !== 1) return false;
+                  if (node.classList && (node.classList.contains('casta-feedback-note') || node.id === 'castaInteractiveAudioBar')) return false;
+                  return node.matches?.('input,textarea,select,[data-casta-question]') || !!node.querySelector?.('input,textarea,select,[data-casta-question]');
+                });
+              });
+              if (!relevant) return;
               clearTimeout(moTimer);
-              moTimer = setTimeout(function() { scanInputs(); restoreState(); sendManifest(); }, 120);
+              moTimer = setTimeout(function() { scanInputs(); restoreState(); sendManifest(); }, 180);
             });
             mo.observe(document.body, {childList:true, subtree:true});
           } catch (e) {}
@@ -4747,7 +4834,7 @@ function convertDocsToPreview(url) {
       }
 
       const bridge = '<scr' + 'ipt>(' + castaBridgeRuntime.toString() + ')();</scr' + 'ipt>' +
-        '<style>html,body{min-height:100%;}body{visibility:visible!important;opacity:1!important;}img{max-width:100%;}</style>';
+        '<style>html,body{min-height:100%;}body{visibility:visible!important;opacity:1!important;}img{max-width:100%;}.casta-review-right{background:#dcfce7!important;border:2px solid #16a34a!important;color:#166534!important}.casta-review-wrong{background:#fee2e2!important;border:2px solid #dc2626!important;color:#991b1b!important}</style>';
 
       if (/<head[^>]*>/i.test(cleanedHtml)) {
         return cleanedHtml.replace(/<head([^>]*)>/i, '<head$1>' + bridge);
@@ -4787,6 +4874,31 @@ function convertDocsToPreview(url) {
       setTimeout(() => URL.revokeObjectURL(a.href), 1000);
     }
 
+    function canRevealExamAnswers() {
+      return !!(activeExam && (activeExam.showAnswersAfterSubmit === true ||
+        (isAdminTestRun && currentUser && (currentUser.role === 'admin' || isSuperAdmin()))));
+    }
+
+    function interactiveFrameState() {
+      // Correct keys are NEVER sent to the embedded HTML during an active attempt.
+      return {
+        answers: studentLiveAnswers,
+        originalAnswers: originalReviewAnswers || studentLiveAnswers,
+        correctionAnswers: correctionAnswers,
+        correctKeys: isLiveReviewMode && canRevealExamAnswers() && activeExam ? {mcq:activeExam.mcqKeys || {},sa:activeExam.saKeys || {}} : {mcq:{},sa:{}},
+        reviewOnly: isLiveReviewMode,
+        revealAnswers: isLiveReviewMode && canRevealExamAnswers(),
+        correctionMode: isLiveCorrectionMode && canRevealExamAnswers(),
+        correctionChecked: correctionChecked,
+        examCode: activeExam?.code || '', audioUrl: activeExam?.audioUrl || ''
+      };
+    }
+    function pushInteractiveFrameState() {
+      const frame = document.getElementById('liveInteractiveHtmlIframe');
+      if (frame?.contentWindow && frame.style.display !== 'none') {
+        frame.contentWindow.postMessage({type:'CASTA_STATE',state:interactiveFrameState()}, '*');
+      }
+    }
     window.addEventListener('message', (event) => {
       const frame = document.getElementById('liveInteractiveHtmlIframe');
       if (!frame || event.source !== frame.contentWindow || !event.data || typeof event.data !== 'object') return;
@@ -4801,8 +4913,15 @@ function convertDocsToPreview(url) {
       } else if (data.type === 'CASTA_ANSWER') {
         const q = String(data.question || '').trim();
         if (!q) return;
-        if ((data.kind || 'mcq') === 'sa' || (data.kind || '') === 'text') studentLiveAnswers.sa[q] = String(data.answer ?? '');
-        else studentLiveAnswers.mcq[q] = String(data.answer ?? '').toUpperCase();
+        const kind = ((data.kind || 'mcq') === 'sa' || data.kind === 'text') ? 'sa' : 'mcq';
+        if (isLiveReviewMode) {
+          if (!isLiveCorrectionMode || !isCorrectionEligible(q,kind)) return;
+          correctionAnswers[kind][q] = kind === 'mcq' ? String(data.answer ?? '').toUpperCase() : String(data.answer ?? '');
+          correctionChecked = false;
+          renderLiveExamAnswerSheet();
+          return;
+        }
+        studentLiveAnswers[kind][q] = kind === 'mcq' ? String(data.answer ?? '').toUpperCase() : String(data.answer ?? '');
         saveCurrentExamDraft();
         renderLiveExamAnswerSheet();
       } else if (data.type === 'CASTA_SUBMIT') {
@@ -4810,7 +4929,7 @@ function convertDocsToPreview(url) {
       } else if (data.type === 'CASTA_SPEAK') {
         playAudioText(String(data.text || ''));
       } else if (data.type === 'CASTA_READY') {
-        frame.contentWindow.postMessage({type:'CASTA_STATE', state:{answers:studentLiveAnswers, reviewOnly:isLiveReviewMode, examCode:activeExam?.code || '', audioUrl:activeExam?.audioUrl || ''}}, '*');
+        pushInteractiveFrameState();
       }
     });
 
@@ -4947,7 +5066,7 @@ function convertDocsToPreview(url) {
         const userSubmission = currentUser ? studentSubmissions.find(s => s.examCode === e.code && s.userId === currentUser.id) : null;
         let actionBtn = '';
         if (userSubmission && !isAdmin) {
-          actionBtn = `<button class="secondary" style="width:100%; justify-content:center; margin-top:8px;" onclick="openReviewExamDirectly('${escapeHTML(e.code)}')">👁️ Xem lại bài (${userSubmission.score || 0}đ)</button>`;
+          actionBtn = `<button class="secondary" style="width:100%; justify-content:center; margin-top:8px;" onclick="openReviewExamDirectly('${escapeHTML(e.code)}')">👁️ Xem lại bài (${userSubmission.score == null ? 'chưa chấm' : userSubmission.score + 'đ'})</button>`;
         } else {
           actionBtn = `<button class="primary" style="width:100%; justify-content:center; margin-top:8px; background:#1d4ed8; border-color:#1d4ed8;" onclick="promptStartExam('${escapeHTML(e.code)}')">🚀 Làm Bài Thi Ngay</button>`;
         }
@@ -5066,6 +5185,10 @@ function convertDocsToPreview(url) {
       }
       activeExam = JSON.parse(JSON.stringify(hydrated));
       isLiveReviewMode = !!reviewOnly;
+      isLiveCorrectionMode = false;
+      correctionChecked = false;
+      correctionAnswers = {mcq:{},sa:{}};
+      originalReviewAnswers = reviewOnly ? cloneExamAnswers() : null;
       if (!activeExam.mcqKeys) activeExam.mcqKeys = {};
       if (!activeExam.saKeys) activeExam.saKeys = {};
       const launchToken = ++interactiveLaunchToken;
@@ -5137,7 +5260,7 @@ function convertDocsToPreview(url) {
           const sendState = () => {
             if (launchToken !== interactiveLaunchToken || !interactiveFrame.contentWindow) return;
             try {
-              interactiveFrame.contentWindow.postMessage({type:'CASTA_STATE', state:{answers:studentLiveAnswers, reviewOnly:isLiveReviewMode, examCode:activeExam?.code || '', audioUrl:activeExam?.audioUrl || ''}}, '*');
+              interactiveFrame.contentWindow.postMessage({type:'CASTA_STATE', state:interactiveFrameState()}, '*');
               stateSent = true;
             } catch (e) { console.warn('Không gửi được state vào HTML:', e); }
           };
@@ -5192,81 +5315,156 @@ function convertDocsToPreview(url) {
       setTimeout(() => initExamCanvas(), 150);
     }
 
-    // Phiếu trả lời chỉ còn 2 phần: Trắc nghiệm & Điền từ
+    function normalizedExamAnswer(value) {
+      return String(value == null ? '' : value).trim().normalize('NFC').toLocaleLowerCase('fr');
+    }
+    function isCorrectionEligible(q, kind) {
+      if (!activeExam || !isLiveReviewMode) return false;
+      const key = (kind === 'sa' ? activeExam.saKeys : activeExam.mcqKeys) || {};
+      if (!canRevealExamAnswers() || key[q] == null) return false;
+      const original = originalReviewAnswers || studentLiveAnswers;
+      return normalizedExamAnswer((original[kind] || {})[q]) !== normalizedExamAnswer(key[q]);
+    }
+    function toggleExamCorrection() {
+      if (!isLiveReviewMode || !activeExam || !canRevealExamAnswers()) return;
+      isLiveCorrectionMode = !isLiveCorrectionMode;
+      correctionChecked = false;
+      correctionAnswers = {mcq:{},sa:{}};
+      renderLiveExamAnswerSheet();
+      pushInteractiveFrameState();
+    }
+    function checkExamCorrections() {
+      if (!isLiveReviewMode || !isLiveCorrectionMode || !canRevealExamAnswers()) return;
+      correctionChecked = true;
+      renderLiveExamAnswerSheet();
+      pushInteractiveFrameState();
+    }
+    function setCorrectionAnswer(q, kind, value) {
+      if (!isLiveCorrectionMode || !isCorrectionEligible(String(q),kind)) return;
+      correctionAnswers[kind][String(q)] = String(value);
+      correctionChecked = false;
+      renderLiveExamAnswerSheet();
+      if (kind === 'mcq') pushInteractiveFrameState();
+      // Avoid sending state on each keystroke: would reset cursor in iframe.
+    }
     function renderLiveExamAnswerSheet() {
       const container = document.getElementById('liveAnswerSheetList');
-      container.innerHTML = '';
+      if (!container || !activeExam) return;
+      container.replaceChildren();
       const mcqKeys = activeExam.mcqKeys || {};
       const saKeys = activeExam.saKeys || {};
+      const manifest = Array.isArray(activeInteractiveManifest) ? activeInteractiveManifest : [];
+      const allQuestions = new Map();
+      manifest.forEach(item => { const kind = item.kind === 'sa' ? 'sa' : 'mcq'; allQuestions.set(kind + ':' + String(item.q),[String(item.q),kind]); });
+      Object.keys(mcqKeys).forEach(q => allQuestions.set('mcq:' + String(q),[String(q),'mcq']));
+      Object.keys(saKeys).forEach(q => allQuestions.set('sa:' + String(q),[String(q),'sa']));
+      const questions = [...allQuestions.values()].sort((a,b)=>(Number(a[0]) || 999999)-(Number(b[0]) || 999999));
       const keyTotal = Object.keys(mcqKeys).length + Object.keys(saKeys).length;
-      const manifestTotal = Array.isArray(activeInteractiveManifest) ? activeInteractiveManifest.length : 0;
-      document.getElementById('liveTotalCount').innerText = keyTotal || manifestTotal;
-
-      // 1. Trắc nghiệm
-      if (Object.keys(mcqKeys).length) {
-        const wrap = document.createElement('div');
-        wrap.innerHTML = `<div style="font-weight:700; font-size:12px; color:#1e40af; background:#eff6ff; padding:6px 10px; border-radius:8px; margin-bottom:8px;">PHẦN I: TRẮC NGHIỆM (${Object.keys(mcqKeys).length} câu)</div>`;
-        Object.keys(mcqKeys).sort((a,b)=>Number(a)-Number(b)).forEach(q => {
-          const row = document.createElement('div');
-          row.style.cssText = "display:flex; justify-content:space-between; align-items:center; background:#f8fafc; border:1px solid #e2e8f0; border-radius:8px; padding:6px 10px; font-size:12px; margin-bottom:6px;";
-          let btns = ['A', 'B', 'C', 'D'].map(opt => {
-            const isSel = studentLiveAnswers.mcq[q] === opt;
-            const isCor = mcqKeys[q] === opt;
-            let bg = isSel ? 'background:#1d4ed8; color:#fff;' : 'background:#fff; color:#475569;';
-            if (isLiveReviewMode) {
-              if (isCor) bg = 'background:#16a34a; color:#fff;';
-              else if (isSel && !isCor) bg = 'background:#dc2626; color:#fff;';
-              else bg = 'background:#fff; color:#94a3b8;';
-            }
-            return `<button type="button" onclick="studentLiveAnswers.mcq['${q}']='${opt}'; renderLiveExamAnswerSheet();" ${isLiveReviewMode?'disabled':''} style="width:26px; height:26px; border-radius:50%; font-weight:700; border:1px solid #cbd5e1; margin-left:3px; cursor:pointer; ${bg}">${opt}</button>`;
-          }).join('');
-          row.innerHTML = `<span>Câu ${q}:</span><div>${btns}</div>`;
-          wrap.appendChild(row);
-        });
-        container.appendChild(wrap);
+      const revealKeys = isLiveReviewMode && canRevealExamAnswers();
+      document.getElementById('liveTotalCount').innerText = questions.length || keyTotal;
+      const summary = document.getElementById('liveReviewSummary');
+      const actions = document.getElementById('liveCorrectionActions');
+      const correctionBtn = document.getElementById('btnStartCorrections');
+      const checkBtn = document.getElementById('btnCheckCorrections');
+      summary.style.display = isLiveReviewMode ? 'block' : 'none';
+      actions.style.display = revealKeys && keyTotal ? 'flex' : 'none';
+      checkBtn.style.display = isLiveCorrectionMode ? 'inline-flex' : 'none';
+      correctionBtn.textContent = isLiveCorrectionMode ? '↩ Quay lại xem đáp án' : '✍️ Sửa câu sai';
+      const original = originalReviewAnswers || studentLiveAnswers;
+      let right=0, wrong=0, blank=0, unknown=0, fixed=0;
+      questions.forEach(([q,kind]) => {
+        const key = (kind === 'sa' ? saKeys : mcqKeys)[q];
+        const answer = (original[kind] || {})[q];
+        if (key == null) unknown++;
+        else if (!normalizedExamAnswer(answer)) blank++;
+        else if (normalizedExamAnswer(answer) === normalizedExamAnswer(key)) right++;
+        else wrong++;
+        if (isLiveCorrectionMode && key != null && isCorrectionEligible(q,kind) && normalizedExamAnswer(correctionAnswers[kind][q]) === normalizedExamAnswer(key)) fixed++;
+      });
+      if (isLiveReviewMode) {
+        if (!revealKeys) {
+          summary.textContent = '🔒 Đề này không cho xem đáp án sau khi nộp. Bạn chỉ có thể xem lại các lựa chọn đã gửi.';
+        } else if (!keyTotal) summary.innerHTML = '⚠ <b>Đề này chưa có đáp án chuẩn.</b> Bài làm vẫn được giữ nhưng chưa thể chấm hoặc sửa sai. Hãy nhờ admin mở <b>Sửa đề</b> để nhập đáp án.';
+        else summary.innerHTML = `<b>KẾT QUẢ LƯỢT THI</b><div style="margin-top:5px">🟢 Đúng: ${right} &nbsp; 🔴 Sai: ${wrong} &nbsp; ⚪ Bỏ trống: ${blank}${unknown ? ` &nbsp; ⚠ Chưa có đáp án: ${unknown}` : ''}</div>${isLiveCorrectionMode ? `<div style="margin-top:5px;font-weight:700;color:#1d4ed8">✍️ Đã sửa đúng: ${fixed}/${wrong+blank} câu · Chỉ luyện tập, không đổi điểm đã nộp.</div>` : '<div style="margin-top:5px;color:#64748b">Màu xanh: đáp án đúng · màu đỏ: lựa chọn sai.</div>'}`;
+        correctionBtn.disabled = !wrong && !blank;
       }
-
-      // 2. Điền từ
-      if (Object.keys(saKeys).length) {
+      const byKind = [['mcq','PHẦN I: TRẮC NGHIỆM'],['sa','PHẦN II: ĐIỀN TỪ']];
+      byKind.forEach(([kind, heading]) => {
+        const group = questions.filter(x => x[1] === kind);
+        if (!group.length) return;
         const wrap = document.createElement('div');
-        wrap.innerHTML = `<div style="font-weight:700; font-size:12px; color:#92400e; background:#fffbeb; padding:6px 10px; border-radius:8px; margin-bottom:8px;">PHẦN II: ĐIỀN TỪ NGẮN (${Object.keys(saKeys).length} câu)</div>`;
-        Object.keys(saKeys).sort((a,b)=>Number(a)-Number(b)).forEach(q => {
+        const headingEl = document.createElement('div');
+        headingEl.style.cssText = 'font-weight:800;font-size:12px;color:#1e40af;background:#eff6ff;padding:8px 10px;border-radius:8px;margin-bottom:8px';
+        headingEl.textContent = `${heading} (${group.length} câu)`;
+        wrap.appendChild(headingEl);
+        group.forEach(([q]) => {
+          const key = (kind === 'mcq' ? mcqKeys : saKeys)[q];
+          const originalValue = String((original[kind] || {})[q] ?? '');
+          const editable = revealKeys && isLiveCorrectionMode && isCorrectionEligible(q,kind);
+          const currentValue = editable ? String(correctionAnswers[kind][q] ?? '') : String(studentLiveAnswers[kind][q] ?? '');
+          const isCorrect = key != null && normalizedExamAnswer(originalValue) === normalizedExamAnswer(key);
           const row = document.createElement('div');
-          row.style.cssText = "display:flex; justify-content:space-between; align-items:center; background:#f8fafc; border:1px solid #e2e8f0; border-radius:8px; padding:6px 10px; font-size:12px; margin-bottom:6px;";
-          const val = studentLiveAnswers.sa[q] || "";
-          const cor = saKeys[q] || "";
-          const isRight = isLiveReviewMode && val.trim().toLowerCase() === cor.trim().toLowerCase();
-
-          let inputStyle = "border:1px solid #cbd5e1; border-radius:6px; padding:4px 8px; font-size:12px; width:120px;";
-          if (isLiveReviewMode) {
-            inputStyle += isRight ? "background:#dcfce7; border-color:#22c55e; color:#15803d; font-weight:700;" : "background:#fee2e2; border-color:#ef4444; color:#991b1b;";
+          row.style.cssText = 'background:#f8fafc;border:1px solid #e2e8f0;border-radius:10px;padding:9px 10px;font-size:12px;margin-bottom:8px';
+          const line = document.createElement('div');
+          line.style.cssText = 'display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap';
+          const label = document.createElement('span');
+          label.style.fontWeight = '750';
+          label.textContent = `Câu ${q}`;
+          line.appendChild(label);
+          if (kind === 'mcq') {
+            const buttons = document.createElement('div');
+            buttons.style.cssText = 'display:flex;gap:5px';
+            ['A','B','C','D'].forEach(opt => {
+              const btn = document.createElement('button');
+              btn.type = 'button'; btn.textContent = opt;
+              const selected = currentValue.toUpperCase() === opt;
+              const rightOption = revealKeys && key === opt;
+              const showKey = revealKeys && (!isLiveCorrectionMode || correctionChecked || !editable);
+              const style = showKey && rightOption ? 'background:#dcfce7;color:#166534;border-color:#16a34a;' :
+                showKey && selected && key != null && !rightOption ? 'background:#fee2e2;color:#991b1b;border-color:#ef4444;' :
+                selected ? 'background:#1d4ed8;color:white;border-color:#1d4ed8;' : 'background:#fff;color:#475569;border-color:#cbd5e1;';
+              btn.style.cssText = `width:30px;height:30px;border-radius:50%;font-weight:800;border:1.5px solid;cursor:pointer;${style}`;
+              btn.disabled = isLiveReviewMode && !editable;
+              btn.onclick = () => {
+                if (editable) setCorrectionAnswer(q,'mcq',opt);
+                else if (!isLiveReviewMode) { studentLiveAnswers.mcq[q] = opt; renderLiveExamAnswerSheet(); pushInteractiveFrameState(); }
+              };
+              buttons.appendChild(btn);
+            });
+            line.appendChild(buttons);
+          } else {
+            const inp = document.createElement('input');
+            inp.type = 'text'; inp.value = currentValue;
+            inp.placeholder = 'Nhập đáp án';
+            inp.disabled = isLiveReviewMode && !editable;
+            inp.style.cssText = 'max-width:190px;width:60%;padding:6px 9px;border:1px solid #cbd5e1;border-radius:7px;font-size:12px';
+            inp.oninput = () => {
+              if (editable) { correctionAnswers.sa[q] = inp.value; correctionChecked = false; }
+              else if (!isLiveReviewMode) { studentLiveAnswers.sa[q] = inp.value; updateLiveProgress(); }
+            };
+            inp.onchange = () => { if (editable) renderLiveExamAnswerSheet(); };
+            line.appendChild(inp);
           }
-
-          row.innerHTML = `
-            <span>Câu ${q}:</span>
-            <div>
-              <input type="text" value="${escapeHTML(val)}" ${isLiveReviewMode?'disabled':''} oninput="studentLiveAnswers.sa['${q}']=this.value; updateLiveProgress();" style="${inputStyle}" placeholder="Nhập đáp án...">
-              ${isLiveReviewMode ? `<span style="font-size:11px; color:#166534; font-weight:700; margin-left:4px;">Đ/A: ${cor}</span>` : ''}
-            </div>
-          `;
+          row.appendChild(line);
+          if (isLiveReviewMode) {
+            const note = document.createElement('div');
+            note.style.cssText = 'margin-top:7px;font-size:11px;font-weight:650;line-height:1.5';
+            if (!revealKeys) { note.style.color = '#475569'; note.textContent = `Đã nộp: ${originalValue || '(bỏ trống)'}`; }
+            else if (key == null) { note.style.color = '#b45309'; note.textContent = '⚠ Chưa có đáp án chuẩn'; }
+            else if (editable) {
+              const fixedNow = normalizedExamAnswer(correctionAnswers[kind][q]) === normalizedExamAnswer(key);
+              note.style.color = correctionChecked && fixedNow ? '#15803d' : '#1d4ed8';
+              note.textContent = correctionChecked ? (fixedNow ? '✓ Bạn đã sửa đúng!' : `Đáp án đúng: ${key}`) : `Đã nộp: ${originalValue || '(bỏ trống)'} · Hãy sửa lại`;
+            } else {
+              note.style.color = isCorrect ? '#15803d' : '#b91c1c';
+              note.textContent = `${isCorrect ? '✓ Đúng' : originalValue ? '✕ Sai' : '○ Bỏ trống'} · Đã chọn: ${originalValue || '—'} · Đáp án: ${key}`;
+            }
+            row.appendChild(note);
+          }
           wrap.appendChild(row);
         });
         container.appendChild(wrap);
-      }
-      // Nếu đề HTML chưa nhập đáp án đúng, vẫn hiển thị danh sách câu mà iframe phát hiện được.
-      if (!Object.keys(mcqKeys).length && !Object.keys(saKeys).length && Array.isArray(activeInteractiveManifest) && activeInteractiveManifest.length) {
-        const info = document.createElement('div');
-        info.innerHTML = `<div style="font-weight:700;font-size:12px;color:#1e40af;background:#eff6ff;padding:7px 10px;border-radius:8px;margin-bottom:8px;">ĐỀ HTML TƯƠNG TÁC (${activeInteractiveManifest.length} câu)</div>`;
-        activeInteractiveManifest.forEach(item => {
-          const row = document.createElement('div');
-          const q = String(item.q);
-          const answered = item.kind === 'sa' ? !!(studentLiveAnswers.sa[q] || '').trim() : !!studentLiveAnswers.mcq[q];
-          row.style.cssText = `display:flex;justify-content:space-between;align-items:center;background:${answered?'#ecfdf5':'#f8fafc'};border:1px solid ${answered?'#a7f3d0':'#e2e8f0'};border-radius:8px;padding:7px 10px;font-size:12px;margin-bottom:6px;`;
-          row.innerHTML = `<span>Câu ${escapeHTML(q)}</span><span style="font-weight:700;color:${answered?'#15803d':'#94a3b8'}">${answered?'✓ Đã trả lời':'Chưa trả lời'}</span>`;
-          info.appendChild(row);
-        });
-        container.appendChild(info);
-      }
+      });
       updateLiveProgress();
     }
 
@@ -5336,14 +5534,19 @@ function convertDocsToPreview(url) {
         }
 
         const totalItems = Object.keys(mcqKeys).length + Object.keys(saKeys).length;
-        const finalScore = totalItems > 0 ? (((mcqCorrect + saCorrect) / totalItems) * 10).toFixed(2) : '10.00';
+        const finalScore = totalItems > 0 ? (((mcqCorrect + saCorrect) / totalItems) * 10).toFixed(2) : null;
 
-        document.getElementById('resultScoreNumber').innerText = activeExam.practiceOnly ? 'HOÀN THÀNH' : finalScore;
+        document.getElementById('resultScoreNumber').innerText = !totalItems ? 'CHƯA CHẤM' : activeExam.practiceOnly ? 'HOÀN THÀNH' : finalScore;
         document.getElementById('resultModalExamTitle').innerText = activeExam.title;
+        document.getElementById('btnResultReview').textContent =
+          canRevealExamAnswers() && totalItems ? '📗 Xem đáp án & sửa sai' : 'Xem bài đã nộp';
         document.getElementById('resultBreakdownText').innerHTML = `
           <div>🔹 Trắc nghiệm đúng: <strong>${mcqCorrect}/${Object.keys(mcqKeys).length} câu</strong></div>
           <div>🔹 Điền từ đúng: <strong>${saCorrect}/${Object.keys(saKeys).length} câu</strong></div>
         `;
+        const warn = document.getElementById('resultGradingWarning');
+        warn.style.display = totalItems ? 'none' : 'block';
+        warn.textContent = totalItems ? '' : '⚠ Đề chưa được nhập đáp án đúng. Hệ thống lưu bài nhưng không tự chấm hoặc hiển thị điểm. Admin cần bổ sung đáp án trong mục Sửa đề.';
         setResultSaveStatus('saving','Đang lưu kết quả an toàn...');
         document.getElementById('examResultScoreModal').classList.add('open');
 
@@ -5359,7 +5562,7 @@ function convertDocsToPreview(url) {
           fullName: currentUser.fullName || currentUser.username,
           examCode: activeExam.code,
           examTitle: activeExam.title,
-          score: activeExam.practiceOnly ? null : parseFloat(finalScore),
+          score: (activeExam.practiceOnly || !totalItems) ? null : parseFloat(finalScore),
           answers: cloneExamAnswers(),
           mcqCorrect,
           saCorrect,
@@ -5410,6 +5613,9 @@ function convertDocsToPreview(url) {
       document.getElementById('liveExamModal').classList.remove('open');
       document.body.style.overflow = '';
       activeExam = null;
+      isLiveReviewMode = false;
+      isLiveCorrectionMode = false;
+      originalReviewAnswers = null;
       isAdminTestRun = false;
       renderExamsList();
     }
@@ -5486,6 +5692,7 @@ function convertDocsToPreview(url) {
       document.getElementById('inpAdminExamClassSelect').value = "all";
       document.getElementById('chkAdminIsUnlimited').checked = false;
       document.getElementById('chkAdminPracticeOnly').checked = false;
+      document.getElementById('chkAdminShowAnswersAfterSubmit').checked = false;
       document.getElementById('inpAdminPassageText').value = "";
       document.getElementById('inpAdminAudioUrl').value = "";
       document.getElementById('inpAdminDocsUrl').value = "";
@@ -5519,6 +5726,7 @@ function convertDocsToPreview(url) {
       const targetClassId = document.getElementById('inpAdminExamClassSelect').value;
       const isUnlimited = document.getElementById('chkAdminIsUnlimited').checked;
       const practiceOnly = document.getElementById('chkAdminPracticeOnly').checked;
+      const showAnswersAfterSubmit = document.getElementById('chkAdminShowAnswersAfterSubmit').checked;
       const passageText = document.getElementById('inpAdminPassageText').value.trim();
       const audioUrl = document.getElementById('inpAdminAudioUrl').value.trim();
       const rawDocsUrl = document.getElementById('inpAdminDocsUrl').value.trim();
@@ -5545,8 +5753,21 @@ function convertDocsToPreview(url) {
       });
 
       const interactiveManifest = contentMode === 'interactive_html' ? extractInteractiveManifestFromHtml(htmlSource) : [];
+      if (interactiveManifest.length) {
+        const missing = interactiveManifest.filter(item =>
+          (item.kind === 'sa' ? saKeys : mcqKeys)[String(item.q)] == null
+        );
+        if (missing.length) {
+          const list = missing.slice(0,12).map(item => item.q).join(', ');
+          alert(`Đề HTML thiếu đáp án chuẩn cho ${missing.length} câu (${list}${missing.length > 12 ? '...' : ''}).\nHãy nhập đầy đủ đáp án A/B/C/D hoặc điền từ trước khi lưu để học viên được chấm và sửa sai.`);
+          return;
+        }
+      }
+      if (!Object.keys(mcqKeys).length && !Object.keys(saKeys).length) {
+        if (!confirm('Đề chưa có đáp án đúng. Học viên sẽ chỉ được lưu bài, không thể chấm điểm hay sửa sai. Vẫn lưu đề?')) return;
+      }
       const examData = {
-        code, title, timeLimit, targetClassId, isUnlimited, practiceOnly,
+        code, title, timeLimit, targetClassId, isUnlimited, practiceOnly, showAnswersAfterSubmit,
         passageText, audioUrl, rawDocsUrl, contentMode, htmlSource, htmlFileName,
         rawMcq, rawSa,
         mcqKeys, saKeys,
@@ -5603,6 +5824,7 @@ function convertDocsToPreview(url) {
       document.getElementById('inpAdminExamClassSelect').value = exam.targetClassId || "all";
       document.getElementById('chkAdminIsUnlimited').checked = !!exam.isUnlimited;
       document.getElementById('chkAdminPracticeOnly').checked = !!exam.practiceOnly;
+      document.getElementById('chkAdminShowAnswersAfterSubmit').checked = exam.showAnswersAfterSubmit === true;
       document.getElementById('inpAdminPassageText').value = exam.passageText || "";
       document.getElementById('inpAdminAudioUrl').value = exam.audioUrl || "";
       document.getElementById('inpAdminDocsUrl').value = exam.rawDocsUrl || "";
