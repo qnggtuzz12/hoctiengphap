@@ -8,7 +8,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="color-scheme" content="light">
-  <title>Casta Français | LMS </title>
+  <title>Casta Français | Không Gian Học Tiếng Pháp Chuyên Sâu</title>
   <link id="castaFavicon" rel="icon" type="image/png" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 64 64%22%3E%3Crect width=%2264%22 height=%2264%22 rx=%2214%22 fill=%22%231d4ed8%22/%3E%3Ctext x=%2232%22 y=%2242%22 font-size=%2227%22 fill=%22white%22 text-anchor=%22middle%22 font-family=%22Arial%22%3ECF%3C/text%3E%3C/svg%3E">
   
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -1143,6 +1143,59 @@
       }
     }
 
+  
+    /* ===== CASTA: Luyện nghe chép số ===== */
+    .cd-hero {background:linear-gradient(117deg,#142e58,#225ca4 70%,#2d78ce);color:#fff;border-radius:22px;padding:26px 29px;display:flex;align-items:center;justify-content:space-between;gap:20px;box-shadow:0 12px 30px rgba(26,72,130,.12)}
+    .cd-hero h1{margin:8px 0 6px;font-size:clamp(21px,2.5vw,29px);line-height:1.25;color:#fff}
+    .cd-hero p{margin:0;font-size:12.5px;line-height:1.6;color:#d7e8ff;max-width:660px}
+    .cd-kicker{font-size:11px;font-weight:800;letter-spacing:.09em;color:#a6d1ff;text-transform:uppercase}
+    .cd-hero-art{font-size:67px;opacity:.92;flex:none;filter:drop-shadow(0 9px 12px rgba(0,0,0,.16))}
+    .cd-setup{display:grid;grid-template-columns:repeat(5,minmax(0,1fr)) auto;gap:13px;align-items:end;background:#fff;border:1px solid #d8e4f2;border-radius:17px;padding:18px;margin-top:19px;box-shadow:0 5px 17px rgba(17,59,103,.035)}
+    .cd-field{min-width:0;display:grid;gap:7px}.cd-field label{font-size:11.5px;font-weight:800;color:#28486a}
+    .cd-field select{width:100%;border:1px solid #d8e2ee;background:#fff;color:#183753;border-radius:10px;padding:10px 9px;font-size:12.5px;min-width:0}
+    #cdNewBtn{padding:11px 15px;white-space:nowrap;justify-content:center}
+    .cd-setup-note{grid-column:1 / -1;font-size:11px;color:#6a7e92;margin-top:-1px}
+    .cd-main-grid{display:grid;grid-template-columns:minmax(0,1.55fr) minmax(255px,1fr);gap:17px;margin-top:17px;align-items:stretch}
+    .cd-panel{border:1px solid #d8e4f2;border-radius:19px;background:#fff;padding:22px;box-shadow:0 8px 27px rgba(18,56,97,.045);min-width:0}
+    .cd-player-head{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+    .cd-eyebrow{color:#1d4e89;font-size:12px;font-weight:850}.cd-step{font-size:12px;font-weight:800;color:#667e95;background:#f2f6fb;padding:6px 10px;border-radius:99px}
+    .cd-audio-area{border:1px solid #dce9f5;background:linear-gradient(180deg,#f7fbff,#eff6ff);border-radius:17px;padding:24px 18px 21px;text-align:center;margin-top:17px}
+    .cd-wave{display:flex;height:38px;align-items:center;justify-content:center;gap:5px;margin-bottom:14px}
+    .cd-wave span{background:#2860be;width:6px;border-radius:999px;height:16px;opacity:.64}
+    .cd-wave span:nth-child(2),.cd-wave span:nth-child(6){height:27px}.cd-wave span:nth-child(3),.cd-wave span:nth-child(5){height:33px}.cd-wave span:nth-child(4){height:38px}
+    .cd-audio-area.cd-playing .cd-wave span{animation:cd-wave .63s ease-in-out infinite alternate;opacity:1}.cd-audio-area.cd-playing .cd-wave span:nth-child(2n){animation-delay:-.28s}.cd-audio-area.cd-playing .cd-wave span:nth-child(3n){animation-delay:-.49s}
+    @keyframes cd-wave{from{transform:scaleY(.42)}to{transform:scaleY(1)}}
+    .cd-audio-area h2{font-size:17px;color:#143d70;margin:0 0 5px}.cd-audio-area p{color:#68819d;font-size:12px;margin:0 0 16px}
+    .cd-play{background:#1d4ed8;color:white;border:0;border-radius:12px;padding:12px 21px;font-size:13px;font-weight:800;display:inline-flex;align-items:center;gap:8px;cursor:pointer}
+    .cd-play:hover{background:#1640bd}.cd-play:focus-visible,.cd-action:focus-visible{outline:3px solid #91b9fc;outline-offset:3px}
+    .cd-voice-status{color:#56718f;font-size:11px;margin-top:11px;min-height:16px;line-height:1.5}
+    .cd-entry-label{display:block;font-size:12px;font-weight:850;color:#193e6c;margin:21px 0 7px}
+    .cd-entry{display:block;width:100%;min-height:82px;resize:vertical;border:1.5px solid #cad8e9;border-radius:12px;padding:14px 15px;font-family:inherit;font-size:23px;font-weight:600;color:#183958;background:#fbfdff;letter-spacing:.018em}
+    .cd-entry:focus{outline:none;border-color:#2b65cf;box-shadow:0 0 0 3px rgba(43,101,207,.1)}
+    .cd-hint{font-size:11px;color:#778ba1;line-height:1.5;margin-top:7px}
+    .cd-actions{display:flex;gap:9px;flex-wrap:wrap;margin-top:15px}.cd-action{border:1px solid #cbd9e8;border-radius:10px;padding:9px 13px;background:#fff;font-size:12px;color:#315472;font-weight:800;cursor:pointer}
+    .cd-action:disabled{opacity:.48;cursor:not-allowed}.cd-action.cd-primary{background:#1d4ed8;border-color:#1d4ed8;color:#fff}.cd-action.cd-primary:hover{background:#1743b7}
+    .cd-feedback{display:none;padding:13px 14px;border-radius:12px;margin-top:14px;font-size:12.5px;line-height:1.6;border:1px solid #d7e4f2;background:#f5f8fc}
+    .cd-feedback.good{display:block;background:#edfbf2;border-color:#b6e9cc;color:#17683b}.cd-feedback.bad{display:block;background:#fff8ed;border-color:#f6dbab;color:#905d18}.cd-feedback.info{display:block;background:#eff6ff;border-color:#c7defb;color:#1c5587}
+    .cd-feedback strong{font-size:13px}.cd-reveal{display:none;margin-top:10px;color:#183b64;background:#f1f6fc;border:1px dashed #c6d8eb;border-radius:10px;padding:11px 12px;font-size:16px;font-weight:800;letter-spacing:.03em;word-break:break-word}
+    .cd-foot-buttons{margin-top:14px;display:flex;align-items:center;justify-content:space-between;gap:10px}
+    .cd-side-title{font-size:14px;font-weight:850;color:#133e6a;margin:0 0 15px}
+    .cd-counter{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+    .cd-stat{background:#f3f7fb;border:1px solid #e1eaf3;padding:13px;border-radius:12px}.cd-stat b{display:block;font-size:21px;color:#1e4e87;font-weight:850}.cd-stat span{font-size:11px;color:#647c92}
+    .cd-progress{height:8px;background:#e7eef6;border-radius:100px;overflow:hidden;margin:16px 0 7px}.cd-progress div{height:100%;width:0;background:#2a62ce;transition:width .25s}
+    .cd-progress-desc{font-size:11px;color:#647c92}
+    .cd-options{border-top:1px solid #e5ecf5;margin-top:18px;padding-top:16px;display:grid;gap:12px}
+    .cd-check{display:flex;gap:9px;align-items:flex-start;font-size:12px;color:#3b566f;line-height:1.5;cursor:pointer}.cd-check input{accent-color:#2563eb;width:16px;height:16px;flex:none;margin-top:1px}
+    .cd-shortcuts{margin-top:16px;padding:13px 14px;background:#f2f6fc;border:1px solid #e1eaf3;border-radius:12px;font-size:11px;color:#58718c;line-height:1.8}
+    .cd-shortcuts kbd{display:inline-block;border:1px solid #c4d3e4;background:white;padding:1px 6px;border-radius:5px;font-weight:800;color:#244b77}
+    .cd-result{display:none;margin-top:16px;border:1px solid #b9d6f5;background:linear-gradient(150deg,#f4f9ff,#fff);border-radius:19px;padding:22px;text-align:center}
+    .cd-result h2{font-size:20px;color:#143b6d;margin:8px 0}.cd-result p{font-size:13px;color:#58728d;margin:5px 0 16px}.cd-result-num{font-size:48px;font-weight:900;color:#1f5abf;line-height:1.3}.cd-result-actions{display:flex;justify-content:center;gap:9px;flex-wrap:wrap}
+    #cdDifficultyGroup[hidden]{display:none!important}
+    @media(max-width:1300px){.cd-setup{grid-template-columns:repeat(3,minmax(0,1fr))}.cd-setup #cdNewBtn{grid-column:1/-1}}
+    @media(max-width:1120px){.cd-setup{grid-template-columns:repeat(2,minmax(0,1fr))}.cd-setup #cdNewBtn{grid-column:1/-1}}
+    @media(max-width:900px){.cd-main-grid{grid-template-columns:1fr}.cd-side-panel{order:-1}.cd-counter{grid-template-columns:repeat(4,minmax(0,1fr))}}
+    @media(max-width:580px){.cd-hero{padding:22px 18px}.cd-hero-art{display:none}.cd-panel{padding:16px}.cd-counter{grid-template-columns:repeat(2,minmax(0,1fr))}.cd-setup{padding:13px;gap:10px}.cd-entry{font-size:20px}.cd-actions .cd-action{flex:1}.cd-foot-buttons{flex-wrap:wrap}}
+
   </style>
 </head>
 <body>
@@ -1235,7 +1288,13 @@
           <!-- NÚT PHÒNG KHẢO THÍ -->
           <button id="navBtnExams" data-page="exams" onclick="navigateTo('exams')">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
-            Khảo Thí 
+            Khảo Thí & Đề Thi DELF
+          </button>
+
+
+          <button id="navBtnDictation" data-page="dictation" onclick="navigateTo('dictation')">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 5v14l16-7z"/><path d="M4 2h16"/></svg>
+            Luyện Nghe Chép Số (Dictée)
           </button>
 
           <!-- NÚT PHÒNG NGỮ ÂM -->
@@ -1326,7 +1385,7 @@
         <section id="exams" class="page">
           <div class="page-header">
             <div>
-              <h1>Phòng Khảo Thí</h1>
+              <h1>Phòng Khảo Thí & Đề Thi DELF Tiếng Pháp</h1>
               <p>Hệ thống thi thử, đề cương và luyện đọc - nghe hiểu chuẩn CEFR.</p>
             </div>
             <div id="adminExamBtnContainer" style="display:block;">
@@ -1357,6 +1416,79 @@
         </section>
 
         <!-- 1. PHÒNG NGỮ ÂM & SHADOWING STUDIO (CHÍNH XÁC THEO FILE GỐC CỦA BẠN VỚI TÔNG XANH BIỂN) -->
+
+        <!-- CASTA: Phòng luyện nghe chép số và số điện thoại -->
+        <section id="dictation" class="page" aria-label="Luyện nghe chép số tiếng Pháp">
+          <div class="cd-hero">
+            <div>
+              <span class="cd-kicker">CASTA FRANÇAIS · ÉCOUTER & ÉCRIRE</span>
+              <h1>Dictée des nombres</h1>
+              <p>Nghe rồi chép số bằng tiếng Pháp. Luyện cả số thường và số điện thoại theo từng cặp 2 chữ số, kiểm tra ngay, luyện lại câu sai — không ảnh hưởng bảng điểm thi.</p>
+            </div><div class="cd-hero-art" aria-hidden="true">🎧</div>
+          </div>
+          <div class="cd-setup">
+            <div class="cd-field"><label for="cdMode">Kiểu luyện tập</label><select id="cdMode" onchange="dictModeUI()"><option value="number">🔢 Nghe số thường</option><option value="phone">☎️ Nghe số điện thoại</option></select></div>
+            <div class="cd-field" id="cdDifficultyGroup"><label for="cdDifficulty">Độ khó</label><select id="cdDifficulty"><option value="31">Cơ bản · 0–31</option><option value="99" selected>A1 · 0–99</option><option value="999">A2 · 0–999</option><option value="9999">Thử thách · 0–9999</option></select></div>
+            <div class="cd-field"><label for="cdCount">Số câu</label><select id="cdCount"><option value="10">10 câu</option><option value="20" selected>20 câu</option><option value="30">30 câu</option></select></div>
+            <div class="cd-field"><label for="cdSpeed">Tốc độ phát âm</label><select id="cdSpeed" onchange="dictSetSpeed()"><option value="0.7">0.7x · Chậm</option><option value="0.85" selected>0.85x · Vừa</option><option value="1">1.0x · Tự nhiên</option><option value="1.15">1.15x · Nhanh</option></select></div>
+            <div class="cd-field"><label for="cdVoiceSelect">Giọng đọc (France)</label><select id="cdVoiceSelect" onchange="dictSaveVoiceChoice()"><option value="">Tự động · français (France)</option></select></div>
+            <button id="cdNewBtn" type="button" class="primary" onclick="dictNewSession()">↻ Tạo bộ mới</button>
+            <div class="cd-setup-note">Các số điện thoại được tạo ngẫu nhiên chỉ để luyện nghe, không phải thông tin liên lạc thực. Đổi lựa chọn rồi bấm <b>Tạo bộ mới</b> để áp dụng.</div>
+          </div>
+          <div class="cd-main-grid">
+            <div class="cd-panel">
+              <div class="cd-player-head"><span class="cd-eyebrow" id="cdExerciseTitle">SỐ TIẾNG PHÁP</span><span class="cd-step" id="cdStep">Câu 1 / 20</span></div>
+              <div class="cd-audio-area" id="cdAudioArea">
+                <div class="cd-wave" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+                <h2>Écoutez attentivement</h2><p>Bấm nghe và gõ lại những con số bạn nghe được.</p>
+                <button class="cd-play" id="cdPlayBtn" type="button" onclick="dictPlay()">🔊 Nghe / Nghe lại</button>
+                <div class="cd-voice-status" id="cdVoiceStatus" aria-live="polite">Chọn Nghe để phát âm tiếng Pháp.</div>
+              </div>
+              <label class="cd-entry-label" for="cdAnswer">Nhập nội dung nghe được</label>
+              <textarea id="cdAnswer" class="cd-entry" rows="2" inputmode="numeric" placeholder="Ví dụ: 76" oninput="dictTypeAnswer()" aria-describedby="cdInputHint"></textarea>
+              <div class="cd-hint" id="cdInputHint">Nhập bằng chữ số: 0, 1, 2…; số điện thoại có thể có hoặc không có khoảng trắng.</div>
+              <div class="cd-actions">
+                <button type="button" class="cd-action cd-primary" id="cdCheckBtn" onclick="dictCheck()">✓ Kiểm tra (Enter)</button>
+                <button type="button" class="cd-action" id="cdSkipBtn" onclick="dictSkip()">Bỏ qua</button>
+                <button type="button" class="cd-action" id="cdRevealBtn" onclick="dictReveal()">👁 Xem đáp án</button>
+              </div>
+              <div id="cdFeedback" class="cd-feedback" aria-live="polite"></div>
+              <div id="cdReveal" class="cd-reveal" aria-live="polite"></div>
+              <div class="cd-foot-buttons">
+                <button type="button" class="cd-action" id="cdPrevBtn" onclick="dictPrevious()">← Câu trước</button>
+                <button type="button" class="cd-action cd-primary" id="cdNextBtn" onclick="dictNext()">Câu tiếp →</button>
+              </div>
+            </div>
+            <div class="cd-panel cd-side-panel">
+              <h2 class="cd-side-title">Tiến độ học tập</h2>
+              <div class="cd-counter">
+                <div class="cd-stat"><b id="cdStatDone">0</b><span>Đã làm</span></div>
+                <div class="cd-stat"><b id="cdStatCorrect">0</b><span>Đúng lần đầu</span></div>
+                <div class="cd-stat"><b id="cdStatRetry">0</b><span>Đã sửa đúng</span></div>
+                <div class="cd-stat"><b id="cdStatMissed">0</b><span>Chưa đúng / bỏ qua</span></div>
+              </div>
+              <div class="cd-progress"><div id="cdBar"></div></div>
+              <div class="cd-progress-desc" id="cdProgressText">0 / 20 câu đã kiểm tra</div>
+              <div class="cd-options">
+                <label class="cd-check"><input id="cdShowHint" type="checkbox" checked onchange="dictRenderFeedback()"> Gợi ý một phần đáp án sau khi trả lời sai</label>
+                <label class="cd-check"><input id="cdShowFull" type="checkbox" onchange="dictRenderFeedback()"> Hiện đáp án đầy đủ sau khi kiểm tra (chế độ học)</label>
+                <div class="cd-check" style="color:#617b94">💡 Hệ thống không tự chuyển câu để bạn chủ động nghe lại và sửa sai.</div>
+              </div>
+              <div class="cd-shortcuts">⌨️ <b>Phím tắt:</b> <kbd>Ctrl</kbd> nghe lại · <kbd>Enter</kbd> kiểm tra / câu tiếp theo. Phát âm sử dụng <b>giọng tiếng Pháp của trình duyệt</b>, không cần Drive hay tải MP3.</div>
+            </div>
+          </div>
+          <div class="cd-result" id="cdResult" aria-live="polite">
+            <div style="font-size:36px" aria-hidden="true">🏅</div>
+            <h2>Hoàn thành lượt luyện!</h2>
+            <div class="cd-result-num" id="cdFinalScore">0 / 20</div>
+            <p id="cdFinalSummary">Số câu đúng lần đầu.</p>
+            <div class="cd-result-actions">
+              <button type="button" class="cd-action cd-primary" onclick="dictReviewMistakes()" id="cdReviewBtn">↻ Ôn lại câu chưa đúng</button>
+              <button type="button" class="cd-action" onclick="dictNewSession(true)">Tạo một lượt mới</button>
+            </div>
+          </div>
+        </section>
+
         <section id="phonetics" class="page">
           <div class="page-header">
             <div>
@@ -2522,7 +2654,8 @@
       msg.rate = customRate || currentVoiceSpeed;
 
       const voices = window.speechSynthesis.getVoices();
-      const frenchVoice = voices.find(v => v.lang.startsWith('fr') && (v.name.includes('Google') || v.name.includes('Natural') || v.name.includes('Thomas') || v.name.includes('Amelie')));
+      const frenchVoice = voices.filter(v => String(v.lang).replace('_','-').toLowerCase() === 'fr-fr')
+        .sort((a,b) => Number(/Google|Microsoft|Natural|Denise|Hortense/i.test(b.name)) - Number(/Google|Microsoft|Natural|Denise|Hortense/i.test(a.name)))[0];
       if(frenchVoice) msg.voice = frenchVoice;
 
       window.speechSynthesis.speak(msg);
@@ -2948,6 +3081,7 @@
       const crumbMap = {
         dashboard: "Tổng quan cá nhân",
         exams: "Khảo Thí & Đề Thi DELF", // <-- THÊM DÒNG NÀY
+        dictation: "Luyện Nghe Chép Số (Dictée des nombres)",
         phonetics: "Phòng Ngữ Âm (Atelier de Phonétique)",
         videos: "Kho Video Bài Giảng Tiếng Pháp",
         documents: "Thư Viện Tài Liệu Theo Buổi",
@@ -2962,6 +3096,8 @@
       if(pageId==='dashboard') initDashboardView();
       if(pageId==='exams') initExamsView();
       if(pageId==='phonetics') initPhoneticsView();
+      if(pageId==='dictation') dictInitView();
+      else dictStopAudio();
       if(pageId==='videos') initVideosView();
       if(pageId==='documents') initDocumentsView();
       if(pageId==='class_admin') renderAdminClassDashboard();
@@ -6038,6 +6174,347 @@ function convertDocsToPreview(url) {
         fav.onerror = () => { fav.href = CASTA_DEFAULT_ICON; };
       }
     }
+
+
+    /* ==========================================================
+       CASTA French number and telephone dictation.
+       Browser-generated French TTS, works without Firebase or audio URLs.
+       Results are ONLY saved in this browser, not in exam submissions.
+       ========================================================== */
+    const CD_STORAGE_PREFIX = 'casta_dictation_session_v1_';
+    const CD_UNITS = ['zéro','un','deux','trois','quatre','cinq','six','sept','huit','neuf','dix','onze','douze','treize','quatorze','quinze','seize','dix-sept','dix-huit','dix-neuf'];
+    const CD_TENS = {20:'vingt',30:'trente',40:'quarante',50:'cinquante',60:'soixante'};
+    let dictSession = null;
+    let dictLoadedUser = null;
+    let dictAudioToken = 0;
+    let dictVoiceAvailable = false;
+    const CD_VOICE_PREF_KEY='casta_dictation_voice_frfr';
+    let dictVoicesForFrance=[];
+    function dictGetFranceVoices(){
+      if(!('speechSynthesis' in window))return [];
+      return speechSynthesis.getVoices().filter(v=>
+        String(v.lang || '').replace(/_/g,'-').toLowerCase()==='fr-fr');
+    }
+    function dictVoiceKey(v){return [v.voiceURI,v.name,v.lang].join('|');}
+    function dictRefreshVoices(){
+      const sel=dictEl('cdVoiceSelect');if(!sel)return;
+      const previous=sel.value || (function(){
+        try{return localStorage.getItem(CD_VOICE_PREF_KEY)||'';}catch(e){return '';}
+      })();
+      dictVoicesForFrance=dictGetFranceVoices();
+      sel.replaceChildren();
+      const opt=document.createElement('option');
+      opt.value='';opt.textContent='Tự động · français (France)';sel.appendChild(opt);
+      dictVoicesForFrance.forEach(v=>{
+        const item=document.createElement('option');
+        item.value=dictVoiceKey(v);
+        item.textContent=v.name+' (fr-FR)';
+        sel.appendChild(item);
+      });
+      if(previous&&dictVoicesForFrance.some(v=>dictVoiceKey(v)===previous))sel.value=previous;
+      dictVoiceAvailable=dictVoicesForFrance.length>0;
+      const status=dictEl('cdVoiceStatus');
+      if(status && !dictVoiceAvailable){
+        status.textContent='Chưa có giọng French (France) (fr-FR) trong trình duyệt. Hãy cài giọng Pháp (Pháp) trên Windows hoặc thử Edge.';
+      }else if(status && !status.textContent.includes('Giọng:')){
+        status.textContent='Sẵn sàng: '+dictVoicesForFrance.length+' giọng Français (France) · Ctrl để nghe lại.';
+      }
+    }
+    function dictSaveVoiceChoice(){
+      try{localStorage.setItem(CD_VOICE_PREF_KEY,dictEl('cdVoiceSelect').value||'');}catch(e){}
+      const selection=dictVoicesForFrance.find(v=>dictVoiceKey(v)===dictEl('cdVoiceSelect').value);
+      dictEl('cdVoiceStatus').textContent=selection ?
+        'Đã chọn giọng: '+selection.name+' (fr-FR).' : 'Tự động ưu tiên giọng Français (France).';
+      dictStopAudio();
+    }
+    if('speechSynthesis' in window){
+      window.speechSynthesis.addEventListener('voiceschanged',dictRefreshVoices);
+      document.addEventListener('DOMContentLoaded',dictRefreshVoices);
+    }
+
+    function dictEl(id){return document.getElementById(id);}
+    function dictStorageKey(){return CD_STORAGE_PREFIX + (currentUser && currentUser.id ? currentUser.id : 'guest');}
+    function dictLocalSave(){
+      if(!dictSession) return;
+      try{localStorage.setItem(dictStorageKey(),JSON.stringify(dictSession));}catch(e){console.warn('Không lưu được tiến độ Dictée trên trình duyệt:',e);}
+    }
+    function dictFrBelow100(n){
+      if(n < 20) return CD_UNITS[n];
+      if(n < 70){
+        const t = Math.floor(n/10)*10, u = n%10;
+        return CD_TENS[t] + (u===1 ? ' et un' : u ? '-' + CD_UNITS[u] : '');
+      }
+      if(n < 80) return n===71 ? 'soixante et onze' : 'soixante-' + CD_UNITS[n-60];
+      if(n===80) return 'quatre-vingts';
+      return 'quatre-vingt' + (n < 90 ? '-'+CD_UNITS[n-80] : '-'+CD_UNITS[n-80]);
+    }
+    function dictFrenchNumber(n){
+      n=Math.max(0,Math.trunc(n));
+      if(n < 100) return dictFrBelow100(n);
+      if(n < 1000){
+        const h=Math.floor(n/100), rest=n%100;
+        const head=(h===1?'cent':CD_UNITS[h]+' cent') + (h>1 && rest===0 ? 's':'');
+        return rest ? head+' '+dictFrBelow100(rest) : head;
+      }
+      const k=Math.floor(n/1000), rest=n%1000;
+      const head=k===1?'mille':dictFrenchNumber(k)+' mille';
+      return rest ? head+' '+dictFrenchNumber(rest) : head;
+    }
+    function dictPhoneSpeech(value){
+      return value.match(/.{2}/g).map(pair => pair[0]==='0'
+        ? 'zéro '+dictFrenchNumber(Number(pair[1]))
+        : dictFrenchNumber(Number(pair))).join(', ');
+    }
+    function dictQuestionSpeech(q){return q.mode==='phone' ? dictPhoneSpeech(q.value) : dictFrenchNumber(Number(q.value));}
+    function dictFormattedAnswer(q){return q.mode==='phone' ? q.value.match(/.{2}/g).join(' ') : q.value;}
+    function dictRandomInt(max){return Math.floor(Math.random()*max);}
+    function dictMakeQuestions(mode,limit,count){
+      const seen=new Set(), arr=[]; let tries=0;
+      while(arr.length<count && tries<count*60){
+        tries++;
+        let value;
+        if(mode==='phone'){
+          const prefixes=['01','02','03','04','05','06','07','09'];
+          value=prefixes[dictRandomInt(prefixes.length)];
+          for(let j=0;j<4;j++) value+=String(dictRandomInt(100)).padStart(2,'0');
+        }else{
+          value=String(dictRandomInt(limit+1));
+        }
+        if(seen.has(value))continue;
+        seen.add(value); arr.push({value,mode});
+      }
+      return arr;
+    }
+    function dictGetResult(i){
+      const k=String(i);
+      return dictSession.results[k] || {tries:0,firstCorrect:false,solved:false,skipped:false,revealed:false,input:'',lastStatus:''};
+    }
+    function dictModeUI(){
+      if(!dictEl('cdDifficultyGroup'))return;
+      dictEl('cdDifficultyGroup').hidden=dictEl('cdMode').value==='phone';
+    }
+    function dictSetSpeed(){if(dictSession){dictSession.speed=Number(dictEl('cdSpeed').value);dictLocalSave();}}
+    function dictLoadFromStorage(){
+      try{
+        const v=JSON.parse(localStorage.getItem(dictStorageKey())||'null');
+        if(v && v.version===1 && Array.isArray(v.questions) && v.questions.length>0 && v.questions.length<=30 &&
+           typeof v.index==='number' && v.index>=0 && v.index<v.questions.length && v.results && typeof v.results==='object' &&
+           v.questions.every(q=>q && typeof q.value==='string' && /^\d{1,10}$/.test(q.value) && (q.mode==='phone'||q.mode==='number'))){
+          return v;
+        }
+      }catch(e){console.warn('Không khôi phục được bài dictée:',e);}
+      return null;
+    }
+    function dictInitView(){
+      if(!dictEl('dictation'))return;
+      if(!dictSession || dictLoadedUser !== dictStorageKey()){
+        dictLoadedUser = dictStorageKey();
+        dictSession=dictLoadFromStorage();
+        if(!dictSession) dictNewSession(true);
+      }
+      const s=dictSession;
+      dictEl('cdMode').value=s.mode;
+      dictEl('cdDifficulty').value=String(s.limit);
+      dictEl('cdCount').value=String(s.questions.length);
+      dictEl('cdSpeed').value=String(s.speed||0.85);
+      dictModeUI();dictRender();dictRefreshVoices();
+    }
+    function dictNewSession(force){
+      if(dictSession && !dictSession.finished && !force){
+        if(!confirm('Tạo bộ mới sẽ thay thế lượt luyện đang làm trên trình duyệt này. Bạn muốn tiếp tục?'))return;
+      }
+      dictStopAudio();
+      const mode=dictEl('cdMode').value,limit=Number(dictEl('cdDifficulty').value),count=Number(dictEl('cdCount').value);
+      dictSession={version:1,mode,limit,speed:Number(dictEl('cdSpeed').value),index:0,
+        questions:dictMakeQuestions(mode,limit,count),results:{},finished:false,review:false};
+      dictLocalSave();dictRender();
+    }
+    function dictStopAudio(){
+      dictAudioToken++;
+      try{if('speechSynthesis' in window)window.speechSynthesis.cancel();}catch(e){}
+      const box=dictEl('cdAudioArea');if(box)box.classList.remove('cd-playing');
+    }
+    function dictPlay(){
+      if(!dictSession||dictSession.finished)return;
+      if(!('speechSynthesis' in window)||typeof SpeechSynthesisUtterance==='undefined'){
+        dictEl('cdVoiceStatus').textContent='Trình duyệt chưa hỗ trợ đọc văn bản. Hãy thử Microsoft Edge/Chrome và bật âm lượng.';
+        return;
+      }
+      dictStopAudio();
+      const token=dictAudioToken;
+      const q=dictSession.questions[dictSession.index];
+      const u=new SpeechSynthesisUtterance(dictQuestionSpeech(q));
+      u.lang='fr-FR';u.rate=Number(dictEl('cdSpeed').value)||0.85;
+      u.pitch=1;u.volume=1;
+      // Chỉ sử dụng locale fr-FR; không chọn fr-BE/fr-CA chỉ vì tên giọng trùng.
+      dictRefreshVoices();
+      const fr=dictVoicesForFrance;
+      if(!fr.length){
+        dictEl('cdVoiceStatus').textContent='Không tìm thấy giọng French (France) – fr-FR. Không dùng giọng Bỉ để thay thế. Hãy cài giọng này trên hệ điều hành hoặc thử Edge.';
+        return;
+      }
+      const saved=dictEl('cdVoiceSelect')?.value||'';
+      const chosen=fr.find(v=>dictVoiceKey(v)===saved);
+      const prefer=chosen||fr.find(v=>/Google|Microsoft|Natural|Denise|Hortense/i.test(v.name))||fr[0];
+      u.voice=prefer;
+      dictEl('cdVoiceStatus').textContent='Giọng: '+prefer.name+' (fr-FR) · Nhấn Ctrl để nghe lại.';
+      u.onstart=()=>{if(token===dictAudioToken)dictEl('cdAudioArea').classList.add('cd-playing');};
+      u.onend=()=>{if(token===dictAudioToken)dictEl('cdAudioArea').classList.remove('cd-playing');};
+      u.onerror=(event)=>{
+        if(token!==dictAudioToken)return;
+        dictEl('cdAudioArea').classList.remove('cd-playing');
+        if(event.error!=='canceled'&&event.error!=='interrupted')dictEl('cdVoiceStatus').textContent='Không phát âm được. Hãy kiểm tra giọng đọc tiếng Pháp và âm lượng của trình duyệt.';
+      };
+      try{window.speechSynthesis.speak(u);}catch(e){dictEl('cdVoiceStatus').textContent='Không thể phát âm trên trình duyệt này.';}
+    }
+    function dictTypeAnswer(){
+      if(!dictSession||dictSession.finished)return;
+      const r=dictGetResult(dictSession.index);
+      if(r.solved)return;
+      r.input=dictEl('cdAnswer').value;
+      dictSession.results[String(dictSession.index)]=r;
+      dictLocalSave();
+    }
+    function dictUserDigits(text){
+      if(!/^\s*[\d\s.()\-+]*\s*$/.test(text||''))return null;
+      return (text||'').replace(/\D/g,'');
+    }
+    function dictCheck(){
+      if(!dictSession||dictSession.finished)return;
+      const i=dictSession.index,q=dictSession.questions[i],r=dictGetResult(i);
+      if(r.solved)return;
+      const typed=dictEl('cdAnswer').value.trim(),digits=dictUserDigits(typed);
+      if(!typed){dictEl('cdFeedback').className='cd-feedback info';dictEl('cdFeedback').textContent='Bạn hãy nhập số nghe được trước khi kiểm tra.';dictEl('cdFeedback').style.display='block';dictEl('cdAnswer').focus();return;}
+      if(digits===null || (q.mode==='phone' && digits.length!==10)){
+        dictEl('cdFeedback').className='cd-feedback info';
+        dictEl('cdFeedback').textContent=q.mode==='phone'?'Hãy nhập đúng 10 chữ số của số điện thoại (có thể ngăn bằng khoảng trắng).':'Vui lòng nhập bằng các chữ số 0–9.';
+        dictEl('cdFeedback').style.display='block';return;
+      }
+      const right=digits===q.value;
+      if(r.tries===0&&!r.skipped&&!r.revealed)r.firstCorrect=right;
+      r.tries++;
+      r.lastStatus=right?'correct':'wrong';
+      if(right)r.solved=true;
+      r.input=dictEl('cdAnswer').value;
+      dictSession.results[String(i)]=r;
+      dictLocalSave();dictRender();
+      if(!right)dictEl('cdAnswer').focus();
+    }
+    function dictMask(q){
+      if(q.mode==='phone')return q.value.slice(0,2)+'  ••  ••  ••  ••';
+      return q.value.length>1?q.value[0]+'•'.repeat(q.value.length-1):'•';
+    }
+    function dictRenderFeedback(){
+      if(!dictSession||dictSession.finished)return;
+      const i=dictSession.index,q=dictSession.questions[i],r=dictGetResult(i);
+      const panel=dictEl('cdFeedback'),reveal=dictEl('cdReveal');
+      panel.style.display='none';panel.className='cd-feedback';panel.textContent='';
+      reveal.style.display='none';reveal.textContent='';
+      if(!r.tries&&!r.skipped&&!r.revealed)return;
+      if(r.solved){
+        panel.className='cd-feedback good';panel.style.display='block';
+        panel.textContent=r.firstCorrect?'✓ Chính xác ngay lần đầu!':'✓ Đúng rồi! Bạn đã sửa được câu này.';
+        reveal.style.display='block';reveal.textContent='Đáp án: '+dictFormattedAnswer(q);
+      }else if(r.skipped||r.revealed){
+        panel.className='cd-feedback info';panel.style.display='block';
+        panel.textContent=r.skipped?'Bạn đã bỏ qua câu này. Có thể nghe và thử lại để luyện tập.':'Bạn đã xem đáp án. Hãy luyện lại câu này sau khi kết thúc.';
+        reveal.style.display='block';reveal.textContent='Đáp án: '+dictFormattedAnswer(q);
+      }else{
+        panel.className='cd-feedback bad';panel.style.display='block';
+        panel.textContent='⚠ Chưa chính xác. Hãy nghe lại và thử thêm lần nữa.';
+        if(dictEl('cdShowFull').checked){reveal.style.display='block';reveal.textContent='Đáp án: '+dictFormattedAnswer(q);}
+        else if(dictEl('cdShowHint').checked){reveal.style.display='block';reveal.textContent='Gợi ý: '+dictMask(q);}
+      }
+    }
+    function dictReveal(){
+      if(!dictSession||dictSession.finished)return;
+      const i=dictSession.index,r=dictGetResult(i);r.revealed=true;r.lastStatus='revealed';r.input=dictEl('cdAnswer').value;
+      dictSession.results[String(i)]=r;dictLocalSave();dictRender();
+    }
+    function dictSkip(){
+      if(!dictSession||dictSession.finished)return;
+      const i=dictSession.index,r=dictGetResult(i);r.skipped=true;r.lastStatus='skipped';r.input=dictEl('cdAnswer').value;
+      dictSession.results[String(i)]=r;dictLocalSave();
+      if(i+1===dictSession.questions.length)dictFinish();
+      else{dictSession.index++;dictLocalSave();dictRender();}
+    }
+    function dictStats(){
+      const all=Object.values(dictSession.results),done=all.filter(r=>r.tries>0||r.skipped||r.revealed).length,
+       first=all.filter(r=>r.firstCorrect).length, fixed=all.filter(r=>r.solved&&!r.firstCorrect).length,
+       missed=all.filter(r=>(r.tries>0||r.skipped||r.revealed)&&!r.solved).length;
+      return {done,first,fixed,missed};
+    }
+    function dictRender(){
+      if(!dictSession||!dictEl('dictation'))return;
+      const s=dictSession,q=s.questions[s.index],r=dictGetResult(s.index),stat=dictStats();
+      dictEl('cdExerciseTitle').textContent=s.mode==='phone'?'☎️ CHÉP SỐ ĐIỆN THOẠI · PAR PAIRES':'🔢 CHÉP SỐ TIẾNG PHÁP';
+      dictEl('cdStep').textContent='Câu '+(s.index+1)+' / '+s.questions.length;
+      dictEl('cdAnswer').value=r.input||'';
+      dictEl('cdAnswer').placeholder=s.mode==='phone'?'Ví dụ: 06 12 34 56 78':'Ví dụ: 76';
+      dictEl('cdInputHint').textContent=s.mode==='phone'?'Gõ 10 chữ số, có thể cách theo nhóm đôi như: 06 12 34 56 78.':'Gõ số bằng chữ số (ví dụ 71 hoặc 365), không cần viết bằng chữ tiếng Pháp.';
+      dictEl('cdPrevBtn').disabled=s.index===0||s.finished;
+      const accessible=!!(r.tries>0||r.skipped||r.revealed);
+      dictEl('cdNextBtn').disabled=!accessible||s.finished;
+      dictEl('cdNextBtn').textContent=s.index===s.questions.length-1?'Hoàn thành ✓':'Câu tiếp →';
+      dictEl('cdStatDone').textContent=stat.done;
+      dictEl('cdStatCorrect').textContent=stat.first;
+      dictEl('cdStatRetry').textContent=stat.fixed;
+      dictEl('cdStatMissed').textContent=stat.missed;
+      dictEl('cdBar').style.width=(100*stat.done/s.questions.length)+'%';
+      dictEl('cdProgressText').textContent=stat.done+' / '+s.questions.length+' câu đã kiểm tra';
+      dictEl('cdResult').style.display=s.finished?'block':'none';
+      dictEl('cdAnswer').disabled=!!s.finished || r.solved;
+      dictEl('cdCheckBtn').disabled=!!s.finished || r.solved;
+      dictEl('cdSkipBtn').disabled=!!s.finished;
+      dictEl('cdRevealBtn').disabled=!!s.finished;
+      dictEl('cdPlayBtn').disabled=!!s.finished;
+      dictRenderFeedback();
+      if(s.finished)dictRenderSummary();
+    }
+    function dictNext(){
+      if(!dictSession||dictSession.finished)return;
+      const r=dictGetResult(dictSession.index);
+      if(!(r.tries||r.skipped||r.revealed)){showToast('Hãy kiểm tra hoặc bỏ qua câu này trước khi chuyển tiếp.');return;}
+      dictStopAudio();
+      if(dictSession.index>=dictSession.questions.length-1){dictFinish();return;}
+      dictSession.index++;dictLocalSave();dictRender();
+    }
+    function dictPrevious(){
+      if(!dictSession||dictSession.finished||dictSession.index<=0)return;
+      dictStopAudio();dictSession.index--;dictLocalSave();dictRender();
+    }
+    function dictFinish(){
+      if(!dictSession)return;
+      dictStopAudio();dictSession.finished=true;dictLocalSave();dictRender();
+      dictEl('cdResult').scrollIntoView({block:'nearest',behavior:'smooth'});
+    }
+    function dictRenderSummary(){
+      const stat=dictStats();
+      dictEl('cdFinalScore').textContent=stat.first+' / '+dictSession.questions.length;
+      dictEl('cdFinalSummary').textContent='Đúng lần đầu: '+stat.first+' · Sửa đúng sau khi thử lại: '+stat.fixed+' · Chưa đúng / bỏ qua: '+stat.missed+'. Bạn có thể ôn lại những câu chưa đúng ở lần đầu.';
+      dictEl('cdReviewBtn').disabled=stat.first===dictSession.questions.length;
+    }
+    function dictReviewMistakes(){
+      if(!dictSession)return;
+      const qs=dictSession.questions.filter((q,i)=>!dictGetResult(i).firstCorrect);
+      if(!qs.length){showToast('Bạn đã đúng tất cả các câu ngay lần đầu!');return;}
+      dictStopAudio();
+      dictSession={version:1,mode:dictSession.mode,limit:dictSession.limit,speed:dictSession.speed,index:0,
+        questions:qs,results:{},finished:false,review:true};
+      dictLocalSave();dictRender();window.scrollTo({top:0,behavior:'smooth'});
+    }
+    document.addEventListener('keydown',e=>{
+      if(!dictEl('dictation')?.classList.contains('active')||e.altKey||e.metaKey)return;
+      if(e.key==='Control'&&!e.repeat){dictPlay();return;}
+      if(e.key==='Enter'&&!e.shiftKey&&!e.ctrlKey){
+        const tag=e.target?.tagName;
+        if(tag==='BUTTON'||tag==='SELECT'||e.target?.type==='checkbox')return;
+        e.preventDefault();
+        if(!dictSession||dictSession.finished)return;
+        const r=dictGetResult(dictSession.index);
+        if(r.solved||r.skipped||r.revealed)dictNext();else dictCheck();
+      }
+    });
 
     document.addEventListener('DOMContentLoaded', castaApplyBrand);
 </script>
