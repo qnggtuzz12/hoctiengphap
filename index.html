@@ -1173,6 +1173,7 @@
     .cd-entry{display:block;width:100%;min-height:82px;resize:vertical;border:1.5px solid #cad8e9;border-radius:12px;padding:14px 15px;font-family:inherit;font-size:23px;font-weight:600;color:#183958;background:#fbfdff;letter-spacing:.018em}
     .cd-entry:focus{outline:none;border-color:#2b65cf;box-shadow:0 0 0 3px rgba(43,101,207,.1)}
     .cd-hint{font-size:11px;color:#778ba1;line-height:1.5;margin-top:7px}
+    .cd-delay-hint{margin-top:8px;min-height:18px;font-size:12px;font-weight:650;color:#2563eb;line-height:1.5}
     .cd-actions{display:flex;gap:9px;flex-wrap:wrap;margin-top:15px}.cd-action{border:1px solid #cbd9e8;border-radius:10px;padding:9px 13px;background:#fff;font-size:12px;color:#315472;font-weight:800;cursor:pointer}
     .cd-action:disabled{opacity:.48;cursor:not-allowed}.cd-action.cd-primary{background:#1d4ed8;border-color:#1d4ed8;color:#fff}.cd-action.cd-primary:hover{background:#1743b7}
     .cd-feedback{display:none;padding:13px 14px;border-radius:12px;margin-top:14px;font-size:12.5px;line-height:1.6;border:1px solid #d7e4f2;background:#f5f8fc}
@@ -1447,11 +1448,13 @@
               <label class="cd-entry-label" for="cdAnswer">Nhập nội dung nghe được</label>
               <textarea id="cdAnswer" class="cd-entry" rows="2" inputmode="numeric" placeholder="Ví dụ: 76" oninput="dictTypeAnswer()" aria-describedby="cdInputHint"></textarea>
               <div class="cd-hint" id="cdInputHint">Nhập bằng chữ số: 0, 1, 2…; số điện thoại có thể có hoặc không có khoảng trắng.</div>
+              <div class="cd-delay-hint" id="cdAutoReadHint" role="status" aria-live="polite"></div>
               <div class="cd-actions">
                 <button type="button" class="cd-action cd-primary" id="cdCheckBtn" onclick="dictCheck()">✓ Kiểm tra (Enter)</button>
                 <button type="button" class="cd-action" id="cdSkipBtn" onclick="dictSkip()">Bỏ qua</button>
                 <button type="button" class="cd-action" id="cdRevealBtn" onclick="dictReveal()">👁 Xem đáp án</button>
               </div>
+              <div id="cdLastOutcome" class="cd-feedback" role="status" aria-live="polite" style="display:none"></div>
               <div id="cdFeedback" class="cd-feedback" aria-live="polite"></div>
               <div id="cdReveal" class="cd-reveal" aria-live="polite"></div>
               <div class="cd-foot-buttons">
@@ -1470,9 +1473,10 @@
               <div class="cd-progress"><div id="cdBar"></div></div>
               <div class="cd-progress-desc" id="cdProgressText">0 / 20 câu đã kiểm tra</div>
               <div class="cd-options">
+                <label class="cd-check"><input id="cdAutoFlow" type="checkbox" checked onchange="dictSaveAutoFlow()"> <b>Tự kiểm tra khi gõ đủ số (không tự chuyển)</b> (khuyên dùng)</label>
                 <label class="cd-check"><input id="cdShowHint" type="checkbox" checked onchange="dictRenderFeedback()"> Gợi ý một phần đáp án sau khi trả lời sai</label>
                 <label class="cd-check"><input id="cdShowFull" type="checkbox" onchange="dictRenderFeedback()"> Hiện đáp án đầy đủ sau khi kiểm tra (chế độ học)</label>
-                <div class="cd-check" style="color:#617b94">💡 Hệ thống không tự chuyển câu để bạn chủ động nghe lại và sửa sai.</div>
+                <div class="cd-check" style="color:#617b94">💡 Gõ sai: ở nguyên câu và nhập lại đến khi đúng. Gõ đúng: nhấn <b>Enter</b> để sang câu sau. Ô nhập mới tự được chọn và <b>1 giây</b> sau sẽ đọc số mới. Bấm Ctrl để nghe lại ngay. Nút Bỏ qua là ngoại lệ nếu bạn chủ động muốn bỏ câu.</div>
               </div>
               <div class="cd-shortcuts">⌨️ <b>Phím tắt:</b> <kbd>Ctrl</kbd> nghe lại · <kbd>Enter</kbd> kiểm tra / câu tiếp theo. Phát âm sử dụng <b>giọng tiếng Pháp của trình duyệt</b>, không cần Drive hay tải MP3.</div>
             </div>
@@ -3096,6 +3100,7 @@
       if(pageId==='dashboard') initDashboardView();
       if(pageId==='exams') initExamsView();
       if(pageId==='phonetics') initPhoneticsView();
+      if(pageId!=='dictation' && dictSession)dictStopAudio();
       if(pageId==='dictation') dictInitView();
       else dictStopAudio();
       if(pageId==='videos') initVideosView();
@@ -6188,6 +6193,62 @@ function convertDocsToPreview(url) {
     let dictLoadedUser = null;
     let dictAudioToken = 0;
     let dictVoiceAvailable = false;
+    const CD_AUTOFLOW_PREF='casta_dictation_autoflow_v1';
+    let dictPendingRead=null;
+    let dictReadGeneration=0;
+    let dictLastOutcome=null;
+    function dictCancelPendingRead(){
+      if(dictPendingRead!==null){clearTimeout(dictPendingRead);dictPendingRead=null;}
+      dictReadGeneration++;
+    }
+    function dictSaveAutoFlow(){
+      const el=dictEl('cdAutoFlow');
+      if(!el)return;
+      try{localStorage.setItem(CD_AUTOFLOW_PREF,el.checked?'1':'0');}catch(e){}
+    }
+    function dictLoadAutoFlow(){
+      const el=dictEl('cdAutoFlow');if(!el)return;
+      try{el.checked=localStorage.getItem(CD_AUTOFLOW_PREF)!=='0';}catch(e){}
+    }
+    function dictFocusAnswer(){
+      const el=dictEl('cdAnswer'),page=dictEl('dictation');
+      if(!el||el.disabled||!page?.classList.contains('active'))return;
+      try{el.focus({preventScroll:true});}catch(e){el.focus();}
+      try{el.setSelectionRange(el.value.length,el.value.length);}catch(e){}
+    }
+    function dictQueueRead(){
+      dictCancelPendingRead();
+      const hint=dictEl('cdAutoReadHint');
+      if(!dictSession||dictSession.finished||!dictEl('dictation')?.classList.contains('active')){
+        if(hint)hint.textContent='';return;
+      }
+      const session=dictSession,index=session.index,generation=dictReadGeneration;
+      if(hint)hint.textContent='⏳ Số mới sẽ được đọc sau 1 giây. Bạn có thể gõ ngay.';
+      dictFocusAnswer();
+      dictPendingRead=setTimeout(()=>{
+        dictPendingRead=null;
+        if(generation!==dictReadGeneration||dictSession!==session||session.index!==index||
+           session.finished||document.hidden||!dictEl('dictation')?.classList.contains('active'))return;
+        if(hint)hint.textContent='🔊 Đang đọc số tiếng Pháp · Ctrl để nghe lại.';
+        dictPlay();
+        // Speech synthesis must not steal focus; input stays ready for the next value.
+        dictFocusAnswer();
+      },1000);
+    }
+    function dictRecordOutcome(index,right,q){
+      const reveal=!!dictEl('cdShowFull')?.checked;
+      dictLastOutcome={forIndex:index+1,right,
+        text:(right?'✓ Câu '+(index+1)+' chính xác.':'✗ Câu '+(index+1)+' chưa đúng.')+
+          (!right&&reveal?' Đáp án: '+dictFormattedAnswer(q):'')};
+    }
+    function dictRenderLastOutcome(){
+      const el=dictEl('cdLastOutcome');if(!el)return;
+      if(!dictSession||!dictLastOutcome||dictLastOutcome.forIndex!==dictSession.index){
+        el.style.display='none';el.textContent='';return;
+      }
+      el.className='cd-feedback '+(dictLastOutcome.right?'good':'bad');
+      el.textContent=dictLastOutcome.text;el.style.display='block';
+    }
     const CD_VOICE_PREF_KEY='casta_dictation_voice_frfr';
     let dictVoicesForFrance=[];
     function dictGetFranceVoices(){
@@ -6317,25 +6378,29 @@ function convertDocsToPreview(url) {
       dictEl('cdDifficulty').value=String(s.limit);
       dictEl('cdCount').value=String(s.questions.length);
       dictEl('cdSpeed').value=String(s.speed||0.85);
-      dictModeUI();dictRender();dictRefreshVoices();
+      dictModeUI();dictLoadAutoFlow();dictRender();dictRefreshVoices();
+      if(!s.finished)dictQueueRead();
     }
     function dictNewSession(force){
       if(dictSession && !dictSession.finished && !force){
         if(!confirm('Tạo bộ mới sẽ thay thế lượt luyện đang làm trên trình duyệt này. Bạn muốn tiếp tục?'))return;
       }
       dictStopAudio();
+      dictLastOutcome=null;
       const mode=dictEl('cdMode').value,limit=Number(dictEl('cdDifficulty').value),count=Number(dictEl('cdCount').value);
       dictSession={version:1,mode,limit,speed:Number(dictEl('cdSpeed').value),index:0,
         questions:dictMakeQuestions(mode,limit,count),results:{},finished:false,review:false};
-      dictLocalSave();dictRender();
+      dictLocalSave();dictRender();dictQueueRead();
     }
     function dictStopAudio(){
+      dictCancelPendingRead();
       dictAudioToken++;
       try{if('speechSynthesis' in window)window.speechSynthesis.cancel();}catch(e){}
       const box=dictEl('cdAudioArea');if(box)box.classList.remove('cd-playing');
     }
     function dictPlay(){
       if(!dictSession||dictSession.finished)return;
+      const hint=dictEl('cdAutoReadHint');if(hint)hint.textContent='';
       if(!('speechSynthesis' in window)||typeof SpeechSynthesisUtterance==='undefined'){
         dictEl('cdVoiceStatus').textContent='Trình duyệt chưa hỗ trợ đọc văn bản. Hãy thử Microsoft Edge/Chrome và bật âm lượng.';
         return;
@@ -6369,17 +6434,27 @@ function convertDocsToPreview(url) {
     }
     function dictTypeAnswer(){
       if(!dictSession||dictSession.finished)return;
-      const r=dictGetResult(dictSession.index);
+      const i=dictSession.index,r=dictGetResult(i);
       if(r.solved)return;
       r.input=dictEl('cdAnswer').value;
-      dictSession.results[String(dictSession.index)]=r;
+      dictSession.results[String(i)]=r;
       dictLocalSave();
+      const digits=dictUserDigits(r.input);
+      const target=dictSession.questions[i];
+      const auto=dictEl('cdAutoFlow');
+      // Auto check only. Correct or incorrect, NEVER navigate until Enter is pressed.
+      // Revisions stay focused and editable. Manual Enter works if auto-check is off.
+      if(auto?.checked && digits!==null && digits.length===target.value.length){
+        dictCheck(true);
+      }else if(r.tries && !r.solved){
+        dictRenderFeedback();
+      }
     }
     function dictUserDigits(text){
       if(!/^\s*[\d\s.()\-+]*\s*$/.test(text||''))return null;
       return (text||'').replace(/\D/g,'');
     }
-    function dictCheck(){
+    function dictCheck(fromAuto=false){
       if(!dictSession||dictSession.finished)return;
       const i=dictSession.index,q=dictSession.questions[i],r=dictGetResult(i);
       if(r.solved)return;
@@ -6390,7 +6465,13 @@ function convertDocsToPreview(url) {
         dictEl('cdFeedback').textContent=q.mode==='phone'?'Hãy nhập đúng 10 chữ số của số điện thoại (có thể ngăn bằng khoảng trắng).':'Vui lòng nhập bằng các chữ số 0–9.';
         dictEl('cdFeedback').style.display='block';return;
       }
+      // Re-pressing Enter on the same incorrect value must not count as a new try.
+      if(r.lastStatus==='wrong' && r.lastCheckedDigits===digits){
+        dictFocusAnswer();
+        return;
+      }
       const right=digits===q.value;
+      r.lastCheckedDigits=digits;
       if(r.tries===0&&!r.skipped&&!r.revealed)r.firstCorrect=right;
       r.tries++;
       r.lastStatus=right?'correct':'wrong';
@@ -6398,7 +6479,12 @@ function convertDocsToPreview(url) {
       r.input=dictEl('cdAnswer').value;
       dictSession.results[String(i)]=r;
       dictLocalSave();dictRender();
-      if(!right)dictEl('cdAnswer').focus();
+      // Stay on this card. Even correct answers wait for an explicit Enter/Next click.
+      if(!right)dictFocusAnswer();
+      else {
+        const hint=dictEl('cdAutoReadHint');
+        if(hint)hint.textContent='✓ Đã chính xác. Nhấn Enter để sang câu tiếp theo.';
+      }
     }
     function dictMask(q){
       if(q.mode==='phone')return q.value.slice(0,2)+'  ••  ••  ••  ••';
@@ -6420,8 +6506,11 @@ function convertDocsToPreview(url) {
         panel.textContent=r.skipped?'Bạn đã bỏ qua câu này. Có thể nghe và thử lại để luyện tập.':'Bạn đã xem đáp án. Hãy luyện lại câu này sau khi kết thúc.';
         reveal.style.display='block';reveal.textContent='Đáp án: '+dictFormattedAnswer(q);
       }else{
-        panel.className='cd-feedback bad';panel.style.display='block';
-        panel.textContent='⚠ Chưa chính xác. Hãy nghe lại và thử thêm lần nữa.';
+        const beingEdited = r.lastCheckedDigits!==undefined && dictUserDigits(r.input)!==r.lastCheckedDigits;
+        panel.className='cd-feedback '+(beingEdited?'info':'bad');panel.style.display='block';
+        panel.textContent=beingEdited
+          ? 'Bạn đang sửa đáp án. Hãy điền đủ số để kiểm tra lại.'
+          : '⚠ Chưa chính xác. Hãy nghe lại, sửa đáp án đến khi đúng rồi nhấn Enter.';
         if(dictEl('cdShowFull').checked){reveal.style.display='block';reveal.textContent='Đáp án: '+dictFormattedAnswer(q);}
         else if(dictEl('cdShowHint').checked){reveal.style.display='block';reveal.textContent='Gợi ý: '+dictMask(q);}
       }
@@ -6435,8 +6524,9 @@ function convertDocsToPreview(url) {
       if(!dictSession||dictSession.finished)return;
       const i=dictSession.index,r=dictGetResult(i);r.skipped=true;r.lastStatus='skipped';r.input=dictEl('cdAnswer').value;
       dictSession.results[String(i)]=r;dictLocalSave();
+      dictLastOutcome=null;
       if(i+1===dictSession.questions.length)dictFinish();
-      else{dictSession.index++;dictLocalSave();dictRender();}
+      else{dictSession.index++;dictLocalSave();dictRender();dictQueueRead();}
     }
     function dictStats(){
       const all=Object.values(dictSession.results),done=all.filter(r=>r.tries>0||r.skipped||r.revealed).length,
@@ -6453,8 +6543,7 @@ function convertDocsToPreview(url) {
       dictEl('cdAnswer').placeholder=s.mode==='phone'?'Ví dụ: 06 12 34 56 78':'Ví dụ: 76';
       dictEl('cdInputHint').textContent=s.mode==='phone'?'Gõ 10 chữ số, có thể cách theo nhóm đôi như: 06 12 34 56 78.':'Gõ số bằng chữ số (ví dụ 71 hoặc 365), không cần viết bằng chữ tiếng Pháp.';
       dictEl('cdPrevBtn').disabled=s.index===0||s.finished;
-      const accessible=!!(r.tries>0||r.skipped||r.revealed);
-      dictEl('cdNextBtn').disabled=!accessible||s.finished;
+      dictEl('cdNextBtn').disabled=!r.solved||s.finished;
       dictEl('cdNextBtn').textContent=s.index===s.questions.length-1?'Hoàn thành ✓':'Câu tiếp →';
       dictEl('cdStatDone').textContent=stat.done;
       dictEl('cdStatCorrect').textContent=stat.first;
@@ -6468,24 +6557,25 @@ function convertDocsToPreview(url) {
       dictEl('cdSkipBtn').disabled=!!s.finished;
       dictEl('cdRevealBtn').disabled=!!s.finished;
       dictEl('cdPlayBtn').disabled=!!s.finished;
-      dictRenderFeedback();
+      dictRenderFeedback();dictRenderLastOutcome();
       if(s.finished)dictRenderSummary();
     }
     function dictNext(){
       if(!dictSession||dictSession.finished)return;
       const r=dictGetResult(dictSession.index);
-      if(!(r.tries||r.skipped||r.revealed)){showToast('Hãy kiểm tra hoặc bỏ qua câu này trước khi chuyển tiếp.');return;}
+      if(!r.solved){showToast('Hãy nhập đúng số trước khi nhấn Enter. Nếu muốn bỏ câu, dùng nút Bỏ qua.');dictFocusAnswer();return;}
       dictStopAudio();
       if(dictSession.index>=dictSession.questions.length-1){dictFinish();return;}
-      dictSession.index++;dictLocalSave();dictRender();
+      dictSession.index++;dictLocalSave();dictRender();dictQueueRead();
     }
     function dictPrevious(){
       if(!dictSession||dictSession.finished||dictSession.index<=0)return;
-      dictStopAudio();dictSession.index--;dictLocalSave();dictRender();
+      dictStopAudio();dictLastOutcome=null;dictSession.index--;dictLocalSave();dictRender();dictQueueRead();
     }
     function dictFinish(){
       if(!dictSession)return;
-      dictStopAudio();dictSession.finished=true;dictLocalSave();dictRender();
+      dictStopAudio();dictLastOutcome=null;dictSession.finished=true;dictLocalSave();dictRender();
+      const hint=dictEl('cdAutoReadHint');if(hint)hint.textContent='';
       dictEl('cdResult').scrollIntoView({block:'nearest',behavior:'smooth'});
     }
     function dictRenderSummary(){
@@ -6498,10 +6588,10 @@ function convertDocsToPreview(url) {
       if(!dictSession)return;
       const qs=dictSession.questions.filter((q,i)=>!dictGetResult(i).firstCorrect);
       if(!qs.length){showToast('Bạn đã đúng tất cả các câu ngay lần đầu!');return;}
-      dictStopAudio();
+      dictStopAudio();dictLastOutcome=null;
       dictSession={version:1,mode:dictSession.mode,limit:dictSession.limit,speed:dictSession.speed,index:0,
         questions:qs,results:{},finished:false,review:true};
-      dictLocalSave();dictRender();window.scrollTo({top:0,behavior:'smooth'});
+      dictLocalSave();dictRender();dictQueueRead();window.scrollTo({top:0,behavior:'smooth'});
     }
     document.addEventListener('keydown',e=>{
       if(!dictEl('dictation')?.classList.contains('active')||e.altKey||e.metaKey)return;
@@ -6512,7 +6602,13 @@ function convertDocsToPreview(url) {
         e.preventDefault();
         if(!dictSession||dictSession.finished)return;
         const r=dictGetResult(dictSession.index);
-        if(r.solved||r.skipped||r.revealed)dictNext();else dictCheck();
+        if(r.solved){
+          dictNext();
+        }else{
+          // One Enter can check and move only when the newly typed value is correct.
+          dictCheck();
+          if(dictSession && !dictSession.finished && dictGetResult(dictSession.index).solved)dictNext();
+        }
       }
     });
 
