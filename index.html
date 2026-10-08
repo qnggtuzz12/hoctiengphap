@@ -1178,13 +1178,19 @@
     .cd-action:disabled{opacity:.48;cursor:not-allowed}.cd-action.cd-primary{background:#1d4ed8;border-color:#1d4ed8;color:#fff}.cd-action.cd-primary:hover{background:#1743b7}
     .cd-feedback{display:none;padding:13px 14px;border-radius:12px;margin-top:14px;font-size:12.5px;line-height:1.6;border:1px solid #d7e4f2;background:#f5f8fc}
     .cd-feedback.good{display:block;background:#edfbf2;border-color:#b6e9cc;color:#17683b}.cd-feedback.bad{display:block;background:#fff8ed;border-color:#f6dbab;color:#905d18}.cd-feedback.info{display:block;background:#eff6ff;border-color:#c7defb;color:#1c5587}
-    .cd-feedback strong{font-size:13px}.cd-reveal{display:none;margin-top:10px;color:#183b64;background:#f1f6fc;border:1px dashed #c6d8eb;border-radius:10px;padding:11px 12px;font-size:16px;font-weight:800;letter-spacing:.03em;word-break:break-word}
+    .cd-feedback strong{font-size:13px}.cd-reveal{display:none;margin-top:10px;color:#183b64;background:#f1f6fc;border:1px dashed #c6d8eb;border-radius:10px;padding:11px 12px;font-size:16px;font-weight:800;letter-spacing:.06em;word-break:break-word;white-space:pre-wrap;font-variant-numeric:tabular-nums}
     .cd-foot-buttons{margin-top:14px;display:flex;align-items:center;justify-content:space-between;gap:10px}
     .cd-side-title{font-size:14px;font-weight:850;color:#133e6a;margin:0 0 15px}
     .cd-counter{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
     .cd-stat{background:#f3f7fb;border:1px solid #e1eaf3;padding:13px;border-radius:12px}.cd-stat b{display:block;font-size:21px;color:#1e4e87;font-weight:850}.cd-stat span{font-size:11px;color:#647c92}
     .cd-progress{height:8px;background:#e7eef6;border-radius:100px;overflow:hidden;margin:16px 0 7px}.cd-progress div{height:100%;width:0;background:#2a62ce;transition:width .25s}
     .cd-progress-desc{font-size:11px;color:#647c92}
+    .cd-hint-digits{display:flex;gap:5px;flex-wrap:wrap;align-items:center;margin-top:8px;font-variant-numeric:tabular-nums}
+    .cd-hint-digits .cd-digit{display:inline-flex;min-width:28px;height:37px;align-items:center;justify-content:center;border-radius:8px;font-size:20px;font-weight:850}
+    .cd-hint-digits .cd-digit.known{background:#dcfce7;border:1px solid #86efac;color:#166534}
+    .cd-hint-digits .cd-digit.hidden-digit{background:#edf2f8;border:1px solid #d8e2ee;color:#64748b}
+    .cd-hint-digits .cd-digit.pair-end{margin-right:9px}
+    @media(max-width:580px){.cd-hint-digits .cd-digit{min-width:23px;height:33px;font-size:18px}.cd-hint-digits .cd-digit.pair-end{margin-right:5px}}
     .cd-options{border-top:1px solid #e5ecf5;margin-top:18px;padding-top:16px;display:grid;gap:12px}
     .cd-check{display:flex;gap:9px;align-items:flex-start;font-size:12px;color:#3b566f;line-height:1.5;cursor:pointer}.cd-check input{accent-color:#2563eb;width:16px;height:16px;flex:none;margin-top:1px}
     .cd-shortcuts{margin-top:16px;padding:13px 14px;background:#f2f6fc;border:1px solid #e1eaf3;border-radius:12px;font-size:11px;color:#58718c;line-height:1.8}
@@ -1424,17 +1430,17 @@
             <div>
               <span class="cd-kicker">CASTA FRANÇAIS · ÉCOUTER & ÉCRIRE</span>
               <h1>Dictée des nombres</h1>
-              <p>Nghe rồi chép số bằng tiếng Pháp. Luyện cả số thường và số điện thoại theo từng cặp 2 chữ số, kiểm tra ngay, luyện lại câu sai — không ảnh hưởng bảng điểm thi.</p>
+              <p>Nghe rồi chép số tiếng Pháp hoặc số điện thoại theo từng cặp 2 chữ số. Nhấn Enter để kiểm tra, Enter lần nữa để sang câu mới; có thể luyện không giới hạn và ôn lại câu sai.</p>
             </div><div class="cd-hero-art" aria-hidden="true">🎧</div>
           </div>
           <div class="cd-setup">
             <div class="cd-field"><label for="cdMode">Kiểu luyện tập</label><select id="cdMode" onchange="dictModeUI()"><option value="number">🔢 Nghe số thường</option><option value="phone">☎️ Nghe số điện thoại</option></select></div>
             <div class="cd-field" id="cdDifficultyGroup"><label for="cdDifficulty">Độ khó</label><select id="cdDifficulty"><option value="31">Cơ bản · 0–31</option><option value="99" selected>A1 · 0–99</option><option value="999">A2 · 0–999</option><option value="9999">Thử thách · 0–9999</option></select></div>
-            <div class="cd-field"><label for="cdCount">Số câu</label><select id="cdCount"><option value="10">10 câu</option><option value="20" selected>20 câu</option><option value="30">30 câu</option></select></div>
+            <div class="cd-field"><label for="cdCount">Số câu</label><select id="cdCount"><option value="10">10 câu</option><option value="20" selected>20 câu</option><option value="30">30 câu</option><option value="50">50 câu</option><option value="infinite">♾️ Vô hạn · Tự dừng</option></select></div>
             <div class="cd-field"><label for="cdSpeed">Tốc độ phát âm</label><select id="cdSpeed" onchange="dictSetSpeed()"><option value="0.7">0.7x · Chậm</option><option value="0.85" selected>0.85x · Vừa</option><option value="1">1.0x · Tự nhiên</option><option value="1.15">1.15x · Nhanh</option></select></div>
             <div class="cd-field"><label for="cdVoiceSelect">Giọng đọc (France)</label><select id="cdVoiceSelect" onchange="dictSaveVoiceChoice()"><option value="">Tự động · français (France)</option></select></div>
             <button id="cdNewBtn" type="button" class="primary" onclick="dictNewSession()">↻ Tạo bộ mới</button>
-            <div class="cd-setup-note">Các số điện thoại được tạo ngẫu nhiên chỉ để luyện nghe, không phải thông tin liên lạc thực. Đổi lựa chọn rồi bấm <b>Tạo bộ mới</b> để áp dụng.</div>
+            <div class="cd-setup-note">Chế độ vô hạn sẽ tạo thêm câu khi bạn luyện, không có giới hạn cố định. Ở mức 0–31, bộ 50 câu có thể gặp lại một số. Số điện thoại ngẫu nhiên chỉ dùng để luyện nghe. Đổi lựa chọn rồi bấm <b>Tạo bộ mới</b> để áp dụng.</div>
           </div>
           <div class="cd-main-grid">
             <div class="cd-panel">
@@ -1450,7 +1456,7 @@
               <div class="cd-hint" id="cdInputHint">Nhập bằng chữ số: 0, 1, 2…; số điện thoại có thể có hoặc không có khoảng trắng.</div>
               <div class="cd-delay-hint" id="cdAutoReadHint" role="status" aria-live="polite"></div>
               <div class="cd-actions">
-                <button type="button" class="cd-action cd-primary" id="cdCheckBtn" onclick="dictCheck()">✓ Kiểm tra (Enter)</button>
+                <button type="button" class="cd-action cd-primary" id="cdCheckBtn" onclick="dictPrimaryAction()">✓ Kiểm tra (Enter)</button>
                 <button type="button" class="cd-action" id="cdSkipBtn" onclick="dictSkip()">Bỏ qua</button>
                 <button type="button" class="cd-action" id="cdRevealBtn" onclick="dictReveal()">👁 Xem đáp án</button>
               </div>
@@ -1465,7 +1471,7 @@
             <div class="cd-panel cd-side-panel">
               <h2 class="cd-side-title">Tiến độ học tập</h2>
               <div class="cd-counter">
-                <div class="cd-stat"><b id="cdStatDone">0</b><span>Đã làm</span></div>
+                <div class="cd-stat"><b id="cdStatDone">0</b><span>Đã kiểm tra</span></div>
                 <div class="cd-stat"><b id="cdStatCorrect">0</b><span>Đúng lần đầu</span></div>
                 <div class="cd-stat"><b id="cdStatRetry">0</b><span>Đã sửa đúng</span></div>
                 <div class="cd-stat"><b id="cdStatMissed">0</b><span>Chưa đúng / bỏ qua</span></div>
@@ -1473,10 +1479,10 @@
               <div class="cd-progress"><div id="cdBar"></div></div>
               <div class="cd-progress-desc" id="cdProgressText">0 / 20 câu đã kiểm tra</div>
               <div class="cd-options">
-                <label class="cd-check"><input id="cdAutoFlow" type="checkbox" checked onchange="dictSaveAutoFlow()"> <b>Tự kiểm tra khi gõ đủ số (không tự chuyển)</b> (khuyên dùng)</label>
-                <label class="cd-check"><input id="cdShowHint" type="checkbox" checked onchange="dictRenderFeedback()"> Gợi ý một phần đáp án sau khi trả lời sai</label>
+                <label class="cd-check"><input id="cdShowHint" type="checkbox" checked onchange="dictRenderFeedback()"> Hiện những chữ số đúng vị trí, che các chữ số sai bằng •</label>
                 <label class="cd-check"><input id="cdShowFull" type="checkbox" onchange="dictRenderFeedback()"> Hiện đáp án đầy đủ sau khi kiểm tra (chế độ học)</label>
-                <div class="cd-check" style="color:#617b94">💡 Gõ sai: ở nguyên câu và nhập lại đến khi đúng. Gõ đúng: nhấn <b>Enter</b> để sang câu sau. Ô nhập mới tự được chọn và <b>1 giây</b> sau sẽ đọc số mới. Bấm Ctrl để nghe lại ngay. Nút Bỏ qua là ngoại lệ nếu bạn chủ động muốn bỏ câu.</div>
+                <div class="cd-check" style="color:#617b94">💡 <b>Enter lần 1</b> mới kiểm tra (không tự chấm khi gõ). Nếu sai, chỉ các chữ số đúng vị trí mới lộ ra trong gợi ý; hãy sửa rồi Enter để kiểm tra lại. <b>Khi đã đúng, Enter lần tiếp theo</b> mới sang thẻ mới. Ô nhập tự lấy nét và số mới đọc sau <b>1 giây</b>. Ctrl để nghe lại.</div>
+                <button type="button" class="cd-action" id="cdStopBtn" onclick="dictStopSession()" style="display:none;justify-content:center;color:#b45309;border-color:#f6d49b;background:#fffbeb">■ Kết thúc luyện vô hạn & xem kết quả</button>
               </div>
               <div class="cd-shortcuts">⌨️ <b>Phím tắt:</b> <kbd>Ctrl</kbd> nghe lại · <kbd>Enter</kbd> kiểm tra / câu tiếp theo. Phát âm sử dụng <b>giọng tiếng Pháp của trình duyệt</b>, không cần Drive hay tải MP3.</div>
             </div>
@@ -6193,22 +6199,12 @@ function convertDocsToPreview(url) {
     let dictLoadedUser = null;
     let dictAudioToken = 0;
     let dictVoiceAvailable = false;
-    const CD_AUTOFLOW_PREF='casta_dictation_autoflow_v1';
     let dictPendingRead=null;
     let dictReadGeneration=0;
     let dictLastOutcome=null;
     function dictCancelPendingRead(){
       if(dictPendingRead!==null){clearTimeout(dictPendingRead);dictPendingRead=null;}
       dictReadGeneration++;
-    }
-    function dictSaveAutoFlow(){
-      const el=dictEl('cdAutoFlow');
-      if(!el)return;
-      try{localStorage.setItem(CD_AUTOFLOW_PREF,el.checked?'1':'0');}catch(e){}
-    }
-    function dictLoadAutoFlow(){
-      const el=dictEl('cdAutoFlow');if(!el)return;
-      try{el.checked=localStorage.getItem(CD_AUTOFLOW_PREF)!=='0';}catch(e){}
     }
     function dictFocusAnswer(){
       const el=dictEl('cdAnswer'),page=dictEl('dictation');
@@ -6222,7 +6218,7 @@ function convertDocsToPreview(url) {
       if(!dictSession||dictSession.finished||!dictEl('dictation')?.classList.contains('active')){
         if(hint)hint.textContent='';return;
       }
-      const session=dictSession,index=session.index,generation=dictReadGeneration;
+      const session=dictSession,index=dictSession.index,generation=dictReadGeneration;
       if(hint)hint.textContent='⏳ Số mới sẽ được đọc sau 1 giây. Bạn có thể gõ ngay.';
       dictFocusAnswer();
       dictPendingRead=setTimeout(()=>{
@@ -6333,6 +6329,8 @@ function convertDocsToPreview(url) {
       const seen=new Set(), arr=[]; let tries=0;
       while(arr.length<count && tries<count*60){
         tries++;
+        // Bộ 50 câu ở mức 0–31 phải cho phép lặp sau khi đã dùng hết 32 số.
+        if(mode==='number' && seen.size>=limit+1)seen.clear();
         let value;
         if(mode==='phone'){
           const prefixes=['01','02','03','04','05','06','07','09'];
@@ -6341,10 +6339,23 @@ function convertDocsToPreview(url) {
         }else{
           value=String(dictRandomInt(limit+1));
         }
-        if(seen.has(value))continue;
+        if(seen.has(value) || (arr.length && arr[arr.length-1].value===value))continue;
         seen.add(value); arr.push({value,mode});
       }
       return arr;
+    }
+    function dictAppendUnlimitedQuestion(){
+      // Chỉ tạo từng câu khi cần, không lập sẵn hàng ngàn câu trong bộ nhớ.
+      const s=dictSession, recent=s.questions.slice(-4).map(q=>q.value);
+      let q=null;
+      for(let tries=0;tries<30;tries++){
+        const candidate=dictMakeQuestions(s.mode,s.limit,1)[0];
+        if(!candidate)break;
+        q=candidate;
+        if(!recent.includes(q.value))break;
+      }
+      if(q)s.questions.push(q);
+      return !!q;
     }
     function dictGetResult(i){
       const k=String(i);
@@ -6358,7 +6369,7 @@ function convertDocsToPreview(url) {
     function dictLoadFromStorage(){
       try{
         const v=JSON.parse(localStorage.getItem(dictStorageKey())||'null');
-        if(v && v.version===1 && Array.isArray(v.questions) && v.questions.length>0 && v.questions.length<=30 &&
+        if(v && v.version===1 && Array.isArray(v.questions) && v.questions.length>0 &&
            typeof v.index==='number' && v.index>=0 && v.index<v.questions.length && v.results && typeof v.results==='object' &&
            v.questions.every(q=>q && typeof q.value==='string' && /^\d{1,10}$/.test(q.value) && (q.mode==='phone'||q.mode==='number'))){
           return v;
@@ -6376,9 +6387,10 @@ function convertDocsToPreview(url) {
       const s=dictSession;
       dictEl('cdMode').value=s.mode;
       dictEl('cdDifficulty').value=String(s.limit);
-      dictEl('cdCount').value=String(s.questions.length);
+      const selectedCount=s.requestedCount || (s.unlimited?'infinite':String(s.questions.length));
+      dictEl('cdCount').value=['10','20','30','50','infinite'].includes(String(selectedCount)) ? String(selectedCount) : '20';
       dictEl('cdSpeed').value=String(s.speed||0.85);
-      dictModeUI();dictLoadAutoFlow();dictRender();dictRefreshVoices();
+      dictModeUI();dictRender();dictRefreshVoices();
       if(!s.finished)dictQueueRead();
     }
     function dictNewSession(force){
@@ -6387,9 +6399,12 @@ function convertDocsToPreview(url) {
       }
       dictStopAudio();
       dictLastOutcome=null;
-      const mode=dictEl('cdMode').value,limit=Number(dictEl('cdDifficulty').value),count=Number(dictEl('cdCount').value);
+      const mode=dictEl('cdMode').value,limit=Number(dictEl('cdDifficulty').value);
+      const requestedCount=dictEl('cdCount').value,unlimited=requestedCount==='infinite';
+      const count=unlimited?1:Number(requestedCount);
       dictSession={version:1,mode,limit,speed:Number(dictEl('cdSpeed').value),index:0,
-        questions:dictMakeQuestions(mode,limit,count),results:{},finished:false,review:false};
+        questions:dictMakeQuestions(mode,limit,count),results:{},finished:false,review:false,
+        unlimited,requestedCount};
       dictLocalSave();dictRender();dictQueueRead();
     }
     function dictStopAudio(){
@@ -6439,31 +6454,24 @@ function convertDocsToPreview(url) {
       r.input=dictEl('cdAnswer').value;
       dictSession.results[String(i)]=r;
       dictLocalSave();
-      const digits=dictUserDigits(r.input);
-      const target=dictSession.questions[i];
-      const auto=dictEl('cdAutoFlow');
-      // Auto check only. Correct or incorrect, NEVER navigate until Enter is pressed.
-      // Revisions stay focused and editable. Manual Enter works if auto-check is off.
-      if(auto?.checked && digits!==null && digits.length===target.value.length){
-        dictCheck(true);
-      }else if(r.tries && !r.solved){
-        dictRenderFeedback();
-      }
+      // Never check a new answer while typing. Only an explicit Enter or button click
+      // may score it; previous checked hints remain until the next check.
+      if(r.tries || r.revealed)dictRenderFeedback();
     }
     function dictUserDigits(text){
       if(!/^\s*[\d\s.()\-+]*\s*$/.test(text||''))return null;
       return (text||'').replace(/\D/g,'');
     }
-    function dictCheck(fromAuto=false){
+    function dictCheck(){
       if(!dictSession||dictSession.finished)return;
       const i=dictSession.index,q=dictSession.questions[i],r=dictGetResult(i);
       if(r.solved)return;
       const typed=dictEl('cdAnswer').value.trim(),digits=dictUserDigits(typed);
       if(!typed){dictEl('cdFeedback').className='cd-feedback info';dictEl('cdFeedback').textContent='Bạn hãy nhập số nghe được trước khi kiểm tra.';dictEl('cdFeedback').style.display='block';dictEl('cdAnswer').focus();return;}
-      if(digits===null || (q.mode==='phone' && digits.length!==10)){
+      if(digits===null || !digits.length){
         dictEl('cdFeedback').className='cd-feedback info';
-        dictEl('cdFeedback').textContent=q.mode==='phone'?'Hãy nhập đúng 10 chữ số của số điện thoại (có thể ngăn bằng khoảng trắng).':'Vui lòng nhập bằng các chữ số 0–9.';
-        dictEl('cdFeedback').style.display='block';return;
+        dictEl('cdFeedback').textContent='Vui lòng nhập bằng các chữ số 0–9.';
+        dictEl('cdFeedback').style.display='block';dictFocusAnswer();return;
       }
       // Re-pressing Enter on the same incorrect value must not count as a new try.
       if(r.lastStatus==='wrong' && r.lastCheckedDigits===digits){
@@ -6479,16 +6487,33 @@ function convertDocsToPreview(url) {
       r.input=dictEl('cdAnswer').value;
       dictSession.results[String(i)]=r;
       dictLocalSave();dictRender();
-      // Stay on this card. Even correct answers wait for an explicit Enter/Next click.
+      // Even a correct first Enter only checks; it NEVER advances the question.
       if(!right)dictFocusAnswer();
       else {
         const hint=dictEl('cdAutoReadHint');
         if(hint)hint.textContent='✓ Đã chính xác. Nhấn Enter để sang câu tiếp theo.';
       }
     }
-    function dictMask(q){
-      if(q.mode==='phone')return q.value.slice(0,2)+'  ••  ••  ••  ••';
-      return q.value.length>1?q.value[0]+'•'.repeat(q.value.length-1):'•';
+    function dictMask(q,checkedDigits){
+      // Compare each position with the most recently SUBMITTED answer, never
+      // against unsubmitted typing. Thus the hint cannot reveal by just typing.
+      return [...q.value].map((digit,i)=>checkedDigits?.[i]===digit?digit:'•')
+        .map((digit,i)=>q.mode==='phone'&&i%2===1&&i<q.value.length-1?digit+' ':digit).join('');
+    }
+    function dictRenderMask(el,q,checkedDigits){
+      el.replaceChildren();
+      const label=document.createElement('div');
+      label.textContent='Gợi ý · chữ số đúng vị trí được hiện màu xanh:';
+      el.appendChild(label);
+      const row=document.createElement('div');row.className='cd-hint-digits';
+      [...q.value].forEach((digit,i)=>{
+        const known=checkedDigits?.[i]===digit;
+        const cell=document.createElement('span');
+        cell.className='cd-digit '+(known?'known':'hidden-digit')+(q.mode==='phone'&&i%2===1&&i<q.value.length-1?' pair-end':'');
+        cell.textContent=known?digit:'•';
+        row.appendChild(cell);
+      });
+      el.appendChild(row);
     }
     function dictRenderFeedback(){
       if(!dictSession||dictSession.finished)return;
@@ -6509,10 +6534,12 @@ function convertDocsToPreview(url) {
         const beingEdited = r.lastCheckedDigits!==undefined && dictUserDigits(r.input)!==r.lastCheckedDigits;
         panel.className='cd-feedback '+(beingEdited?'info':'bad');panel.style.display='block';
         panel.textContent=beingEdited
-          ? 'Bạn đang sửa đáp án. Hãy điền đủ số để kiểm tra lại.'
-          : '⚠ Chưa chính xác. Hãy nghe lại, sửa đáp án đến khi đúng rồi nhấn Enter.';
+          ? 'Bạn đang sửa đáp án. Nhấn Enter để chấm bản sửa; gợi ý vẫn dựa trên lần kiểm tra trước.'
+          : (q.mode==='phone' && (r.lastCheckedDigits||'').length!==10
+              ? '⚠ Số điện thoại phải có 10 chữ số. Hãy bổ sung hoặc sửa rồi nhấn Enter.'
+              : '⚠ Chưa chính xác. Hãy nghe lại, sửa đáp án rồi nhấn Enter để chấm lại.');
         if(dictEl('cdShowFull').checked){reveal.style.display='block';reveal.textContent='Đáp án: '+dictFormattedAnswer(q);}
-        else if(dictEl('cdShowHint').checked){reveal.style.display='block';reveal.textContent='Gợi ý: '+dictMask(q);}
+        else if(dictEl('cdShowHint').checked){reveal.style.display='block';dictRenderMask(reveal,q,r.lastCheckedDigits);}
       }
     }
     function dictReveal(){
@@ -6525,8 +6552,9 @@ function convertDocsToPreview(url) {
       const i=dictSession.index,r=dictGetResult(i);r.skipped=true;r.lastStatus='skipped';r.input=dictEl('cdAnswer').value;
       dictSession.results[String(i)]=r;dictLocalSave();
       dictLastOutcome=null;
+      if(dictSession.unlimited)dictAppendUnlimitedQuestion();
       if(i+1===dictSession.questions.length)dictFinish();
-      else{dictSession.index++;dictLocalSave();dictRender();dictQueueRead();}
+      else{dictStopAudio();dictSession.index++;dictLocalSave();dictRender();dictQueueRead();}
     }
     function dictStats(){
       const all=Object.values(dictSession.results),done=all.filter(r=>r.tries>0||r.skipped||r.revealed).length,
@@ -6538,22 +6566,27 @@ function convertDocsToPreview(url) {
       if(!dictSession||!dictEl('dictation'))return;
       const s=dictSession,q=s.questions[s.index],r=dictGetResult(s.index),stat=dictStats();
       dictEl('cdExerciseTitle').textContent=s.mode==='phone'?'☎️ CHÉP SỐ ĐIỆN THOẠI · PAR PAIRES':'🔢 CHÉP SỐ TIẾNG PHÁP';
-      dictEl('cdStep').textContent='Câu '+(s.index+1)+' / '+s.questions.length;
+      dictEl('cdStep').textContent='Câu '+(s.index+1)+' / '+(s.unlimited?'∞':s.questions.length);
       dictEl('cdAnswer').value=r.input||'';
       dictEl('cdAnswer').placeholder=s.mode==='phone'?'Ví dụ: 06 12 34 56 78':'Ví dụ: 76';
       dictEl('cdInputHint').textContent=s.mode==='phone'?'Gõ 10 chữ số, có thể cách theo nhóm đôi như: 06 12 34 56 78.':'Gõ số bằng chữ số (ví dụ 71 hoặc 365), không cần viết bằng chữ tiếng Pháp.';
       dictEl('cdPrevBtn').disabled=s.index===0||s.finished;
       dictEl('cdNextBtn').disabled=!r.solved||s.finished;
-      dictEl('cdNextBtn').textContent=s.index===s.questions.length-1?'Hoàn thành ✓':'Câu tiếp →';
+      dictEl('cdNextBtn').textContent=(!s.unlimited&&s.index===s.questions.length-1)?'Hoàn thành ✓':'Câu tiếp →';
+      dictEl('cdCheckBtn').textContent=r.solved?'Câu tiếp → (Enter)':'✓ Kiểm tra (Enter)';
       dictEl('cdStatDone').textContent=stat.done;
       dictEl('cdStatCorrect').textContent=stat.first;
       dictEl('cdStatRetry').textContent=stat.fixed;
       dictEl('cdStatMissed').textContent=stat.missed;
-      dictEl('cdBar').style.width=(100*stat.done/s.questions.length)+'%';
-      dictEl('cdProgressText').textContent=stat.done+' / '+s.questions.length+' câu đã kiểm tra';
+      dictEl('cdBar').parentElement.style.display=s.unlimited?'none':'';
+      dictEl('cdBar').style.width=s.unlimited?'0%':(100*stat.done/s.questions.length)+'%';
+      dictEl('cdProgressText').textContent=s.unlimited
+        ? stat.done+' câu đã kiểm tra · Chế độ vô hạn (tự kết thúc bất kỳ lúc nào)'
+        : stat.done+' / '+s.questions.length+' câu đã kiểm tra';
+      dictEl('cdStopBtn').style.display=(!s.finished&&s.unlimited)?'inline-flex':'none';
       dictEl('cdResult').style.display=s.finished?'block':'none';
       dictEl('cdAnswer').disabled=!!s.finished || r.solved;
-      dictEl('cdCheckBtn').disabled=!!s.finished || r.solved;
+      dictEl('cdCheckBtn').disabled=!!s.finished;
       dictEl('cdSkipBtn').disabled=!!s.finished;
       dictEl('cdRevealBtn').disabled=!!s.finished;
       dictEl('cdPlayBtn').disabled=!!s.finished;
@@ -6563,10 +6596,23 @@ function convertDocsToPreview(url) {
     function dictNext(){
       if(!dictSession||dictSession.finished)return;
       const r=dictGetResult(dictSession.index);
-      if(!r.solved){showToast('Hãy nhập đúng số trước khi nhấn Enter. Nếu muốn bỏ câu, dùng nút Bỏ qua.');dictFocusAnswer();return;}
+      if(!r.solved){showToast('Hãy sửa đúng và kiểm tra bằng Enter trước khi chuyển câu. Hoặc chọn Bỏ qua.');dictFocusAnswer();return;}
       dictStopAudio();
+      if(dictSession.unlimited)dictAppendUnlimitedQuestion();
       if(dictSession.index>=dictSession.questions.length-1){dictFinish();return;}
       dictSession.index++;dictLocalSave();dictRender();dictQueueRead();
+    }
+    function dictPrimaryAction(){
+      if(!dictSession||dictSession.finished)return;
+      // Exactly ONE action per Enter: check first, advance only on NEXT Enter.
+      if(dictGetResult(dictSession.index).solved)dictNext();
+      else dictCheck();
+    }
+    function dictStopSession(){
+      if(!dictSession||dictSession.finished||!dictSession.unlimited)return;
+      const stats=dictStats();
+      if(stats.done===0 && !confirm('Bạn chưa kiểm tra câu nào. Vẫn muốn kết thúc lượt luyện?'))return;
+      dictFinish();
     }
     function dictPrevious(){
       if(!dictSession||dictSession.finished||dictSession.index<=0)return;
@@ -6580,35 +6626,32 @@ function convertDocsToPreview(url) {
     }
     function dictRenderSummary(){
       const stat=dictStats();
-      dictEl('cdFinalScore').textContent=stat.first+' / '+dictSession.questions.length;
-      dictEl('cdFinalSummary').textContent='Đúng lần đầu: '+stat.first+' · Sửa đúng sau khi thử lại: '+stat.fixed+' · Chưa đúng / bỏ qua: '+stat.missed+'. Bạn có thể ôn lại những câu chưa đúng ở lần đầu.';
-      dictEl('cdReviewBtn').disabled=stat.first===dictSession.questions.length;
+      const total=dictSession.unlimited?stat.done:dictSession.questions.length;
+      dictEl('cdFinalScore').textContent=stat.first+' / '+total;
+      const accuracy=total?Math.round(stat.first*100/total):0;
+      dictEl('cdFinalSummary').textContent='Đã luyện: '+stat.done+' câu · Chính xác lần đầu: '+accuracy+'% · Sửa đúng sau khi thử lại: '+stat.fixed+' · Chưa đúng / bỏ qua: '+stat.missed+'. Bạn có thể ôn lại những câu chưa đúng ở lần đầu.';
+      dictEl('cdReviewBtn').disabled=stat.first===total||total===0;
     }
     function dictReviewMistakes(){
       if(!dictSession)return;
-      const qs=dictSession.questions.filter((q,i)=>!dictGetResult(i).firstCorrect);
+      const qs=dictSession.questions.filter((q,i)=>{
+        const r=dictGetResult(i);
+        return (r.tries>0||r.skipped||r.revealed)&&!r.firstCorrect;
+      });
       if(!qs.length){showToast('Bạn đã đúng tất cả các câu ngay lần đầu!');return;}
       dictStopAudio();dictLastOutcome=null;
       dictSession={version:1,mode:dictSession.mode,limit:dictSession.limit,speed:dictSession.speed,index:0,
-        questions:qs,results:{},finished:false,review:true};
+        questions:qs,results:{},finished:false,review:true,unlimited:false,requestedCount:String(qs.length)};
       dictLocalSave();dictRender();dictQueueRead();window.scrollTo({top:0,behavior:'smooth'});
     }
     document.addEventListener('keydown',e=>{
       if(!dictEl('dictation')?.classList.contains('active')||e.altKey||e.metaKey)return;
       if(e.key==='Control'&&!e.repeat){dictPlay();return;}
-      if(e.key==='Enter'&&!e.shiftKey&&!e.ctrlKey){
+      if(e.key==='Enter'&&!e.shiftKey&&!e.ctrlKey&&!e.repeat){
         const tag=e.target?.tagName;
         if(tag==='BUTTON'||tag==='SELECT'||e.target?.type==='checkbox')return;
         e.preventDefault();
-        if(!dictSession||dictSession.finished)return;
-        const r=dictGetResult(dictSession.index);
-        if(r.solved){
-          dictNext();
-        }else{
-          // One Enter can check and move only when the newly typed value is correct.
-          dictCheck();
-          if(dictSession && !dictSession.finished && dictGetResult(dictSession.index).solved)dictNext();
-        }
+        dictPrimaryAction();
       }
     });
 
